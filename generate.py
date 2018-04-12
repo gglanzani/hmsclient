@@ -4,14 +4,16 @@ from typing import List, Tuple
 from urllib.request import urlopen
 import subprocess
 
+import click
+
 here = path.abspath(path.dirname(__file__))
 
-package = 'hmsclient'
-subpackage = 'genthrift'
+PACKAGE = 'hmsclient'
+SUBPACKAGE = 'genthrift'
 generated = 'gen-py'
 
-fb303_url = 'https://raw.githubusercontent.com/apache/thrift/master/contrib/fb303/if/fb303.thrift'
-metastore_url = 'https://raw.githubusercontent.com/apache/hive/master/standalone-metastore/src/main/thrift/hive_metastore.thrift'
+FB303_URL = 'https://raw.githubusercontent.com/apache/thrift/0.11.0/contrib/fb303/if/fb303.thrift'
+METASTORE_URL = 'https://raw.githubusercontent.com/apache/hive/branch-3/standalone-metastore/src/main/thrift/hive_metastore.thrift'
 
 config = {path.join("hive_metastore", "ttypes.py"): [('import fb303.ttypes',
                                                       'from ..fb303 import ttypes')],
@@ -59,7 +61,16 @@ def save_url(url):
         f.write(data)
 
 
-def main():
+@click.command()
+@click.option('--fb303_url', default=FB303_URL, help='The URL where the fb303.thrift file can be '
+                                                     'downloaded')
+@click.option('--metastore_url', default=METASTORE_URL, help='The URL where the '
+                                                             'hive_metastore.thrift file can be '
+                                                             'downloaded')
+@click.option('--package', default=PACKAGE, help='The package where the client should be placed')
+@click.option('--subpackage', default=SUBPACKAGE, help='The subpackage where the client should be '
+                                                    'placed')
+def main(fb303_url, metastore_url, package, subpackage):
     for url in (fb303_url, metastore_url):
         save_url(url)
     metastore_path = path.join(here, metastore_url.rsplit('/', 1)[-1])
