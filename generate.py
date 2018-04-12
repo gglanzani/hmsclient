@@ -13,7 +13,7 @@ SUBPACKAGE = 'genthrift'
 generated = 'gen-py'
 
 FB303_URL = 'https://raw.githubusercontent.com/apache/thrift/0.11.0/contrib/fb303/if/fb303.thrift'
-METASTORE_URL = 'https://raw.githubusercontent.com/apache/hive/branch-3/standalone-metastore/src/main/thrift/hive_metastore.thrift'
+METASTORE_URL = 'https://raw.githubusercontent.com/apache/hive/rel/release-2.3.3/metastore/if/hive_metastore.thrift'
 
 config = {path.join("hive_metastore", "ttypes.py"): [('import fb303.ttypes',
                                                       'from ..fb303 import ttypes')],

@@ -221,105 +221,6 @@ class EventRequestType(object):
     }
 
 
-class SerdeType(object):
-    HIVE = 1
-    SCHEMA_REGISTRY = 2
-
-    _VALUES_TO_NAMES = {
-        1: "HIVE",
-        2: "SCHEMA_REGISTRY",
-    }
-
-    _NAMES_TO_VALUES = {
-        "HIVE": 1,
-        "SCHEMA_REGISTRY": 2,
-    }
-
-
-class SchemaType(object):
-    HIVE = 1
-    AVRO = 2
-
-    _VALUES_TO_NAMES = {
-        1: "HIVE",
-        2: "AVRO",
-    }
-
-    _NAMES_TO_VALUES = {
-        "HIVE": 1,
-        "AVRO": 2,
-    }
-
-
-class SchemaCompatibility(object):
-    NONE = 1
-    BACKWARD = 2
-    FORWARD = 3
-    BOTH = 4
-
-    _VALUES_TO_NAMES = {
-        1: "NONE",
-        2: "BACKWARD",
-        3: "FORWARD",
-        4: "BOTH",
-    }
-
-    _NAMES_TO_VALUES = {
-        "NONE": 1,
-        "BACKWARD": 2,
-        "FORWARD": 3,
-        "BOTH": 4,
-    }
-
-
-class SchemaValidation(object):
-    LATEST = 1
-    ALL = 2
-
-    _VALUES_TO_NAMES = {
-        1: "LATEST",
-        2: "ALL",
-    }
-
-    _NAMES_TO_VALUES = {
-        "LATEST": 1,
-        "ALL": 2,
-    }
-
-
-class SchemaVersionState(object):
-    INITIATED = 1
-    START_REVIEW = 2
-    CHANGES_REQUIRED = 3
-    REVIEWED = 4
-    ENABLED = 5
-    DISABLED = 6
-    ARCHIVED = 7
-    DELETED = 8
-
-    _VALUES_TO_NAMES = {
-        1: "INITIATED",
-        2: "START_REVIEW",
-        3: "CHANGES_REQUIRED",
-        4: "REVIEWED",
-        5: "ENABLED",
-        6: "DISABLED",
-        7: "ARCHIVED",
-        8: "DELETED",
-    }
-
-    _NAMES_TO_VALUES = {
-        "INITIATED": 1,
-        "START_REVIEW": 2,
-        "CHANGES_REQUIRED": 3,
-        "REVIEWED": 4,
-        "ENABLED": 5,
-        "DISABLED": 6,
-        "ARCHIVED": 7,
-        "DELETED": 8,
-    }
-
-
 class FunctionType(object):
     JAVA = 1
 
@@ -364,49 +265,13 @@ class FileMetadataExprType(object):
 
 class ClientCapability(object):
     TEST_CAPABILITY = 1
-    INSERT_ONLY_TABLES = 2
 
     _VALUES_TO_NAMES = {
         1: "TEST_CAPABILITY",
-        2: "INSERT_ONLY_TABLES",
     }
 
     _NAMES_TO_VALUES = {
         "TEST_CAPABILITY": 1,
-        "INSERT_ONLY_TABLES": 2,
-    }
-
-
-class WMResourcePlanStatus(object):
-    ACTIVE = 1
-    ENABLED = 2
-    DISABLED = 3
-
-    _VALUES_TO_NAMES = {
-        1: "ACTIVE",
-        2: "ENABLED",
-        3: "DISABLED",
-    }
-
-    _NAMES_TO_VALUES = {
-        "ACTIVE": 1,
-        "ENABLED": 2,
-        "DISABLED": 3,
-    }
-
-
-class WMPoolSchedulingPolicy(object):
-    FAIR = 1
-    FIFO = 2
-
-    _VALUES_TO_NAMES = {
-        1: "FAIR",
-        2: "FIFO",
-    }
-
-    _NAMES_TO_VALUES = {
-        "FAIR": 1,
-        "FIFO": 2,
     }
 
 
@@ -566,11 +431,10 @@ class SQLPrimaryKey(object):
      - enable_cstr
      - validate_cstr
      - rely_cstr
-     - catName
     """
 
 
-    def __init__(self, table_db=None, table_name=None, column_name=None, key_seq=None, pk_name=None, enable_cstr=None, validate_cstr=None, rely_cstr=None, catName=None,):
+    def __init__(self, table_db=None, table_name=None, column_name=None, key_seq=None, pk_name=None, enable_cstr=None, validate_cstr=None, rely_cstr=None,):
         self.table_db = table_db
         self.table_name = table_name
         self.column_name = column_name
@@ -579,7 +443,6 @@ class SQLPrimaryKey(object):
         self.enable_cstr = enable_cstr
         self.validate_cstr = validate_cstr
         self.rely_cstr = rely_cstr
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -630,11 +493,6 @@ class SQLPrimaryKey(object):
                     self.rely_cstr = iprot.readBool()
                 else:
                     iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -677,10 +535,6 @@ class SQLPrimaryKey(object):
             oprot.writeFieldBegin('rely_cstr', TType.BOOL, 8)
             oprot.writeBool(self.rely_cstr)
             oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 9)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -716,11 +570,10 @@ class SQLForeignKey(object):
      - enable_cstr
      - validate_cstr
      - rely_cstr
-     - catName
     """
 
 
-    def __init__(self, pktable_db=None, pktable_name=None, pkcolumn_name=None, fktable_db=None, fktable_name=None, fkcolumn_name=None, key_seq=None, update_rule=None, delete_rule=None, fk_name=None, pk_name=None, enable_cstr=None, validate_cstr=None, rely_cstr=None, catName=None,):
+    def __init__(self, pktable_db=None, pktable_name=None, pkcolumn_name=None, fktable_db=None, fktable_name=None, fkcolumn_name=None, key_seq=None, update_rule=None, delete_rule=None, fk_name=None, pk_name=None, enable_cstr=None, validate_cstr=None, rely_cstr=None,):
         self.pktable_db = pktable_db
         self.pktable_name = pktable_name
         self.pkcolumn_name = pkcolumn_name
@@ -735,7 +588,6 @@ class SQLForeignKey(object):
         self.enable_cstr = enable_cstr
         self.validate_cstr = validate_cstr
         self.rely_cstr = rely_cstr
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -816,11 +668,6 @@ class SQLForeignKey(object):
                     self.rely_cstr = iprot.readBool()
                 else:
                     iprot.skip(ftype)
-            elif fid == 15:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -885,575 +732,6 @@ class SQLForeignKey(object):
             oprot.writeFieldEnd()
         if self.rely_cstr is not None:
             oprot.writeFieldBegin('rely_cstr', TType.BOOL, 14)
-            oprot.writeBool(self.rely_cstr)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 15)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class SQLUniqueConstraint(object):
-    """
-    Attributes:
-     - catName
-     - table_db
-     - table_name
-     - column_name
-     - key_seq
-     - uk_name
-     - enable_cstr
-     - validate_cstr
-     - rely_cstr
-    """
-
-
-    def __init__(self, catName=None, table_db=None, table_name=None, column_name=None, key_seq=None, uk_name=None, enable_cstr=None, validate_cstr=None, rely_cstr=None,):
-        self.catName = catName
-        self.table_db = table_db
-        self.table_name = table_name
-        self.column_name = column_name
-        self.key_seq = key_seq
-        self.uk_name = uk_name
-        self.enable_cstr = enable_cstr
-        self.validate_cstr = validate_cstr
-        self.rely_cstr = rely_cstr
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.table_db = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.table_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.column_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.I32:
-                    self.key_seq = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.uk_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 7:
-                if ftype == TType.BOOL:
-                    self.enable_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 8:
-                if ftype == TType.BOOL:
-                    self.validate_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.BOOL:
-                    self.rely_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('SQLUniqueConstraint')
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 1)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.table_db is not None:
-            oprot.writeFieldBegin('table_db', TType.STRING, 2)
-            oprot.writeString(self.table_db.encode('utf-8') if sys.version_info[0] == 2 else self.table_db)
-            oprot.writeFieldEnd()
-        if self.table_name is not None:
-            oprot.writeFieldBegin('table_name', TType.STRING, 3)
-            oprot.writeString(self.table_name.encode('utf-8') if sys.version_info[0] == 2 else self.table_name)
-            oprot.writeFieldEnd()
-        if self.column_name is not None:
-            oprot.writeFieldBegin('column_name', TType.STRING, 4)
-            oprot.writeString(self.column_name.encode('utf-8') if sys.version_info[0] == 2 else self.column_name)
-            oprot.writeFieldEnd()
-        if self.key_seq is not None:
-            oprot.writeFieldBegin('key_seq', TType.I32, 5)
-            oprot.writeI32(self.key_seq)
-            oprot.writeFieldEnd()
-        if self.uk_name is not None:
-            oprot.writeFieldBegin('uk_name', TType.STRING, 6)
-            oprot.writeString(self.uk_name.encode('utf-8') if sys.version_info[0] == 2 else self.uk_name)
-            oprot.writeFieldEnd()
-        if self.enable_cstr is not None:
-            oprot.writeFieldBegin('enable_cstr', TType.BOOL, 7)
-            oprot.writeBool(self.enable_cstr)
-            oprot.writeFieldEnd()
-        if self.validate_cstr is not None:
-            oprot.writeFieldBegin('validate_cstr', TType.BOOL, 8)
-            oprot.writeBool(self.validate_cstr)
-            oprot.writeFieldEnd()
-        if self.rely_cstr is not None:
-            oprot.writeFieldBegin('rely_cstr', TType.BOOL, 9)
-            oprot.writeBool(self.rely_cstr)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class SQLNotNullConstraint(object):
-    """
-    Attributes:
-     - catName
-     - table_db
-     - table_name
-     - column_name
-     - nn_name
-     - enable_cstr
-     - validate_cstr
-     - rely_cstr
-    """
-
-
-    def __init__(self, catName=None, table_db=None, table_name=None, column_name=None, nn_name=None, enable_cstr=None, validate_cstr=None, rely_cstr=None,):
-        self.catName = catName
-        self.table_db = table_db
-        self.table_name = table_name
-        self.column_name = column_name
-        self.nn_name = nn_name
-        self.enable_cstr = enable_cstr
-        self.validate_cstr = validate_cstr
-        self.rely_cstr = rely_cstr
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.table_db = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.table_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.column_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.nn_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.BOOL:
-                    self.enable_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 7:
-                if ftype == TType.BOOL:
-                    self.validate_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 8:
-                if ftype == TType.BOOL:
-                    self.rely_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('SQLNotNullConstraint')
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 1)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.table_db is not None:
-            oprot.writeFieldBegin('table_db', TType.STRING, 2)
-            oprot.writeString(self.table_db.encode('utf-8') if sys.version_info[0] == 2 else self.table_db)
-            oprot.writeFieldEnd()
-        if self.table_name is not None:
-            oprot.writeFieldBegin('table_name', TType.STRING, 3)
-            oprot.writeString(self.table_name.encode('utf-8') if sys.version_info[0] == 2 else self.table_name)
-            oprot.writeFieldEnd()
-        if self.column_name is not None:
-            oprot.writeFieldBegin('column_name', TType.STRING, 4)
-            oprot.writeString(self.column_name.encode('utf-8') if sys.version_info[0] == 2 else self.column_name)
-            oprot.writeFieldEnd()
-        if self.nn_name is not None:
-            oprot.writeFieldBegin('nn_name', TType.STRING, 5)
-            oprot.writeString(self.nn_name.encode('utf-8') if sys.version_info[0] == 2 else self.nn_name)
-            oprot.writeFieldEnd()
-        if self.enable_cstr is not None:
-            oprot.writeFieldBegin('enable_cstr', TType.BOOL, 6)
-            oprot.writeBool(self.enable_cstr)
-            oprot.writeFieldEnd()
-        if self.validate_cstr is not None:
-            oprot.writeFieldBegin('validate_cstr', TType.BOOL, 7)
-            oprot.writeBool(self.validate_cstr)
-            oprot.writeFieldEnd()
-        if self.rely_cstr is not None:
-            oprot.writeFieldBegin('rely_cstr', TType.BOOL, 8)
-            oprot.writeBool(self.rely_cstr)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class SQLDefaultConstraint(object):
-    """
-    Attributes:
-     - catName
-     - table_db
-     - table_name
-     - column_name
-     - default_value
-     - dc_name
-     - enable_cstr
-     - validate_cstr
-     - rely_cstr
-    """
-
-
-    def __init__(self, catName=None, table_db=None, table_name=None, column_name=None, default_value=None, dc_name=None, enable_cstr=None, validate_cstr=None, rely_cstr=None,):
-        self.catName = catName
-        self.table_db = table_db
-        self.table_name = table_name
-        self.column_name = column_name
-        self.default_value = default_value
-        self.dc_name = dc_name
-        self.enable_cstr = enable_cstr
-        self.validate_cstr = validate_cstr
-        self.rely_cstr = rely_cstr
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.table_db = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.table_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.column_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.default_value = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.dc_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 7:
-                if ftype == TType.BOOL:
-                    self.enable_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 8:
-                if ftype == TType.BOOL:
-                    self.validate_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.BOOL:
-                    self.rely_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('SQLDefaultConstraint')
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 1)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.table_db is not None:
-            oprot.writeFieldBegin('table_db', TType.STRING, 2)
-            oprot.writeString(self.table_db.encode('utf-8') if sys.version_info[0] == 2 else self.table_db)
-            oprot.writeFieldEnd()
-        if self.table_name is not None:
-            oprot.writeFieldBegin('table_name', TType.STRING, 3)
-            oprot.writeString(self.table_name.encode('utf-8') if sys.version_info[0] == 2 else self.table_name)
-            oprot.writeFieldEnd()
-        if self.column_name is not None:
-            oprot.writeFieldBegin('column_name', TType.STRING, 4)
-            oprot.writeString(self.column_name.encode('utf-8') if sys.version_info[0] == 2 else self.column_name)
-            oprot.writeFieldEnd()
-        if self.default_value is not None:
-            oprot.writeFieldBegin('default_value', TType.STRING, 5)
-            oprot.writeString(self.default_value.encode('utf-8') if sys.version_info[0] == 2 else self.default_value)
-            oprot.writeFieldEnd()
-        if self.dc_name is not None:
-            oprot.writeFieldBegin('dc_name', TType.STRING, 6)
-            oprot.writeString(self.dc_name.encode('utf-8') if sys.version_info[0] == 2 else self.dc_name)
-            oprot.writeFieldEnd()
-        if self.enable_cstr is not None:
-            oprot.writeFieldBegin('enable_cstr', TType.BOOL, 7)
-            oprot.writeBool(self.enable_cstr)
-            oprot.writeFieldEnd()
-        if self.validate_cstr is not None:
-            oprot.writeFieldBegin('validate_cstr', TType.BOOL, 8)
-            oprot.writeBool(self.validate_cstr)
-            oprot.writeFieldEnd()
-        if self.rely_cstr is not None:
-            oprot.writeFieldBegin('rely_cstr', TType.BOOL, 9)
-            oprot.writeBool(self.rely_cstr)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class SQLCheckConstraint(object):
-    """
-    Attributes:
-     - catName
-     - table_db
-     - table_name
-     - column_name
-     - check_expression
-     - dc_name
-     - enable_cstr
-     - validate_cstr
-     - rely_cstr
-    """
-
-
-    def __init__(self, catName=None, table_db=None, table_name=None, column_name=None, check_expression=None, dc_name=None, enable_cstr=None, validate_cstr=None, rely_cstr=None,):
-        self.catName = catName
-        self.table_db = table_db
-        self.table_name = table_name
-        self.column_name = column_name
-        self.check_expression = check_expression
-        self.dc_name = dc_name
-        self.enable_cstr = enable_cstr
-        self.validate_cstr = validate_cstr
-        self.rely_cstr = rely_cstr
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.table_db = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.table_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.column_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.check_expression = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.dc_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 7:
-                if ftype == TType.BOOL:
-                    self.enable_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 8:
-                if ftype == TType.BOOL:
-                    self.validate_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.BOOL:
-                    self.rely_cstr = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('SQLCheckConstraint')
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 1)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.table_db is not None:
-            oprot.writeFieldBegin('table_db', TType.STRING, 2)
-            oprot.writeString(self.table_db.encode('utf-8') if sys.version_info[0] == 2 else self.table_db)
-            oprot.writeFieldEnd()
-        if self.table_name is not None:
-            oprot.writeFieldBegin('table_name', TType.STRING, 3)
-            oprot.writeString(self.table_name.encode('utf-8') if sys.version_info[0] == 2 else self.table_name)
-            oprot.writeFieldEnd()
-        if self.column_name is not None:
-            oprot.writeFieldBegin('column_name', TType.STRING, 4)
-            oprot.writeString(self.column_name.encode('utf-8') if sys.version_info[0] == 2 else self.column_name)
-            oprot.writeFieldEnd()
-        if self.check_expression is not None:
-            oprot.writeFieldBegin('check_expression', TType.STRING, 5)
-            oprot.writeString(self.check_expression.encode('utf-8') if sys.version_info[0] == 2 else self.check_expression)
-            oprot.writeFieldEnd()
-        if self.dc_name is not None:
-            oprot.writeFieldBegin('dc_name', TType.STRING, 6)
-            oprot.writeString(self.dc_name.encode('utf-8') if sys.version_info[0] == 2 else self.dc_name)
-            oprot.writeFieldEnd()
-        if self.enable_cstr is not None:
-            oprot.writeFieldBegin('enable_cstr', TType.BOOL, 7)
-            oprot.writeBool(self.enable_cstr)
-            oprot.writeFieldEnd()
-        if self.validate_cstr is not None:
-            oprot.writeFieldBegin('validate_cstr', TType.BOOL, 8)
-            oprot.writeBool(self.validate_cstr)
-            oprot.writeFieldEnd()
-        if self.rely_cstr is not None:
-            oprot.writeFieldBegin('rely_cstr', TType.BOOL, 9)
             oprot.writeBool(self.rely_cstr)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -1580,17 +858,15 @@ class HiveObjectRef(object):
      - objectName
      - partValues
      - columnName
-     - catName
     """
 
 
-    def __init__(self, objectType=None, dbName=None, objectName=None, partValues=None, columnName=None, catName=None,):
+    def __init__(self, objectType=None, dbName=None, objectName=None, partValues=None, columnName=None,):
         self.objectType = objectType
         self.dbName = dbName
         self.objectName = objectName
         self.partValues = partValues
         self.columnName = columnName
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -1631,11 +907,6 @@ class HiveObjectRef(object):
                     self.columnName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -1668,10 +939,6 @@ class HiveObjectRef(object):
         if self.columnName is not None:
             oprot.writeFieldBegin('columnName', TType.STRING, 5)
             oprot.writeString(self.columnName.encode('utf-8') if sys.version_info[0] == 2 else self.columnName)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 6)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2858,374 +2125,6 @@ class GrantRevokeRoleResponse(object):
         return not (self == other)
 
 
-class Catalog(object):
-    """
-    Attributes:
-     - name
-     - description
-     - locationUri
-    """
-
-
-    def __init__(self, name=None, description=None, locationUri=None,):
-        self.name = name
-        self.description = description
-        self.locationUri = locationUri
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.description = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.locationUri = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('Catalog')
-        if self.name is not None:
-            oprot.writeFieldBegin('name', TType.STRING, 1)
-            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
-            oprot.writeFieldEnd()
-        if self.description is not None:
-            oprot.writeFieldBegin('description', TType.STRING, 2)
-            oprot.writeString(self.description.encode('utf-8') if sys.version_info[0] == 2 else self.description)
-            oprot.writeFieldEnd()
-        if self.locationUri is not None:
-            oprot.writeFieldBegin('locationUri', TType.STRING, 3)
-            oprot.writeString(self.locationUri.encode('utf-8') if sys.version_info[0] == 2 else self.locationUri)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class CreateCatalogRequest(object):
-    """
-    Attributes:
-     - catalog
-    """
-
-
-    def __init__(self, catalog=None,):
-        self.catalog = catalog
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.catalog = Catalog()
-                    self.catalog.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('CreateCatalogRequest')
-        if self.catalog is not None:
-            oprot.writeFieldBegin('catalog', TType.STRUCT, 1)
-            self.catalog.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class GetCatalogRequest(object):
-    """
-    Attributes:
-     - name
-    """
-
-
-    def __init__(self, name=None,):
-        self.name = name
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('GetCatalogRequest')
-        if self.name is not None:
-            oprot.writeFieldBegin('name', TType.STRING, 1)
-            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class GetCatalogResponse(object):
-    """
-    Attributes:
-     - catalog
-    """
-
-
-    def __init__(self, catalog=None,):
-        self.catalog = catalog
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.catalog = Catalog()
-                    self.catalog.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('GetCatalogResponse')
-        if self.catalog is not None:
-            oprot.writeFieldBegin('catalog', TType.STRUCT, 1)
-            self.catalog.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class GetCatalogsResponse(object):
-    """
-    Attributes:
-     - names
-    """
-
-
-    def __init__(self, names=None,):
-        self.names = names
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.names = []
-                    (_etype86, _size83) = iprot.readListBegin()
-                    for _i87 in range(_size83):
-                        _elem88 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.names.append(_elem88)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('GetCatalogsResponse')
-        if self.names is not None:
-            oprot.writeFieldBegin('names', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRING, len(self.names))
-            for iter89 in self.names:
-                oprot.writeString(iter89.encode('utf-8') if sys.version_info[0] == 2 else iter89)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class DropCatalogRequest(object):
-    """
-    Attributes:
-     - name
-    """
-
-
-    def __init__(self, name=None,):
-        self.name = name
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('DropCatalogRequest')
-        if self.name is not None:
-            oprot.writeFieldBegin('name', TType.STRING, 1)
-            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
 class Database(object):
     """
     Attributes:
@@ -3236,11 +2135,10 @@ class Database(object):
      - privileges
      - ownerName
      - ownerType
-     - catalogName
     """
 
 
-    def __init__(self, name=None, description=None, locationUri=None, parameters=None, privileges=None, ownerName=None, ownerType=None, catalogName=None,):
+    def __init__(self, name=None, description=None, locationUri=None, parameters=None, privileges=None, ownerName=None, ownerType=None,):
         self.name = name
         self.description = description
         self.locationUri = locationUri
@@ -3248,7 +2146,6 @@ class Database(object):
         self.privileges = privileges
         self.ownerName = ownerName
         self.ownerType = ownerType
-        self.catalogName = catalogName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -3277,11 +2174,11 @@ class Database(object):
             elif fid == 4:
                 if ftype == TType.MAP:
                     self.parameters = {}
-                    (_ktype91, _vtype92, _size90) = iprot.readMapBegin()
-                    for _i94 in range(_size90):
-                        _key95 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        _val96 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.parameters[_key95] = _val96
+                    (_ktype84, _vtype85, _size83) = iprot.readMapBegin()
+                    for _i87 in range(_size83):
+                        _key88 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val89 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.parameters[_key88] = _val89
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -3299,11 +2196,6 @@ class Database(object):
             elif fid == 7:
                 if ftype == TType.I32:
                     self.ownerType = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 8:
-                if ftype == TType.STRING:
-                    self.catalogName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -3331,9 +2223,9 @@ class Database(object):
         if self.parameters is not None:
             oprot.writeFieldBegin('parameters', TType.MAP, 4)
             oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.parameters))
-            for kiter97, viter98 in self.parameters.items():
-                oprot.writeString(kiter97.encode('utf-8') if sys.version_info[0] == 2 else kiter97)
-                oprot.writeString(viter98.encode('utf-8') if sys.version_info[0] == 2 else viter98)
+            for kiter90, viter91 in self.parameters.items():
+                oprot.writeString(kiter90.encode('utf-8') if sys.version_info[0] == 2 else kiter90)
+                oprot.writeString(viter91.encode('utf-8') if sys.version_info[0] == 2 else viter91)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         if self.privileges is not None:
@@ -3347,10 +2239,6 @@ class Database(object):
         if self.ownerType is not None:
             oprot.writeFieldBegin('ownerType', TType.I32, 7)
             oprot.writeI32(self.ownerType)
-            oprot.writeFieldEnd()
-        if self.catalogName is not None:
-            oprot.writeFieldBegin('catalogName', TType.STRING, 8)
-            oprot.writeString(self.catalogName.encode('utf-8') if sys.version_info[0] == 2 else self.catalogName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -3376,21 +2264,13 @@ class SerDeInfo(object):
      - name
      - serializationLib
      - parameters
-     - description
-     - serializerClass
-     - deserializerClass
-     - serdeType
     """
 
 
-    def __init__(self, name=None, serializationLib=None, parameters=None, description=None, serializerClass=None, deserializerClass=None, serdeType=None,):
+    def __init__(self, name=None, serializationLib=None, parameters=None,):
         self.name = name
         self.serializationLib = serializationLib
         self.parameters = parameters
-        self.description = description
-        self.serializerClass = serializerClass
-        self.deserializerClass = deserializerClass
-        self.serdeType = serdeType
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -3414,32 +2294,12 @@ class SerDeInfo(object):
             elif fid == 3:
                 if ftype == TType.MAP:
                     self.parameters = {}
-                    (_ktype100, _vtype101, _size99) = iprot.readMapBegin()
-                    for _i103 in range(_size99):
-                        _key104 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        _val105 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.parameters[_key104] = _val105
+                    (_ktype93, _vtype94, _size92) = iprot.readMapBegin()
+                    for _i96 in range(_size92):
+                        _key97 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val98 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.parameters[_key97] = _val98
                     iprot.readMapEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.description = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.serializerClass = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.deserializerClass = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 7:
-                if ftype == TType.I32:
-                    self.serdeType = iprot.readI32()
                 else:
                     iprot.skip(ftype)
             else:
@@ -3463,26 +2323,10 @@ class SerDeInfo(object):
         if self.parameters is not None:
             oprot.writeFieldBegin('parameters', TType.MAP, 3)
             oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.parameters))
-            for kiter106, viter107 in self.parameters.items():
-                oprot.writeString(kiter106.encode('utf-8') if sys.version_info[0] == 2 else kiter106)
-                oprot.writeString(viter107.encode('utf-8') if sys.version_info[0] == 2 else viter107)
+            for kiter99, viter100 in self.parameters.items():
+                oprot.writeString(kiter99.encode('utf-8') if sys.version_info[0] == 2 else kiter99)
+                oprot.writeString(viter100.encode('utf-8') if sys.version_info[0] == 2 else viter100)
             oprot.writeMapEnd()
-            oprot.writeFieldEnd()
-        if self.description is not None:
-            oprot.writeFieldBegin('description', TType.STRING, 4)
-            oprot.writeString(self.description.encode('utf-8') if sys.version_info[0] == 2 else self.description)
-            oprot.writeFieldEnd()
-        if self.serializerClass is not None:
-            oprot.writeFieldBegin('serializerClass', TType.STRING, 5)
-            oprot.writeString(self.serializerClass.encode('utf-8') if sys.version_info[0] == 2 else self.serializerClass)
-            oprot.writeFieldEnd()
-        if self.deserializerClass is not None:
-            oprot.writeFieldBegin('deserializerClass', TType.STRING, 6)
-            oprot.writeString(self.deserializerClass.encode('utf-8') if sys.version_info[0] == 2 else self.deserializerClass)
-            oprot.writeFieldEnd()
-        if self.serdeType is not None:
-            oprot.writeFieldBegin('serdeType', TType.I32, 7)
-            oprot.writeI32(self.serdeType)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -3595,41 +2439,41 @@ class SkewedInfo(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.skewedColNames = []
-                    (_etype111, _size108) = iprot.readListBegin()
-                    for _i112 in range(_size108):
-                        _elem113 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.skewedColNames.append(_elem113)
+                    (_etype104, _size101) = iprot.readListBegin()
+                    for _i105 in range(_size101):
+                        _elem106 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.skewedColNames.append(_elem106)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.skewedColValues = []
-                    (_etype117, _size114) = iprot.readListBegin()
-                    for _i118 in range(_size114):
-                        _elem119 = []
-                        (_etype123, _size120) = iprot.readListBegin()
-                        for _i124 in range(_size120):
-                            _elem125 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                            _elem119.append(_elem125)
+                    (_etype110, _size107) = iprot.readListBegin()
+                    for _i111 in range(_size107):
+                        _elem112 = []
+                        (_etype116, _size113) = iprot.readListBegin()
+                        for _i117 in range(_size113):
+                            _elem118 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                            _elem112.append(_elem118)
                         iprot.readListEnd()
-                        self.skewedColValues.append(_elem119)
+                        self.skewedColValues.append(_elem112)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
                 if ftype == TType.MAP:
                     self.skewedColValueLocationMaps = {}
-                    (_ktype127, _vtype128, _size126) = iprot.readMapBegin()
-                    for _i130 in range(_size126):
-                        _key131 = []
-                        (_etype136, _size133) = iprot.readListBegin()
-                        for _i137 in range(_size133):
-                            _elem138 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                            _key131.append(_elem138)
+                    (_ktype120, _vtype121, _size119) = iprot.readMapBegin()
+                    for _i123 in range(_size119):
+                        _key124 = []
+                        (_etype129, _size126) = iprot.readListBegin()
+                        for _i130 in range(_size126):
+                            _elem131 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                            _key124.append(_elem131)
                         iprot.readListEnd()
-                        _val132 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.skewedColValueLocationMaps[_key131] = _val132
+                        _val125 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.skewedColValueLocationMaps[_key124] = _val125
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -3646,29 +2490,29 @@ class SkewedInfo(object):
         if self.skewedColNames is not None:
             oprot.writeFieldBegin('skewedColNames', TType.LIST, 1)
             oprot.writeListBegin(TType.STRING, len(self.skewedColNames))
-            for iter139 in self.skewedColNames:
-                oprot.writeString(iter139.encode('utf-8') if sys.version_info[0] == 2 else iter139)
+            for iter132 in self.skewedColNames:
+                oprot.writeString(iter132.encode('utf-8') if sys.version_info[0] == 2 else iter132)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.skewedColValues is not None:
             oprot.writeFieldBegin('skewedColValues', TType.LIST, 2)
             oprot.writeListBegin(TType.LIST, len(self.skewedColValues))
-            for iter140 in self.skewedColValues:
-                oprot.writeListBegin(TType.STRING, len(iter140))
-                for iter141 in iter140:
-                    oprot.writeString(iter141.encode('utf-8') if sys.version_info[0] == 2 else iter141)
+            for iter133 in self.skewedColValues:
+                oprot.writeListBegin(TType.STRING, len(iter133))
+                for iter134 in iter133:
+                    oprot.writeString(iter134.encode('utf-8') if sys.version_info[0] == 2 else iter134)
                 oprot.writeListEnd()
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.skewedColValueLocationMaps is not None:
             oprot.writeFieldBegin('skewedColValueLocationMaps', TType.MAP, 3)
             oprot.writeMapBegin(TType.LIST, TType.STRING, len(self.skewedColValueLocationMaps))
-            for kiter142, viter143 in self.skewedColValueLocationMaps.items():
-                oprot.writeListBegin(TType.STRING, len(kiter142))
-                for iter144 in kiter142:
-                    oprot.writeString(iter144.encode('utf-8') if sys.version_info[0] == 2 else iter144)
+            for kiter135, viter136 in self.skewedColValueLocationMaps.items():
+                oprot.writeListBegin(TType.STRING, len(kiter135))
+                for iter137 in kiter135:
+                    oprot.writeString(iter137.encode('utf-8') if sys.version_info[0] == 2 else iter137)
                 oprot.writeListEnd()
-                oprot.writeString(viter143.encode('utf-8') if sys.version_info[0] == 2 else viter143)
+                oprot.writeString(viter136.encode('utf-8') if sys.version_info[0] == 2 else viter136)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -3733,11 +2577,11 @@ class StorageDescriptor(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.cols = []
-                    (_etype148, _size145) = iprot.readListBegin()
-                    for _i149 in range(_size145):
-                        _elem150 = FieldSchema()
-                        _elem150.read(iprot)
-                        self.cols.append(_elem150)
+                    (_etype141, _size138) = iprot.readListBegin()
+                    for _i142 in range(_size138):
+                        _elem143 = FieldSchema()
+                        _elem143.read(iprot)
+                        self.cols.append(_elem143)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -3775,32 +2619,32 @@ class StorageDescriptor(object):
             elif fid == 8:
                 if ftype == TType.LIST:
                     self.bucketCols = []
-                    (_etype154, _size151) = iprot.readListBegin()
-                    for _i155 in range(_size151):
-                        _elem156 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.bucketCols.append(_elem156)
+                    (_etype147, _size144) = iprot.readListBegin()
+                    for _i148 in range(_size144):
+                        _elem149 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.bucketCols.append(_elem149)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 9:
                 if ftype == TType.LIST:
                     self.sortCols = []
-                    (_etype160, _size157) = iprot.readListBegin()
-                    for _i161 in range(_size157):
-                        _elem162 = Order()
-                        _elem162.read(iprot)
-                        self.sortCols.append(_elem162)
+                    (_etype153, _size150) = iprot.readListBegin()
+                    for _i154 in range(_size150):
+                        _elem155 = Order()
+                        _elem155.read(iprot)
+                        self.sortCols.append(_elem155)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 10:
                 if ftype == TType.MAP:
                     self.parameters = {}
-                    (_ktype164, _vtype165, _size163) = iprot.readMapBegin()
-                    for _i167 in range(_size163):
-                        _key168 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        _val169 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.parameters[_key168] = _val169
+                    (_ktype157, _vtype158, _size156) = iprot.readMapBegin()
+                    for _i160 in range(_size156):
+                        _key161 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val162 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.parameters[_key161] = _val162
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -3828,8 +2672,8 @@ class StorageDescriptor(object):
         if self.cols is not None:
             oprot.writeFieldBegin('cols', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.cols))
-            for iter170 in self.cols:
-                iter170.write(oprot)
+            for iter163 in self.cols:
+                iter163.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.location is not None:
@@ -3859,23 +2703,23 @@ class StorageDescriptor(object):
         if self.bucketCols is not None:
             oprot.writeFieldBegin('bucketCols', TType.LIST, 8)
             oprot.writeListBegin(TType.STRING, len(self.bucketCols))
-            for iter171 in self.bucketCols:
-                oprot.writeString(iter171.encode('utf-8') if sys.version_info[0] == 2 else iter171)
+            for iter164 in self.bucketCols:
+                oprot.writeString(iter164.encode('utf-8') if sys.version_info[0] == 2 else iter164)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.sortCols is not None:
             oprot.writeFieldBegin('sortCols', TType.LIST, 9)
             oprot.writeListBegin(TType.STRUCT, len(self.sortCols))
-            for iter172 in self.sortCols:
-                iter172.write(oprot)
+            for iter165 in self.sortCols:
+                iter165.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.parameters is not None:
             oprot.writeFieldBegin('parameters', TType.MAP, 10)
             oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.parameters))
-            for kiter173, viter174 in self.parameters.items():
-                oprot.writeString(kiter173.encode('utf-8') if sys.version_info[0] == 2 else kiter173)
-                oprot.writeString(viter174.encode('utf-8') if sys.version_info[0] == 2 else viter174)
+            for kiter166, viter167 in self.parameters.items():
+                oprot.writeString(kiter166.encode('utf-8') if sys.version_info[0] == 2 else kiter166)
+                oprot.writeString(viter167.encode('utf-8') if sys.version_info[0] == 2 else viter167)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         if self.skewedInfo is not None:
@@ -3922,12 +2766,10 @@ class Table(object):
      - privileges
      - temporary
      - rewriteEnabled
-     - creationMetadata
-     - catName
     """
 
 
-    def __init__(self, tableName=None, dbName=None, owner=None, createTime=None, lastAccessTime=None, retention=None, sd=None, partitionKeys=None, parameters=None, viewOriginalText=None, viewExpandedText=None, tableType=None, privileges=None, temporary=False, rewriteEnabled=None, creationMetadata=None, catName=None,):
+    def __init__(self, tableName=None, dbName=None, owner=None, createTime=None, lastAccessTime=None, retention=None, sd=None, partitionKeys=None, parameters=None, viewOriginalText=None, viewExpandedText=None, tableType=None, privileges=None, temporary=False, rewriteEnabled=None,):
         self.tableName = tableName
         self.dbName = dbName
         self.owner = owner
@@ -3943,8 +2785,6 @@ class Table(object):
         self.privileges = privileges
         self.temporary = temporary
         self.rewriteEnabled = rewriteEnabled
-        self.creationMetadata = creationMetadata
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -3994,22 +2834,22 @@ class Table(object):
             elif fid == 8:
                 if ftype == TType.LIST:
                     self.partitionKeys = []
-                    (_etype178, _size175) = iprot.readListBegin()
-                    for _i179 in range(_size175):
-                        _elem180 = FieldSchema()
-                        _elem180.read(iprot)
-                        self.partitionKeys.append(_elem180)
+                    (_etype171, _size168) = iprot.readListBegin()
+                    for _i172 in range(_size168):
+                        _elem173 = FieldSchema()
+                        _elem173.read(iprot)
+                        self.partitionKeys.append(_elem173)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 9:
                 if ftype == TType.MAP:
                     self.parameters = {}
-                    (_ktype182, _vtype183, _size181) = iprot.readMapBegin()
-                    for _i185 in range(_size181):
-                        _key186 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        _val187 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.parameters[_key186] = _val187
+                    (_ktype175, _vtype176, _size174) = iprot.readMapBegin()
+                    for _i178 in range(_size174):
+                        _key179 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val180 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.parameters[_key179] = _val180
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -4042,17 +2882,6 @@ class Table(object):
             elif fid == 15:
                 if ftype == TType.BOOL:
                     self.rewriteEnabled = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 16:
-                if ftype == TType.STRUCT:
-                    self.creationMetadata = CreationMetadata()
-                    self.creationMetadata.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 17:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -4096,16 +2925,16 @@ class Table(object):
         if self.partitionKeys is not None:
             oprot.writeFieldBegin('partitionKeys', TType.LIST, 8)
             oprot.writeListBegin(TType.STRUCT, len(self.partitionKeys))
-            for iter188 in self.partitionKeys:
-                iter188.write(oprot)
+            for iter181 in self.partitionKeys:
+                iter181.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.parameters is not None:
             oprot.writeFieldBegin('parameters', TType.MAP, 9)
             oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.parameters))
-            for kiter189, viter190 in self.parameters.items():
-                oprot.writeString(kiter189.encode('utf-8') if sys.version_info[0] == 2 else kiter189)
-                oprot.writeString(viter190.encode('utf-8') if sys.version_info[0] == 2 else viter190)
+            for kiter182, viter183 in self.parameters.items():
+                oprot.writeString(kiter182.encode('utf-8') if sys.version_info[0] == 2 else kiter182)
+                oprot.writeString(viter183.encode('utf-8') if sys.version_info[0] == 2 else viter183)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         if self.viewOriginalText is not None:
@@ -4131,14 +2960,6 @@ class Table(object):
         if self.rewriteEnabled is not None:
             oprot.writeFieldBegin('rewriteEnabled', TType.BOOL, 15)
             oprot.writeBool(self.rewriteEnabled)
-            oprot.writeFieldEnd()
-        if self.creationMetadata is not None:
-            oprot.writeFieldBegin('creationMetadata', TType.STRUCT, 16)
-            self.creationMetadata.write(oprot)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 17)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -4169,11 +2990,10 @@ class Partition(object):
      - sd
      - parameters
      - privileges
-     - catName
     """
 
 
-    def __init__(self, values=None, dbName=None, tableName=None, createTime=None, lastAccessTime=None, sd=None, parameters=None, privileges=None, catName=None,):
+    def __init__(self, values=None, dbName=None, tableName=None, createTime=None, lastAccessTime=None, sd=None, parameters=None, privileges=None,):
         self.values = values
         self.dbName = dbName
         self.tableName = tableName
@@ -4182,7 +3002,6 @@ class Partition(object):
         self.sd = sd
         self.parameters = parameters
         self.privileges = privileges
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -4196,10 +3015,10 @@ class Partition(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.values = []
-                    (_etype194, _size191) = iprot.readListBegin()
-                    for _i195 in range(_size191):
-                        _elem196 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.values.append(_elem196)
+                    (_etype187, _size184) = iprot.readListBegin()
+                    for _i188 in range(_size184):
+                        _elem189 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.values.append(_elem189)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -4232,11 +3051,11 @@ class Partition(object):
             elif fid == 7:
                 if ftype == TType.MAP:
                     self.parameters = {}
-                    (_ktype198, _vtype199, _size197) = iprot.readMapBegin()
-                    for _i201 in range(_size197):
-                        _key202 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        _val203 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.parameters[_key202] = _val203
+                    (_ktype191, _vtype192, _size190) = iprot.readMapBegin()
+                    for _i194 in range(_size190):
+                        _key195 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val196 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.parameters[_key195] = _val196
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -4244,11 +3063,6 @@ class Partition(object):
                 if ftype == TType.STRUCT:
                     self.privileges = PrincipalPrivilegeSet()
                     self.privileges.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -4264,8 +3078,8 @@ class Partition(object):
         if self.values is not None:
             oprot.writeFieldBegin('values', TType.LIST, 1)
             oprot.writeListBegin(TType.STRING, len(self.values))
-            for iter204 in self.values:
-                oprot.writeString(iter204.encode('utf-8') if sys.version_info[0] == 2 else iter204)
+            for iter197 in self.values:
+                oprot.writeString(iter197.encode('utf-8') if sys.version_info[0] == 2 else iter197)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.dbName is not None:
@@ -4291,18 +3105,14 @@ class Partition(object):
         if self.parameters is not None:
             oprot.writeFieldBegin('parameters', TType.MAP, 7)
             oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.parameters))
-            for kiter205, viter206 in self.parameters.items():
-                oprot.writeString(kiter205.encode('utf-8') if sys.version_info[0] == 2 else kiter205)
-                oprot.writeString(viter206.encode('utf-8') if sys.version_info[0] == 2 else viter206)
+            for kiter198, viter199 in self.parameters.items():
+                oprot.writeString(kiter198.encode('utf-8') if sys.version_info[0] == 2 else kiter198)
+                oprot.writeString(viter199.encode('utf-8') if sys.version_info[0] == 2 else viter199)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         if self.privileges is not None:
             oprot.writeFieldBegin('privileges', TType.STRUCT, 8)
             self.privileges.write(oprot)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 9)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -4354,10 +3164,10 @@ class PartitionWithoutSD(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.values = []
-                    (_etype210, _size207) = iprot.readListBegin()
-                    for _i211 in range(_size207):
-                        _elem212 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.values.append(_elem212)
+                    (_etype203, _size200) = iprot.readListBegin()
+                    for _i204 in range(_size200):
+                        _elem205 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.values.append(_elem205)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -4379,11 +3189,11 @@ class PartitionWithoutSD(object):
             elif fid == 5:
                 if ftype == TType.MAP:
                     self.parameters = {}
-                    (_ktype214, _vtype215, _size213) = iprot.readMapBegin()
-                    for _i217 in range(_size213):
-                        _key218 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        _val219 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.parameters[_key218] = _val219
+                    (_ktype207, _vtype208, _size206) = iprot.readMapBegin()
+                    for _i210 in range(_size206):
+                        _key211 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val212 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.parameters[_key211] = _val212
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -4406,8 +3216,8 @@ class PartitionWithoutSD(object):
         if self.values is not None:
             oprot.writeFieldBegin('values', TType.LIST, 1)
             oprot.writeListBegin(TType.STRING, len(self.values))
-            for iter220 in self.values:
-                oprot.writeString(iter220.encode('utf-8') if sys.version_info[0] == 2 else iter220)
+            for iter213 in self.values:
+                oprot.writeString(iter213.encode('utf-8') if sys.version_info[0] == 2 else iter213)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.createTime is not None:
@@ -4425,9 +3235,9 @@ class PartitionWithoutSD(object):
         if self.parameters is not None:
             oprot.writeFieldBegin('parameters', TType.MAP, 5)
             oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.parameters))
-            for kiter221, viter222 in self.parameters.items():
-                oprot.writeString(kiter221.encode('utf-8') if sys.version_info[0] == 2 else kiter221)
-                oprot.writeString(viter222.encode('utf-8') if sys.version_info[0] == 2 else viter222)
+            for kiter214, viter215 in self.parameters.items():
+                oprot.writeString(kiter214.encode('utf-8') if sys.version_info[0] == 2 else kiter214)
+                oprot.writeString(viter215.encode('utf-8') if sys.version_info[0] == 2 else viter215)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         if self.privileges is not None:
@@ -4476,11 +3286,11 @@ class PartitionSpecWithSharedSD(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.partitions = []
-                    (_etype226, _size223) = iprot.readListBegin()
-                    for _i227 in range(_size223):
-                        _elem228 = PartitionWithoutSD()
-                        _elem228.read(iprot)
-                        self.partitions.append(_elem228)
+                    (_etype219, _size216) = iprot.readListBegin()
+                    for _i220 in range(_size216):
+                        _elem221 = PartitionWithoutSD()
+                        _elem221.read(iprot)
+                        self.partitions.append(_elem221)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -4503,8 +3313,8 @@ class PartitionSpecWithSharedSD(object):
         if self.partitions is not None:
             oprot.writeFieldBegin('partitions', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.partitions))
-            for iter229 in self.partitions:
-                iter229.write(oprot)
+            for iter222 in self.partitions:
+                iter222.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.sd is not None:
@@ -4551,11 +3361,11 @@ class PartitionListComposingSpec(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.partitions = []
-                    (_etype233, _size230) = iprot.readListBegin()
-                    for _i234 in range(_size230):
-                        _elem235 = Partition()
-                        _elem235.read(iprot)
-                        self.partitions.append(_elem235)
+                    (_etype226, _size223) = iprot.readListBegin()
+                    for _i227 in range(_size223):
+                        _elem228 = Partition()
+                        _elem228.read(iprot)
+                        self.partitions.append(_elem228)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -4572,8 +3382,8 @@ class PartitionListComposingSpec(object):
         if self.partitions is not None:
             oprot.writeFieldBegin('partitions', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.partitions))
-            for iter236 in self.partitions:
-                iter236.write(oprot)
+            for iter229 in self.partitions:
+                iter229.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -4602,17 +3412,15 @@ class PartitionSpec(object):
      - rootPath
      - sharedSDPartitionSpec
      - partitionList
-     - catName
     """
 
 
-    def __init__(self, dbName=None, tableName=None, rootPath=None, sharedSDPartitionSpec=None, partitionList=None, catName=None,):
+    def __init__(self, dbName=None, tableName=None, rootPath=None, sharedSDPartitionSpec=None, partitionList=None,):
         self.dbName = dbName
         self.tableName = tableName
         self.rootPath = rootPath
         self.sharedSDPartitionSpec = sharedSDPartitionSpec
         self.partitionList = partitionList
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -4650,11 +3458,6 @@ class PartitionSpec(object):
                     self.partitionList.read(iprot)
                 else:
                     iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -4685,9 +3488,171 @@ class PartitionSpec(object):
             oprot.writeFieldBegin('partitionList', TType.STRUCT, 5)
             self.partitionList.write(oprot)
             oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 6)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class Index(object):
+    """
+    Attributes:
+     - indexName
+     - indexHandlerClass
+     - dbName
+     - origTableName
+     - createTime
+     - lastAccessTime
+     - indexTableName
+     - sd
+     - parameters
+     - deferredRebuild
+    """
+
+
+    def __init__(self, indexName=None, indexHandlerClass=None, dbName=None, origTableName=None, createTime=None, lastAccessTime=None, indexTableName=None, sd=None, parameters=None, deferredRebuild=None,):
+        self.indexName = indexName
+        self.indexHandlerClass = indexHandlerClass
+        self.dbName = dbName
+        self.origTableName = origTableName
+        self.createTime = createTime
+        self.lastAccessTime = lastAccessTime
+        self.indexTableName = indexTableName
+        self.sd = sd
+        self.parameters = parameters
+        self.deferredRebuild = deferredRebuild
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.indexName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.indexHandlerClass = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.STRING:
+                    self.dbName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRING:
+                    self.origTableName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.I32:
+                    self.createTime = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 6:
+                if ftype == TType.I32:
+                    self.lastAccessTime = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 7:
+                if ftype == TType.STRING:
+                    self.indexTableName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 8:
+                if ftype == TType.STRUCT:
+                    self.sd = StorageDescriptor()
+                    self.sd.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 9:
+                if ftype == TType.MAP:
+                    self.parameters = {}
+                    (_ktype231, _vtype232, _size230) = iprot.readMapBegin()
+                    for _i234 in range(_size230):
+                        _key235 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val236 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.parameters[_key235] = _val236
+                    iprot.readMapEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 10:
+                if ftype == TType.BOOL:
+                    self.deferredRebuild = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('Index')
+        if self.indexName is not None:
+            oprot.writeFieldBegin('indexName', TType.STRING, 1)
+            oprot.writeString(self.indexName.encode('utf-8') if sys.version_info[0] == 2 else self.indexName)
+            oprot.writeFieldEnd()
+        if self.indexHandlerClass is not None:
+            oprot.writeFieldBegin('indexHandlerClass', TType.STRING, 2)
+            oprot.writeString(self.indexHandlerClass.encode('utf-8') if sys.version_info[0] == 2 else self.indexHandlerClass)
+            oprot.writeFieldEnd()
+        if self.dbName is not None:
+            oprot.writeFieldBegin('dbName', TType.STRING, 3)
+            oprot.writeString(self.dbName.encode('utf-8') if sys.version_info[0] == 2 else self.dbName)
+            oprot.writeFieldEnd()
+        if self.origTableName is not None:
+            oprot.writeFieldBegin('origTableName', TType.STRING, 4)
+            oprot.writeString(self.origTableName.encode('utf-8') if sys.version_info[0] == 2 else self.origTableName)
+            oprot.writeFieldEnd()
+        if self.createTime is not None:
+            oprot.writeFieldBegin('createTime', TType.I32, 5)
+            oprot.writeI32(self.createTime)
+            oprot.writeFieldEnd()
+        if self.lastAccessTime is not None:
+            oprot.writeFieldBegin('lastAccessTime', TType.I32, 6)
+            oprot.writeI32(self.lastAccessTime)
+            oprot.writeFieldEnd()
+        if self.indexTableName is not None:
+            oprot.writeFieldBegin('indexTableName', TType.STRING, 7)
+            oprot.writeString(self.indexTableName.encode('utf-8') if sys.version_info[0] == 2 else self.indexTableName)
+            oprot.writeFieldEnd()
+        if self.sd is not None:
+            oprot.writeFieldBegin('sd', TType.STRUCT, 8)
+            self.sd.write(oprot)
+            oprot.writeFieldEnd()
+        if self.parameters is not None:
+            oprot.writeFieldBegin('parameters', TType.MAP, 9)
+            oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.parameters))
+            for kiter237, viter238 in self.parameters.items():
+                oprot.writeString(kiter237.encode('utf-8') if sys.version_info[0] == 2 else kiter237)
+                oprot.writeString(viter238.encode('utf-8') if sys.version_info[0] == 2 else viter238)
+            oprot.writeMapEnd()
+            oprot.writeFieldEnd()
+        if self.deferredRebuild is not None:
+            oprot.writeFieldBegin('deferredRebuild', TType.BOOL, 10)
+            oprot.writeBool(self.deferredRebuild)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -4749,7 +3714,7 @@ class BooleanColumnStatsData(object):
                     iprot.skip(ftype)
             elif fid == 4:
                 if ftype == TType.STRING:
-                    self.bitVectors = iprot.readBinary()
+                    self.bitVectors = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -4776,7 +3741,7 @@ class BooleanColumnStatsData(object):
             oprot.writeFieldEnd()
         if self.bitVectors is not None:
             oprot.writeFieldBegin('bitVectors', TType.STRING, 4)
-            oprot.writeBinary(self.bitVectors)
+            oprot.writeString(self.bitVectors.encode('utf-8') if sys.version_info[0] == 2 else self.bitVectors)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -4851,7 +3816,7 @@ class DoubleColumnStatsData(object):
                     iprot.skip(ftype)
             elif fid == 5:
                 if ftype == TType.STRING:
-                    self.bitVectors = iprot.readBinary()
+                    self.bitVectors = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -4882,7 +3847,7 @@ class DoubleColumnStatsData(object):
             oprot.writeFieldEnd()
         if self.bitVectors is not None:
             oprot.writeFieldBegin('bitVectors', TType.STRING, 5)
-            oprot.writeBinary(self.bitVectors)
+            oprot.writeString(self.bitVectors.encode('utf-8') if sys.version_info[0] == 2 else self.bitVectors)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -4955,7 +3920,7 @@ class LongColumnStatsData(object):
                     iprot.skip(ftype)
             elif fid == 5:
                 if ftype == TType.STRING:
-                    self.bitVectors = iprot.readBinary()
+                    self.bitVectors = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -4986,7 +3951,7 @@ class LongColumnStatsData(object):
             oprot.writeFieldEnd()
         if self.bitVectors is not None:
             oprot.writeFieldBegin('bitVectors', TType.STRING, 5)
-            oprot.writeBinary(self.bitVectors)
+            oprot.writeString(self.bitVectors.encode('utf-8') if sys.version_info[0] == 2 else self.bitVectors)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -5059,7 +4024,7 @@ class StringColumnStatsData(object):
                     iprot.skip(ftype)
             elif fid == 5:
                 if ftype == TType.STRING:
-                    self.bitVectors = iprot.readBinary()
+                    self.bitVectors = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -5090,7 +4055,7 @@ class StringColumnStatsData(object):
             oprot.writeFieldEnd()
         if self.bitVectors is not None:
             oprot.writeFieldBegin('bitVectors', TType.STRING, 5)
-            oprot.writeBinary(self.bitVectors)
+            oprot.writeString(self.bitVectors.encode('utf-8') if sys.version_info[0] == 2 else self.bitVectors)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -5160,7 +4125,7 @@ class BinaryColumnStatsData(object):
                     iprot.skip(ftype)
             elif fid == 4:
                 if ftype == TType.STRING:
-                    self.bitVectors = iprot.readBinary()
+                    self.bitVectors = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -5187,7 +4152,7 @@ class BinaryColumnStatsData(object):
             oprot.writeFieldEnd()
         if self.bitVectors is not None:
             oprot.writeFieldBegin('bitVectors', TType.STRING, 4)
-            oprot.writeBinary(self.bitVectors)
+            oprot.writeString(self.bitVectors.encode('utf-8') if sys.version_info[0] == 2 else self.bitVectors)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -5335,7 +4300,7 @@ class DecimalColumnStatsData(object):
                     iprot.skip(ftype)
             elif fid == 5:
                 if ftype == TType.STRING:
-                    self.bitVectors = iprot.readBinary()
+                    self.bitVectors = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -5366,7 +4331,7 @@ class DecimalColumnStatsData(object):
             oprot.writeFieldEnd()
         if self.bitVectors is not None:
             oprot.writeFieldBegin('bitVectors', TType.STRING, 5)
-            oprot.writeBinary(self.bitVectors)
+            oprot.writeString(self.bitVectors.encode('utf-8') if sys.version_info[0] == 2 else self.bitVectors)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -5499,7 +4464,7 @@ class DateColumnStatsData(object):
                     iprot.skip(ftype)
             elif fid == 5:
                 if ftype == TType.STRING:
-                    self.bitVectors = iprot.readBinary()
+                    self.bitVectors = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -5530,7 +4495,7 @@ class DateColumnStatsData(object):
             oprot.writeFieldEnd()
         if self.bitVectors is not None:
             oprot.writeFieldBegin('bitVectors', TType.STRING, 5)
-            oprot.writeBinary(self.bitVectors)
+            oprot.writeString(self.bitVectors.encode('utf-8') if sys.version_info[0] == 2 else self.bitVectors)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -5776,17 +4741,15 @@ class ColumnStatisticsDesc(object):
      - tableName
      - partName
      - lastAnalyzed
-     - catName
     """
 
 
-    def __init__(self, isTblLevel=None, dbName=None, tableName=None, partName=None, lastAnalyzed=None, catName=None,):
+    def __init__(self, isTblLevel=None, dbName=None, tableName=None, partName=None, lastAnalyzed=None,):
         self.isTblLevel = isTblLevel
         self.dbName = dbName
         self.tableName = tableName
         self.partName = partName
         self.lastAnalyzed = lastAnalyzed
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -5822,11 +4785,6 @@ class ColumnStatisticsDesc(object):
                     self.lastAnalyzed = iprot.readI64()
                 else:
                     iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -5856,10 +4814,6 @@ class ColumnStatisticsDesc(object):
         if self.lastAnalyzed is not None:
             oprot.writeFieldBegin('lastAnalyzed', TType.I64, 5)
             oprot.writeI64(self.lastAnalyzed)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 6)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -5915,11 +4869,11 @@ class ColumnStatistics(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.statsObj = []
-                    (_etype240, _size237) = iprot.readListBegin()
-                    for _i241 in range(_size237):
-                        _elem242 = ColumnStatisticsObj()
-                        _elem242.read(iprot)
-                        self.statsObj.append(_elem242)
+                    (_etype242, _size239) = iprot.readListBegin()
+                    for _i243 in range(_size239):
+                        _elem244 = ColumnStatisticsObj()
+                        _elem244.read(iprot)
+                        self.statsObj.append(_elem244)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -5940,8 +4894,8 @@ class ColumnStatistics(object):
         if self.statsObj is not None:
             oprot.writeFieldBegin('statsObj', TType.LIST, 2)
             oprot.writeListBegin(TType.STRUCT, len(self.statsObj))
-            for iter243 in self.statsObj:
-                iter243.write(oprot)
+            for iter245 in self.statsObj:
+                iter245.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -5990,11 +4944,11 @@ class AggrStats(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.colStats = []
-                    (_etype247, _size244) = iprot.readListBegin()
-                    for _i248 in range(_size244):
-                        _elem249 = ColumnStatisticsObj()
-                        _elem249.read(iprot)
-                        self.colStats.append(_elem249)
+                    (_etype249, _size246) = iprot.readListBegin()
+                    for _i250 in range(_size246):
+                        _elem251 = ColumnStatisticsObj()
+                        _elem251.read(iprot)
+                        self.colStats.append(_elem251)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -6016,8 +4970,8 @@ class AggrStats(object):
         if self.colStats is not None:
             oprot.writeFieldBegin('colStats', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.colStats))
-            for iter250 in self.colStats:
-                iter250.write(oprot)
+            for iter252 in self.colStats:
+                iter252.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.partsFound is not None:
@@ -6070,11 +5024,11 @@ class SetPartitionsStatsRequest(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.colStats = []
-                    (_etype254, _size251) = iprot.readListBegin()
-                    for _i255 in range(_size251):
-                        _elem256 = ColumnStatistics()
-                        _elem256.read(iprot)
-                        self.colStats.append(_elem256)
+                    (_etype256, _size253) = iprot.readListBegin()
+                    for _i257 in range(_size253):
+                        _elem258 = ColumnStatistics()
+                        _elem258.read(iprot)
+                        self.colStats.append(_elem258)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -6096,8 +5050,8 @@ class SetPartitionsStatsRequest(object):
         if self.colStats is not None:
             oprot.writeFieldBegin('colStats', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.colStats))
-            for iter257 in self.colStats:
-                iter257.write(oprot)
+            for iter259 in self.colStats:
+                iter259.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.needMerge is not None:
@@ -6148,22 +5102,22 @@ class Schema(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.fieldSchemas = []
-                    (_etype261, _size258) = iprot.readListBegin()
-                    for _i262 in range(_size258):
-                        _elem263 = FieldSchema()
-                        _elem263.read(iprot)
-                        self.fieldSchemas.append(_elem263)
+                    (_etype263, _size260) = iprot.readListBegin()
+                    for _i264 in range(_size260):
+                        _elem265 = FieldSchema()
+                        _elem265.read(iprot)
+                        self.fieldSchemas.append(_elem265)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.MAP:
                     self.properties = {}
-                    (_ktype265, _vtype266, _size264) = iprot.readMapBegin()
-                    for _i268 in range(_size264):
-                        _key269 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        _val270 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.properties[_key269] = _val270
+                    (_ktype267, _vtype268, _size266) = iprot.readMapBegin()
+                    for _i270 in range(_size266):
+                        _key271 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val272 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.properties[_key271] = _val272
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -6180,16 +5134,16 @@ class Schema(object):
         if self.fieldSchemas is not None:
             oprot.writeFieldBegin('fieldSchemas', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.fieldSchemas))
-            for iter271 in self.fieldSchemas:
-                iter271.write(oprot)
+            for iter273 in self.fieldSchemas:
+                iter273.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.properties is not None:
             oprot.writeFieldBegin('properties', TType.MAP, 2)
             oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.properties))
-            for kiter272, viter273 in self.properties.items():
-                oprot.writeString(kiter272.encode('utf-8') if sys.version_info[0] == 2 else kiter272)
-                oprot.writeString(viter273.encode('utf-8') if sys.version_info[0] == 2 else viter273)
+            for kiter274, viter275 in self.properties.items():
+                oprot.writeString(kiter274.encode('utf-8') if sys.version_info[0] == 2 else kiter274)
+                oprot.writeString(viter275.encode('utf-8') if sys.version_info[0] == 2 else viter275)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -6232,11 +5186,11 @@ class EnvironmentContext(object):
             if fid == 1:
                 if ftype == TType.MAP:
                     self.properties = {}
-                    (_ktype275, _vtype276, _size274) = iprot.readMapBegin()
-                    for _i278 in range(_size274):
-                        _key279 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        _val280 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.properties[_key279] = _val280
+                    (_ktype277, _vtype278, _size276) = iprot.readMapBegin()
+                    for _i280 in range(_size276):
+                        _key281 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val282 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.properties[_key281] = _val282
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -6253,9 +5207,9 @@ class EnvironmentContext(object):
         if self.properties is not None:
             oprot.writeFieldBegin('properties', TType.MAP, 1)
             oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.properties))
-            for kiter281, viter282 in self.properties.items():
-                oprot.writeString(kiter281.encode('utf-8') if sys.version_info[0] == 2 else kiter281)
-                oprot.writeString(viter282.encode('utf-8') if sys.version_info[0] == 2 else viter282)
+            for kiter283, viter284 in self.properties.items():
+                oprot.writeString(kiter283.encode('utf-8') if sys.version_info[0] == 2 else kiter283)
+                oprot.writeString(viter284.encode('utf-8') if sys.version_info[0] == 2 else viter284)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -6281,14 +5235,12 @@ class PrimaryKeysRequest(object):
     Attributes:
      - db_name
      - tbl_name
-     - catName
     """
 
 
-    def __init__(self, db_name=None, tbl_name=None, catName=None,):
+    def __init__(self, db_name=None, tbl_name=None,):
         self.db_name = db_name
         self.tbl_name = tbl_name
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -6309,11 +5261,6 @@ class PrimaryKeysRequest(object):
                     self.tbl_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -6331,10 +5278,6 @@ class PrimaryKeysRequest(object):
         if self.tbl_name is not None:
             oprot.writeFieldBegin('tbl_name', TType.STRING, 2)
             oprot.writeString(self.tbl_name.encode('utf-8') if sys.version_info[0] == 2 else self.tbl_name)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 3)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -6380,11 +5323,11 @@ class PrimaryKeysResponse(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.primaryKeys = []
-                    (_etype286, _size283) = iprot.readListBegin()
-                    for _i287 in range(_size283):
-                        _elem288 = SQLPrimaryKey()
-                        _elem288.read(iprot)
-                        self.primaryKeys.append(_elem288)
+                    (_etype288, _size285) = iprot.readListBegin()
+                    for _i289 in range(_size285):
+                        _elem290 = SQLPrimaryKey()
+                        _elem290.read(iprot)
+                        self.primaryKeys.append(_elem290)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -6401,8 +5344,8 @@ class PrimaryKeysResponse(object):
         if self.primaryKeys is not None:
             oprot.writeFieldBegin('primaryKeys', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.primaryKeys))
-            for iter289 in self.primaryKeys:
-                iter289.write(oprot)
+            for iter291 in self.primaryKeys:
+                iter291.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -6432,16 +5375,14 @@ class ForeignKeysRequest(object):
      - parent_tbl_name
      - foreign_db_name
      - foreign_tbl_name
-     - catName
     """
 
 
-    def __init__(self, parent_db_name=None, parent_tbl_name=None, foreign_db_name=None, foreign_tbl_name=None, catName=None,):
+    def __init__(self, parent_db_name=None, parent_tbl_name=None, foreign_db_name=None, foreign_tbl_name=None,):
         self.parent_db_name = parent_db_name
         self.parent_tbl_name = parent_tbl_name
         self.foreign_db_name = foreign_db_name
         self.foreign_tbl_name = foreign_tbl_name
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -6472,11 +5413,6 @@ class ForeignKeysRequest(object):
                     self.foreign_tbl_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -6502,10 +5438,6 @@ class ForeignKeysRequest(object):
         if self.foreign_tbl_name is not None:
             oprot.writeFieldBegin('foreign_tbl_name', TType.STRING, 4)
             oprot.writeString(self.foreign_tbl_name.encode('utf-8') if sys.version_info[0] == 2 else self.foreign_tbl_name)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 5)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -6547,11 +5479,11 @@ class ForeignKeysResponse(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.foreignKeys = []
-                    (_etype293, _size290) = iprot.readListBegin()
-                    for _i294 in range(_size290):
-                        _elem295 = SQLForeignKey()
-                        _elem295.read(iprot)
-                        self.foreignKeys.append(_elem295)
+                    (_etype295, _size292) = iprot.readListBegin()
+                    for _i296 in range(_size292):
+                        _elem297 = SQLForeignKey()
+                        _elem297.read(iprot)
+                        self.foreignKeys.append(_elem297)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -6568,8 +5500,8 @@ class ForeignKeysResponse(object):
         if self.foreignKeys is not None:
             oprot.writeFieldBegin('foreignKeys', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.foreignKeys))
-            for iter296 in self.foreignKeys:
-                iter296.write(oprot)
+            for iter298 in self.foreignKeys:
+                iter298.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -6592,625 +5524,19 @@ class ForeignKeysResponse(object):
         return not (self == other)
 
 
-class UniqueConstraintsRequest(object):
-    """
-    Attributes:
-     - catName
-     - db_name
-     - tbl_name
-    """
-
-
-    def __init__(self, catName=None, db_name=None, tbl_name=None,):
-        self.catName = catName
-        self.db_name = db_name
-        self.tbl_name = tbl_name
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.db_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.tbl_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('UniqueConstraintsRequest')
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 1)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.db_name is not None:
-            oprot.writeFieldBegin('db_name', TType.STRING, 2)
-            oprot.writeString(self.db_name.encode('utf-8') if sys.version_info[0] == 2 else self.db_name)
-            oprot.writeFieldEnd()
-        if self.tbl_name is not None:
-            oprot.writeFieldBegin('tbl_name', TType.STRING, 3)
-            oprot.writeString(self.tbl_name.encode('utf-8') if sys.version_info[0] == 2 else self.tbl_name)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.catName is None:
-            raise TProtocolException(message='Required field catName is unset!')
-        if self.db_name is None:
-            raise TProtocolException(message='Required field db_name is unset!')
-        if self.tbl_name is None:
-            raise TProtocolException(message='Required field tbl_name is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class UniqueConstraintsResponse(object):
-    """
-    Attributes:
-     - uniqueConstraints
-    """
-
-
-    def __init__(self, uniqueConstraints=None,):
-        self.uniqueConstraints = uniqueConstraints
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.uniqueConstraints = []
-                    (_etype300, _size297) = iprot.readListBegin()
-                    for _i301 in range(_size297):
-                        _elem302 = SQLUniqueConstraint()
-                        _elem302.read(iprot)
-                        self.uniqueConstraints.append(_elem302)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('UniqueConstraintsResponse')
-        if self.uniqueConstraints is not None:
-            oprot.writeFieldBegin('uniqueConstraints', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.uniqueConstraints))
-            for iter303 in self.uniqueConstraints:
-                iter303.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.uniqueConstraints is None:
-            raise TProtocolException(message='Required field uniqueConstraints is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class NotNullConstraintsRequest(object):
-    """
-    Attributes:
-     - catName
-     - db_name
-     - tbl_name
-    """
-
-
-    def __init__(self, catName=None, db_name=None, tbl_name=None,):
-        self.catName = catName
-        self.db_name = db_name
-        self.tbl_name = tbl_name
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.db_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.tbl_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('NotNullConstraintsRequest')
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 1)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.db_name is not None:
-            oprot.writeFieldBegin('db_name', TType.STRING, 2)
-            oprot.writeString(self.db_name.encode('utf-8') if sys.version_info[0] == 2 else self.db_name)
-            oprot.writeFieldEnd()
-        if self.tbl_name is not None:
-            oprot.writeFieldBegin('tbl_name', TType.STRING, 3)
-            oprot.writeString(self.tbl_name.encode('utf-8') if sys.version_info[0] == 2 else self.tbl_name)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.catName is None:
-            raise TProtocolException(message='Required field catName is unset!')
-        if self.db_name is None:
-            raise TProtocolException(message='Required field db_name is unset!')
-        if self.tbl_name is None:
-            raise TProtocolException(message='Required field tbl_name is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class NotNullConstraintsResponse(object):
-    """
-    Attributes:
-     - notNullConstraints
-    """
-
-
-    def __init__(self, notNullConstraints=None,):
-        self.notNullConstraints = notNullConstraints
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.notNullConstraints = []
-                    (_etype307, _size304) = iprot.readListBegin()
-                    for _i308 in range(_size304):
-                        _elem309 = SQLNotNullConstraint()
-                        _elem309.read(iprot)
-                        self.notNullConstraints.append(_elem309)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('NotNullConstraintsResponse')
-        if self.notNullConstraints is not None:
-            oprot.writeFieldBegin('notNullConstraints', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.notNullConstraints))
-            for iter310 in self.notNullConstraints:
-                iter310.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.notNullConstraints is None:
-            raise TProtocolException(message='Required field notNullConstraints is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class DefaultConstraintsRequest(object):
-    """
-    Attributes:
-     - catName
-     - db_name
-     - tbl_name
-    """
-
-
-    def __init__(self, catName=None, db_name=None, tbl_name=None,):
-        self.catName = catName
-        self.db_name = db_name
-        self.tbl_name = tbl_name
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.db_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.tbl_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('DefaultConstraintsRequest')
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 1)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.db_name is not None:
-            oprot.writeFieldBegin('db_name', TType.STRING, 2)
-            oprot.writeString(self.db_name.encode('utf-8') if sys.version_info[0] == 2 else self.db_name)
-            oprot.writeFieldEnd()
-        if self.tbl_name is not None:
-            oprot.writeFieldBegin('tbl_name', TType.STRING, 3)
-            oprot.writeString(self.tbl_name.encode('utf-8') if sys.version_info[0] == 2 else self.tbl_name)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.catName is None:
-            raise TProtocolException(message='Required field catName is unset!')
-        if self.db_name is None:
-            raise TProtocolException(message='Required field db_name is unset!')
-        if self.tbl_name is None:
-            raise TProtocolException(message='Required field tbl_name is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class DefaultConstraintsResponse(object):
-    """
-    Attributes:
-     - defaultConstraints
-    """
-
-
-    def __init__(self, defaultConstraints=None,):
-        self.defaultConstraints = defaultConstraints
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.defaultConstraints = []
-                    (_etype314, _size311) = iprot.readListBegin()
-                    for _i315 in range(_size311):
-                        _elem316 = SQLDefaultConstraint()
-                        _elem316.read(iprot)
-                        self.defaultConstraints.append(_elem316)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('DefaultConstraintsResponse')
-        if self.defaultConstraints is not None:
-            oprot.writeFieldBegin('defaultConstraints', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.defaultConstraints))
-            for iter317 in self.defaultConstraints:
-                iter317.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.defaultConstraints is None:
-            raise TProtocolException(message='Required field defaultConstraints is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class CheckConstraintsRequest(object):
-    """
-    Attributes:
-     - catName
-     - db_name
-     - tbl_name
-    """
-
-
-    def __init__(self, catName=None, db_name=None, tbl_name=None,):
-        self.catName = catName
-        self.db_name = db_name
-        self.tbl_name = tbl_name
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.db_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.tbl_name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('CheckConstraintsRequest')
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 1)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.db_name is not None:
-            oprot.writeFieldBegin('db_name', TType.STRING, 2)
-            oprot.writeString(self.db_name.encode('utf-8') if sys.version_info[0] == 2 else self.db_name)
-            oprot.writeFieldEnd()
-        if self.tbl_name is not None:
-            oprot.writeFieldBegin('tbl_name', TType.STRING, 3)
-            oprot.writeString(self.tbl_name.encode('utf-8') if sys.version_info[0] == 2 else self.tbl_name)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.catName is None:
-            raise TProtocolException(message='Required field catName is unset!')
-        if self.db_name is None:
-            raise TProtocolException(message='Required field db_name is unset!')
-        if self.tbl_name is None:
-            raise TProtocolException(message='Required field tbl_name is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class CheckConstraintsResponse(object):
-    """
-    Attributes:
-     - checkConstraints
-    """
-
-
-    def __init__(self, checkConstraints=None,):
-        self.checkConstraints = checkConstraints
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.checkConstraints = []
-                    (_etype321, _size318) = iprot.readListBegin()
-                    for _i322 in range(_size318):
-                        _elem323 = SQLCheckConstraint()
-                        _elem323.read(iprot)
-                        self.checkConstraints.append(_elem323)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('CheckConstraintsResponse')
-        if self.checkConstraints is not None:
-            oprot.writeFieldBegin('checkConstraints', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.checkConstraints))
-            for iter324 in self.checkConstraints:
-                iter324.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.checkConstraints is None:
-            raise TProtocolException(message='Required field checkConstraints is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
 class DropConstraintRequest(object):
     """
     Attributes:
      - dbname
      - tablename
      - constraintname
-     - catName
     """
 
 
-    def __init__(self, dbname=None, tablename=None, constraintname=None, catName=None,):
+    def __init__(self, dbname=None, tablename=None, constraintname=None,):
         self.dbname = dbname
         self.tablename = tablename
         self.constraintname = constraintname
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -7236,11 +5562,6 @@ class DropConstraintRequest(object):
                     self.constraintname = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -7262,10 +5583,6 @@ class DropConstraintRequest(object):
         if self.constraintname is not None:
             oprot.writeFieldBegin('constraintname', TType.STRING, 3)
             oprot.writeString(self.constraintname.encode('utf-8') if sys.version_info[0] == 2 else self.constraintname)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 4)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -7313,11 +5630,11 @@ class AddPrimaryKeyRequest(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.primaryKeyCols = []
-                    (_etype328, _size325) = iprot.readListBegin()
-                    for _i329 in range(_size325):
-                        _elem330 = SQLPrimaryKey()
-                        _elem330.read(iprot)
-                        self.primaryKeyCols.append(_elem330)
+                    (_etype302, _size299) = iprot.readListBegin()
+                    for _i303 in range(_size299):
+                        _elem304 = SQLPrimaryKey()
+                        _elem304.read(iprot)
+                        self.primaryKeyCols.append(_elem304)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -7334,8 +5651,8 @@ class AddPrimaryKeyRequest(object):
         if self.primaryKeyCols is not None:
             oprot.writeFieldBegin('primaryKeyCols', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.primaryKeyCols))
-            for iter331 in self.primaryKeyCols:
-                iter331.write(oprot)
+            for iter305 in self.primaryKeyCols:
+                iter305.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -7380,11 +5697,11 @@ class AddForeignKeyRequest(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.foreignKeyCols = []
-                    (_etype335, _size332) = iprot.readListBegin()
-                    for _i336 in range(_size332):
-                        _elem337 = SQLForeignKey()
-                        _elem337.read(iprot)
-                        self.foreignKeyCols.append(_elem337)
+                    (_etype309, _size306) = iprot.readListBegin()
+                    for _i310 in range(_size306):
+                        _elem311 = SQLForeignKey()
+                        _elem311.read(iprot)
+                        self.foreignKeyCols.append(_elem311)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -7401,8 +5718,8 @@ class AddForeignKeyRequest(object):
         if self.foreignKeyCols is not None:
             oprot.writeFieldBegin('foreignKeyCols', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.foreignKeyCols))
-            for iter338 in self.foreignKeyCols:
-                iter338.write(oprot)
+            for iter312 in self.foreignKeyCols:
+                iter312.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -7411,274 +5728,6 @@ class AddForeignKeyRequest(object):
     def validate(self):
         if self.foreignKeyCols is None:
             raise TProtocolException(message='Required field foreignKeyCols is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class AddUniqueConstraintRequest(object):
-    """
-    Attributes:
-     - uniqueConstraintCols
-    """
-
-
-    def __init__(self, uniqueConstraintCols=None,):
-        self.uniqueConstraintCols = uniqueConstraintCols
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.uniqueConstraintCols = []
-                    (_etype342, _size339) = iprot.readListBegin()
-                    for _i343 in range(_size339):
-                        _elem344 = SQLUniqueConstraint()
-                        _elem344.read(iprot)
-                        self.uniqueConstraintCols.append(_elem344)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('AddUniqueConstraintRequest')
-        if self.uniqueConstraintCols is not None:
-            oprot.writeFieldBegin('uniqueConstraintCols', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.uniqueConstraintCols))
-            for iter345 in self.uniqueConstraintCols:
-                iter345.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.uniqueConstraintCols is None:
-            raise TProtocolException(message='Required field uniqueConstraintCols is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class AddNotNullConstraintRequest(object):
-    """
-    Attributes:
-     - notNullConstraintCols
-    """
-
-
-    def __init__(self, notNullConstraintCols=None,):
-        self.notNullConstraintCols = notNullConstraintCols
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.notNullConstraintCols = []
-                    (_etype349, _size346) = iprot.readListBegin()
-                    for _i350 in range(_size346):
-                        _elem351 = SQLNotNullConstraint()
-                        _elem351.read(iprot)
-                        self.notNullConstraintCols.append(_elem351)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('AddNotNullConstraintRequest')
-        if self.notNullConstraintCols is not None:
-            oprot.writeFieldBegin('notNullConstraintCols', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.notNullConstraintCols))
-            for iter352 in self.notNullConstraintCols:
-                iter352.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.notNullConstraintCols is None:
-            raise TProtocolException(message='Required field notNullConstraintCols is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class AddDefaultConstraintRequest(object):
-    """
-    Attributes:
-     - defaultConstraintCols
-    """
-
-
-    def __init__(self, defaultConstraintCols=None,):
-        self.defaultConstraintCols = defaultConstraintCols
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.defaultConstraintCols = []
-                    (_etype356, _size353) = iprot.readListBegin()
-                    for _i357 in range(_size353):
-                        _elem358 = SQLDefaultConstraint()
-                        _elem358.read(iprot)
-                        self.defaultConstraintCols.append(_elem358)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('AddDefaultConstraintRequest')
-        if self.defaultConstraintCols is not None:
-            oprot.writeFieldBegin('defaultConstraintCols', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.defaultConstraintCols))
-            for iter359 in self.defaultConstraintCols:
-                iter359.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.defaultConstraintCols is None:
-            raise TProtocolException(message='Required field defaultConstraintCols is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class AddCheckConstraintRequest(object):
-    """
-    Attributes:
-     - checkConstraintCols
-    """
-
-
-    def __init__(self, checkConstraintCols=None,):
-        self.checkConstraintCols = checkConstraintCols
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.checkConstraintCols = []
-                    (_etype363, _size360) = iprot.readListBegin()
-                    for _i364 in range(_size360):
-                        _elem365 = SQLCheckConstraint()
-                        _elem365.read(iprot)
-                        self.checkConstraintCols.append(_elem365)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('AddCheckConstraintRequest')
-        if self.checkConstraintCols is not None:
-            oprot.writeFieldBegin('checkConstraintCols', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.checkConstraintCols))
-            for iter366 in self.checkConstraintCols:
-                iter366.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.checkConstraintCols is None:
-            raise TProtocolException(message='Required field checkConstraintCols is unset!')
         return
 
     def __repr__(self):
@@ -7717,11 +5766,11 @@ class PartitionsByExprResult(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.partitions = []
-                    (_etype370, _size367) = iprot.readListBegin()
-                    for _i371 in range(_size367):
-                        _elem372 = Partition()
-                        _elem372.read(iprot)
-                        self.partitions.append(_elem372)
+                    (_etype316, _size313) = iprot.readListBegin()
+                    for _i317 in range(_size313):
+                        _elem318 = Partition()
+                        _elem318.read(iprot)
+                        self.partitions.append(_elem318)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -7743,8 +5792,8 @@ class PartitionsByExprResult(object):
         if self.partitions is not None:
             oprot.writeFieldBegin('partitions', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.partitions))
-            for iter373 in self.partitions:
-                iter373.write(oprot)
+            for iter319 in self.partitions:
+                iter319.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.hasUnknownPartitions is not None:
@@ -7781,17 +5830,15 @@ class PartitionsByExprRequest(object):
      - expr
      - defaultPartitionName
      - maxParts
-     - catName
     """
 
 
-    def __init__(self, dbName=None, tblName=None, expr=None, defaultPartitionName=None, maxParts=-1, catName=None,):
+    def __init__(self, dbName=None, tblName=None, expr=None, defaultPartitionName=None, maxParts=-1,):
         self.dbName = dbName
         self.tblName = tblName
         self.expr = expr
         self.defaultPartitionName = defaultPartitionName
         self.maxParts = maxParts
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -7827,11 +5874,6 @@ class PartitionsByExprRequest(object):
                     self.maxParts = iprot.readI16()
                 else:
                     iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -7861,10 +5903,6 @@ class PartitionsByExprRequest(object):
         if self.maxParts is not None:
             oprot.writeFieldBegin('maxParts', TType.I16, 5)
             oprot.writeI16(self.maxParts)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 6)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -7912,11 +5950,11 @@ class TableStatsResult(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.tableStats = []
-                    (_etype377, _size374) = iprot.readListBegin()
-                    for _i378 in range(_size374):
-                        _elem379 = ColumnStatisticsObj()
-                        _elem379.read(iprot)
-                        self.tableStats.append(_elem379)
+                    (_etype323, _size320) = iprot.readListBegin()
+                    for _i324 in range(_size320):
+                        _elem325 = ColumnStatisticsObj()
+                        _elem325.read(iprot)
+                        self.tableStats.append(_elem325)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -7933,8 +5971,8 @@ class TableStatsResult(object):
         if self.tableStats is not None:
             oprot.writeFieldBegin('tableStats', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.tableStats))
-            for iter380 in self.tableStats:
-                iter380.write(oprot)
+            for iter326 in self.tableStats:
+                iter326.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -7979,17 +6017,17 @@ class PartitionsStatsResult(object):
             if fid == 1:
                 if ftype == TType.MAP:
                     self.partStats = {}
-                    (_ktype382, _vtype383, _size381) = iprot.readMapBegin()
-                    for _i385 in range(_size381):
-                        _key386 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        _val387 = []
-                        (_etype391, _size388) = iprot.readListBegin()
-                        for _i392 in range(_size388):
-                            _elem393 = ColumnStatisticsObj()
-                            _elem393.read(iprot)
-                            _val387.append(_elem393)
+                    (_ktype328, _vtype329, _size327) = iprot.readMapBegin()
+                    for _i331 in range(_size327):
+                        _key332 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val333 = []
+                        (_etype337, _size334) = iprot.readListBegin()
+                        for _i338 in range(_size334):
+                            _elem339 = ColumnStatisticsObj()
+                            _elem339.read(iprot)
+                            _val333.append(_elem339)
                         iprot.readListEnd()
-                        self.partStats[_key386] = _val387
+                        self.partStats[_key332] = _val333
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -8006,11 +6044,11 @@ class PartitionsStatsResult(object):
         if self.partStats is not None:
             oprot.writeFieldBegin('partStats', TType.MAP, 1)
             oprot.writeMapBegin(TType.STRING, TType.LIST, len(self.partStats))
-            for kiter394, viter395 in self.partStats.items():
-                oprot.writeString(kiter394.encode('utf-8') if sys.version_info[0] == 2 else kiter394)
-                oprot.writeListBegin(TType.STRUCT, len(viter395))
-                for iter396 in viter395:
-                    iter396.write(oprot)
+            for kiter340, viter341 in self.partStats.items():
+                oprot.writeString(kiter340.encode('utf-8') if sys.version_info[0] == 2 else kiter340)
+                oprot.writeListBegin(TType.STRUCT, len(viter341))
+                for iter342 in viter341:
+                    iter342.write(oprot)
                 oprot.writeListEnd()
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
@@ -8040,15 +6078,13 @@ class TableStatsRequest(object):
      - dbName
      - tblName
      - colNames
-     - catName
     """
 
 
-    def __init__(self, dbName=None, tblName=None, colNames=None, catName=None,):
+    def __init__(self, dbName=None, tblName=None, colNames=None,):
         self.dbName = dbName
         self.tblName = tblName
         self.colNames = colNames
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -8072,16 +6108,11 @@ class TableStatsRequest(object):
             elif fid == 3:
                 if ftype == TType.LIST:
                     self.colNames = []
-                    (_etype400, _size397) = iprot.readListBegin()
-                    for _i401 in range(_size397):
-                        _elem402 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.colNames.append(_elem402)
+                    (_etype346, _size343) = iprot.readListBegin()
+                    for _i347 in range(_size343):
+                        _elem348 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.colNames.append(_elem348)
                     iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -8105,13 +6136,9 @@ class TableStatsRequest(object):
         if self.colNames is not None:
             oprot.writeFieldBegin('colNames', TType.LIST, 3)
             oprot.writeListBegin(TType.STRING, len(self.colNames))
-            for iter403 in self.colNames:
-                oprot.writeString(iter403.encode('utf-8') if sys.version_info[0] == 2 else iter403)
+            for iter349 in self.colNames:
+                oprot.writeString(iter349.encode('utf-8') if sys.version_info[0] == 2 else iter349)
             oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 4)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -8144,16 +6171,14 @@ class PartitionsStatsRequest(object):
      - tblName
      - colNames
      - partNames
-     - catName
     """
 
 
-    def __init__(self, dbName=None, tblName=None, colNames=None, partNames=None, catName=None,):
+    def __init__(self, dbName=None, tblName=None, colNames=None, partNames=None,):
         self.dbName = dbName
         self.tblName = tblName
         self.colNames = colNames
         self.partNames = partNames
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -8177,26 +6202,21 @@ class PartitionsStatsRequest(object):
             elif fid == 3:
                 if ftype == TType.LIST:
                     self.colNames = []
-                    (_etype407, _size404) = iprot.readListBegin()
-                    for _i408 in range(_size404):
-                        _elem409 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.colNames.append(_elem409)
+                    (_etype353, _size350) = iprot.readListBegin()
+                    for _i354 in range(_size350):
+                        _elem355 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.colNames.append(_elem355)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 4:
                 if ftype == TType.LIST:
                     self.partNames = []
-                    (_etype413, _size410) = iprot.readListBegin()
-                    for _i414 in range(_size410):
-                        _elem415 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.partNames.append(_elem415)
+                    (_etype359, _size356) = iprot.readListBegin()
+                    for _i360 in range(_size356):
+                        _elem361 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.partNames.append(_elem361)
                     iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -8220,20 +6240,16 @@ class PartitionsStatsRequest(object):
         if self.colNames is not None:
             oprot.writeFieldBegin('colNames', TType.LIST, 3)
             oprot.writeListBegin(TType.STRING, len(self.colNames))
-            for iter416 in self.colNames:
-                oprot.writeString(iter416.encode('utf-8') if sys.version_info[0] == 2 else iter416)
+            for iter362 in self.colNames:
+                oprot.writeString(iter362.encode('utf-8') if sys.version_info[0] == 2 else iter362)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.partNames is not None:
             oprot.writeFieldBegin('partNames', TType.LIST, 4)
             oprot.writeListBegin(TType.STRING, len(self.partNames))
-            for iter417 in self.partNames:
-                oprot.writeString(iter417.encode('utf-8') if sys.version_info[0] == 2 else iter417)
+            for iter363 in self.partNames:
+                oprot.writeString(iter363.encode('utf-8') if sys.version_info[0] == 2 else iter363)
             oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 5)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -8283,11 +6299,11 @@ class AddPartitionsResult(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.partitions = []
-                    (_etype421, _size418) = iprot.readListBegin()
-                    for _i422 in range(_size418):
-                        _elem423 = Partition()
-                        _elem423.read(iprot)
-                        self.partitions.append(_elem423)
+                    (_etype367, _size364) = iprot.readListBegin()
+                    for _i368 in range(_size364):
+                        _elem369 = Partition()
+                        _elem369.read(iprot)
+                        self.partitions.append(_elem369)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -8304,8 +6320,8 @@ class AddPartitionsResult(object):
         if self.partitions is not None:
             oprot.writeFieldBegin('partitions', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.partitions))
-            for iter424 in self.partitions:
-                iter424.write(oprot)
+            for iter370 in self.partitions:
+                iter370.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -8334,17 +6350,15 @@ class AddPartitionsRequest(object):
      - parts
      - ifNotExists
      - needResult
-     - catName
     """
 
 
-    def __init__(self, dbName=None, tblName=None, parts=None, ifNotExists=None, needResult=True, catName=None,):
+    def __init__(self, dbName=None, tblName=None, parts=None, ifNotExists=None, needResult=True,):
         self.dbName = dbName
         self.tblName = tblName
         self.parts = parts
         self.ifNotExists = ifNotExists
         self.needResult = needResult
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -8368,11 +6382,11 @@ class AddPartitionsRequest(object):
             elif fid == 3:
                 if ftype == TType.LIST:
                     self.parts = []
-                    (_etype428, _size425) = iprot.readListBegin()
-                    for _i429 in range(_size425):
-                        _elem430 = Partition()
-                        _elem430.read(iprot)
-                        self.parts.append(_elem430)
+                    (_etype374, _size371) = iprot.readListBegin()
+                    for _i375 in range(_size371):
+                        _elem376 = Partition()
+                        _elem376.read(iprot)
+                        self.parts.append(_elem376)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -8384,11 +6398,6 @@ class AddPartitionsRequest(object):
             elif fid == 5:
                 if ftype == TType.BOOL:
                     self.needResult = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -8412,8 +6421,8 @@ class AddPartitionsRequest(object):
         if self.parts is not None:
             oprot.writeFieldBegin('parts', TType.LIST, 3)
             oprot.writeListBegin(TType.STRUCT, len(self.parts))
-            for iter431 in self.parts:
-                iter431.write(oprot)
+            for iter377 in self.parts:
+                iter377.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.ifNotExists is not None:
@@ -8423,10 +6432,6 @@ class AddPartitionsRequest(object):
         if self.needResult is not None:
             oprot.writeFieldBegin('needResult', TType.BOOL, 5)
             oprot.writeBool(self.needResult)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 6)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -8476,11 +6481,11 @@ class DropPartitionsResult(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.partitions = []
-                    (_etype435, _size432) = iprot.readListBegin()
-                    for _i436 in range(_size432):
-                        _elem437 = Partition()
-                        _elem437.read(iprot)
-                        self.partitions.append(_elem437)
+                    (_etype381, _size378) = iprot.readListBegin()
+                    for _i382 in range(_size378):
+                        _elem383 = Partition()
+                        _elem383.read(iprot)
+                        self.partitions.append(_elem383)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -8497,8 +6502,8 @@ class DropPartitionsResult(object):
         if self.partitions is not None:
             oprot.writeFieldBegin('partitions', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.partitions))
-            for iter438 in self.partitions:
-                iter438.write(oprot)
+            for iter384 in self.partitions:
+                iter384.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -8612,21 +6617,21 @@ class RequestPartsSpec(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.names = []
-                    (_etype442, _size439) = iprot.readListBegin()
-                    for _i443 in range(_size439):
-                        _elem444 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.names.append(_elem444)
+                    (_etype388, _size385) = iprot.readListBegin()
+                    for _i389 in range(_size385):
+                        _elem390 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.names.append(_elem390)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.exprs = []
-                    (_etype448, _size445) = iprot.readListBegin()
-                    for _i449 in range(_size445):
-                        _elem450 = DropPartitionsExpr()
-                        _elem450.read(iprot)
-                        self.exprs.append(_elem450)
+                    (_etype394, _size391) = iprot.readListBegin()
+                    for _i395 in range(_size391):
+                        _elem396 = DropPartitionsExpr()
+                        _elem396.read(iprot)
+                        self.exprs.append(_elem396)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -8643,15 +6648,15 @@ class RequestPartsSpec(object):
         if self.names is not None:
             oprot.writeFieldBegin('names', TType.LIST, 1)
             oprot.writeListBegin(TType.STRING, len(self.names))
-            for iter451 in self.names:
-                oprot.writeString(iter451.encode('utf-8') if sys.version_info[0] == 2 else iter451)
+            for iter397 in self.names:
+                oprot.writeString(iter397.encode('utf-8') if sys.version_info[0] == 2 else iter397)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.exprs is not None:
             oprot.writeFieldBegin('exprs', TType.LIST, 2)
             oprot.writeListBegin(TType.STRUCT, len(self.exprs))
-            for iter452 in self.exprs:
-                iter452.write(oprot)
+            for iter398 in self.exprs:
+                iter398.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -8683,11 +6688,10 @@ class DropPartitionsRequest(object):
      - ignoreProtection
      - environmentContext
      - needResult
-     - catName
     """
 
 
-    def __init__(self, dbName=None, tblName=None, parts=None, deleteData=None, ifExists=True, ignoreProtection=None, environmentContext=None, needResult=True, catName=None,):
+    def __init__(self, dbName=None, tblName=None, parts=None, deleteData=None, ifExists=True, ignoreProtection=None, environmentContext=None, needResult=True,):
         self.dbName = dbName
         self.tblName = tblName
         self.parts = parts
@@ -8696,7 +6700,6 @@ class DropPartitionsRequest(object):
         self.ignoreProtection = ignoreProtection
         self.environmentContext = environmentContext
         self.needResult = needResult
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -8749,11 +6752,6 @@ class DropPartitionsRequest(object):
                     self.needResult = iprot.readBool()
                 else:
                     iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -8796,10 +6794,6 @@ class DropPartitionsRequest(object):
             oprot.writeFieldBegin('needResult', TType.BOOL, 8)
             oprot.writeBool(self.needResult)
             oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 9)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -8810,307 +6804,6 @@ class DropPartitionsRequest(object):
             raise TProtocolException(message='Required field tblName is unset!')
         if self.parts is None:
             raise TProtocolException(message='Required field parts is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class PartitionValuesRequest(object):
-    """
-    Attributes:
-     - dbName
-     - tblName
-     - partitionKeys
-     - applyDistinct
-     - filter
-     - partitionOrder
-     - ascending
-     - maxParts
-     - catName
-    """
-
-
-    def __init__(self, dbName=None, tblName=None, partitionKeys=None, applyDistinct=True, filter=None, partitionOrder=None, ascending=True, maxParts=-1, catName=None,):
-        self.dbName = dbName
-        self.tblName = tblName
-        self.partitionKeys = partitionKeys
-        self.applyDistinct = applyDistinct
-        self.filter = filter
-        self.partitionOrder = partitionOrder
-        self.ascending = ascending
-        self.maxParts = maxParts
-        self.catName = catName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.dbName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.tblName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.LIST:
-                    self.partitionKeys = []
-                    (_etype456, _size453) = iprot.readListBegin()
-                    for _i457 in range(_size453):
-                        _elem458 = FieldSchema()
-                        _elem458.read(iprot)
-                        self.partitionKeys.append(_elem458)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.BOOL:
-                    self.applyDistinct = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.filter = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.LIST:
-                    self.partitionOrder = []
-                    (_etype462, _size459) = iprot.readListBegin()
-                    for _i463 in range(_size459):
-                        _elem464 = FieldSchema()
-                        _elem464.read(iprot)
-                        self.partitionOrder.append(_elem464)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 7:
-                if ftype == TType.BOOL:
-                    self.ascending = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 8:
-                if ftype == TType.I64:
-                    self.maxParts = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('PartitionValuesRequest')
-        if self.dbName is not None:
-            oprot.writeFieldBegin('dbName', TType.STRING, 1)
-            oprot.writeString(self.dbName.encode('utf-8') if sys.version_info[0] == 2 else self.dbName)
-            oprot.writeFieldEnd()
-        if self.tblName is not None:
-            oprot.writeFieldBegin('tblName', TType.STRING, 2)
-            oprot.writeString(self.tblName.encode('utf-8') if sys.version_info[0] == 2 else self.tblName)
-            oprot.writeFieldEnd()
-        if self.partitionKeys is not None:
-            oprot.writeFieldBegin('partitionKeys', TType.LIST, 3)
-            oprot.writeListBegin(TType.STRUCT, len(self.partitionKeys))
-            for iter465 in self.partitionKeys:
-                iter465.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.applyDistinct is not None:
-            oprot.writeFieldBegin('applyDistinct', TType.BOOL, 4)
-            oprot.writeBool(self.applyDistinct)
-            oprot.writeFieldEnd()
-        if self.filter is not None:
-            oprot.writeFieldBegin('filter', TType.STRING, 5)
-            oprot.writeString(self.filter.encode('utf-8') if sys.version_info[0] == 2 else self.filter)
-            oprot.writeFieldEnd()
-        if self.partitionOrder is not None:
-            oprot.writeFieldBegin('partitionOrder', TType.LIST, 6)
-            oprot.writeListBegin(TType.STRUCT, len(self.partitionOrder))
-            for iter466 in self.partitionOrder:
-                iter466.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.ascending is not None:
-            oprot.writeFieldBegin('ascending', TType.BOOL, 7)
-            oprot.writeBool(self.ascending)
-            oprot.writeFieldEnd()
-        if self.maxParts is not None:
-            oprot.writeFieldBegin('maxParts', TType.I64, 8)
-            oprot.writeI64(self.maxParts)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 9)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.dbName is None:
-            raise TProtocolException(message='Required field dbName is unset!')
-        if self.tblName is None:
-            raise TProtocolException(message='Required field tblName is unset!')
-        if self.partitionKeys is None:
-            raise TProtocolException(message='Required field partitionKeys is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class PartitionValuesRow(object):
-    """
-    Attributes:
-     - row
-    """
-
-
-    def __init__(self, row=None,):
-        self.row = row
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.row = []
-                    (_etype470, _size467) = iprot.readListBegin()
-                    for _i471 in range(_size467):
-                        _elem472 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.row.append(_elem472)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('PartitionValuesRow')
-        if self.row is not None:
-            oprot.writeFieldBegin('row', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRING, len(self.row))
-            for iter473 in self.row:
-                oprot.writeString(iter473.encode('utf-8') if sys.version_info[0] == 2 else iter473)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.row is None:
-            raise TProtocolException(message='Required field row is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class PartitionValuesResponse(object):
-    """
-    Attributes:
-     - partitionValues
-    """
-
-
-    def __init__(self, partitionValues=None,):
-        self.partitionValues = partitionValues
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.partitionValues = []
-                    (_etype477, _size474) = iprot.readListBegin()
-                    for _i478 in range(_size474):
-                        _elem479 = PartitionValuesRow()
-                        _elem479.read(iprot)
-                        self.partitionValues.append(_elem479)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('PartitionValuesResponse')
-        if self.partitionValues is not None:
-            oprot.writeFieldBegin('partitionValues', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.partitionValues))
-            for iter480 in self.partitionValues:
-                iter480.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.partitionValues is None:
-            raise TProtocolException(message='Required field partitionValues is unset!')
         return
 
     def __repr__(self):
@@ -9203,11 +6896,10 @@ class Function(object):
      - createTime
      - functionType
      - resourceUris
-     - catName
     """
 
 
-    def __init__(self, functionName=None, dbName=None, className=None, ownerName=None, ownerType=None, createTime=None, functionType=None, resourceUris=None, catName=None,):
+    def __init__(self, functionName=None, dbName=None, className=None, ownerName=None, ownerType=None, createTime=None, functionType=None, resourceUris=None,):
         self.functionName = functionName
         self.dbName = dbName
         self.className = className
@@ -9216,7 +6908,6 @@ class Function(object):
         self.createTime = createTime
         self.functionType = functionType
         self.resourceUris = resourceUris
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -9265,17 +6956,12 @@ class Function(object):
             elif fid == 8:
                 if ftype == TType.LIST:
                     self.resourceUris = []
-                    (_etype484, _size481) = iprot.readListBegin()
-                    for _i485 in range(_size481):
-                        _elem486 = ResourceUri()
-                        _elem486.read(iprot)
-                        self.resourceUris.append(_elem486)
+                    (_etype402, _size399) = iprot.readListBegin()
+                    for _i403 in range(_size399):
+                        _elem404 = ResourceUri()
+                        _elem404.read(iprot)
+                        self.resourceUris.append(_elem404)
                     iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -9319,13 +7005,9 @@ class Function(object):
         if self.resourceUris is not None:
             oprot.writeFieldBegin('resourceUris', TType.LIST, 8)
             oprot.writeListBegin(TType.STRUCT, len(self.resourceUris))
-            for iter487 in self.resourceUris:
-                iter487.write(oprot)
+            for iter405 in self.resourceUris:
+                iter405.write(oprot)
             oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 9)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -9526,11 +7208,11 @@ class GetOpenTxnsInfoResponse(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.open_txns = []
-                    (_etype491, _size488) = iprot.readListBegin()
-                    for _i492 in range(_size488):
-                        _elem493 = TxnInfo()
-                        _elem493.read(iprot)
-                        self.open_txns.append(_elem493)
+                    (_etype409, _size406) = iprot.readListBegin()
+                    for _i410 in range(_size406):
+                        _elem411 = TxnInfo()
+                        _elem411.read(iprot)
+                        self.open_txns.append(_elem411)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -9551,8 +7233,8 @@ class GetOpenTxnsInfoResponse(object):
         if self.open_txns is not None:
             oprot.writeFieldBegin('open_txns', TType.LIST, 2)
             oprot.writeListBegin(TType.STRUCT, len(self.open_txns))
-            for iter494 in self.open_txns:
-                iter494.write(oprot)
+            for iter412 in self.open_txns:
+                iter412.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -9583,15 +7265,13 @@ class GetOpenTxnsResponse(object):
      - txn_high_water_mark
      - open_txns
      - min_open_txn
-     - abortedBits
     """
 
 
-    def __init__(self, txn_high_water_mark=None, open_txns=None, min_open_txn=None, abortedBits=None,):
+    def __init__(self, txn_high_water_mark=None, open_txns=None, min_open_txn=None,):
         self.txn_high_water_mark = txn_high_water_mark
         self.open_txns = open_txns
         self.min_open_txn = min_open_txn
-        self.abortedBits = abortedBits
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -9608,23 +7288,18 @@ class GetOpenTxnsResponse(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.LIST:
-                    self.open_txns = []
-                    (_etype498, _size495) = iprot.readListBegin()
-                    for _i499 in range(_size495):
-                        _elem500 = iprot.readI64()
-                        self.open_txns.append(_elem500)
-                    iprot.readListEnd()
+                if ftype == TType.SET:
+                    self.open_txns = set()
+                    (_etype416, _size413) = iprot.readSetBegin()
+                    for _i417 in range(_size413):
+                        _elem418 = iprot.readI64()
+                        self.open_txns.add(_elem418)
+                    iprot.readSetEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
                 if ftype == TType.I64:
                     self.min_open_txn = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.abortedBits = iprot.readBinary()
                 else:
                     iprot.skip(ftype)
             else:
@@ -9642,19 +7317,15 @@ class GetOpenTxnsResponse(object):
             oprot.writeI64(self.txn_high_water_mark)
             oprot.writeFieldEnd()
         if self.open_txns is not None:
-            oprot.writeFieldBegin('open_txns', TType.LIST, 2)
-            oprot.writeListBegin(TType.I64, len(self.open_txns))
-            for iter501 in self.open_txns:
-                oprot.writeI64(iter501)
-            oprot.writeListEnd()
+            oprot.writeFieldBegin('open_txns', TType.SET, 2)
+            oprot.writeSetBegin(TType.I64, len(self.open_txns))
+            for iter419 in self.open_txns:
+                oprot.writeI64(iter419)
+            oprot.writeSetEnd()
             oprot.writeFieldEnd()
         if self.min_open_txn is not None:
             oprot.writeFieldBegin('min_open_txn', TType.I64, 3)
             oprot.writeI64(self.min_open_txn)
-            oprot.writeFieldEnd()
-        if self.abortedBits is not None:
-            oprot.writeFieldBegin('abortedBits', TType.STRING, 4)
-            oprot.writeBinary(self.abortedBits)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -9664,8 +7335,6 @@ class GetOpenTxnsResponse(object):
             raise TProtocolException(message='Required field txn_high_water_mark is unset!')
         if self.open_txns is None:
             raise TProtocolException(message='Required field open_txns is unset!')
-        if self.abortedBits is None:
-            raise TProtocolException(message='Required field abortedBits is unset!')
         return
 
     def __repr__(self):
@@ -9687,18 +7356,14 @@ class OpenTxnRequest(object):
      - user
      - hostname
      - agentInfo
-     - replPolicy
-     - replSrcTxnIds
     """
 
 
-    def __init__(self, num_txns=None, user=None, hostname=None, agentInfo="Unknown", replPolicy=None, replSrcTxnIds=None,):
+    def __init__(self, num_txns=None, user=None, hostname=None, agentInfo="Unknown",):
         self.num_txns = num_txns
         self.user = user
         self.hostname = hostname
         self.agentInfo = agentInfo
-        self.replPolicy = replPolicy
-        self.replSrcTxnIds = replSrcTxnIds
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -9729,21 +7394,6 @@ class OpenTxnRequest(object):
                     self.agentInfo = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.replPolicy = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.LIST:
-                    self.replSrcTxnIds = []
-                    (_etype505, _size502) = iprot.readListBegin()
-                    for _i506 in range(_size502):
-                        _elem507 = iprot.readI64()
-                        self.replSrcTxnIds.append(_elem507)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -9769,17 +7419,6 @@ class OpenTxnRequest(object):
         if self.agentInfo is not None:
             oprot.writeFieldBegin('agentInfo', TType.STRING, 4)
             oprot.writeString(self.agentInfo.encode('utf-8') if sys.version_info[0] == 2 else self.agentInfo)
-            oprot.writeFieldEnd()
-        if self.replPolicy is not None:
-            oprot.writeFieldBegin('replPolicy', TType.STRING, 5)
-            oprot.writeString(self.replPolicy.encode('utf-8') if sys.version_info[0] == 2 else self.replPolicy)
-            oprot.writeFieldEnd()
-        if self.replSrcTxnIds is not None:
-            oprot.writeFieldBegin('replSrcTxnIds', TType.LIST, 6)
-            oprot.writeListBegin(TType.I64, len(self.replSrcTxnIds))
-            for iter508 in self.replSrcTxnIds:
-                oprot.writeI64(iter508)
-            oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -9827,10 +7466,10 @@ class OpenTxnsResponse(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.txn_ids = []
-                    (_etype512, _size509) = iprot.readListBegin()
-                    for _i513 in range(_size509):
-                        _elem514 = iprot.readI64()
-                        self.txn_ids.append(_elem514)
+                    (_etype423, _size420) = iprot.readListBegin()
+                    for _i424 in range(_size420):
+                        _elem425 = iprot.readI64()
+                        self.txn_ids.append(_elem425)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -9847,8 +7486,8 @@ class OpenTxnsResponse(object):
         if self.txn_ids is not None:
             oprot.writeFieldBegin('txn_ids', TType.LIST, 1)
             oprot.writeListBegin(TType.I64, len(self.txn_ids))
-            for iter515 in self.txn_ids:
-                oprot.writeI64(iter515)
+            for iter426 in self.txn_ids:
+                oprot.writeI64(iter426)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -9875,13 +7514,11 @@ class AbortTxnRequest(object):
     """
     Attributes:
      - txnid
-     - replPolicy
     """
 
 
-    def __init__(self, txnid=None, replPolicy=None,):
+    def __init__(self, txnid=None,):
         self.txnid = txnid
-        self.replPolicy = replPolicy
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -9897,11 +7534,6 @@ class AbortTxnRequest(object):
                     self.txnid = iprot.readI64()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.replPolicy = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -9915,10 +7547,6 @@ class AbortTxnRequest(object):
         if self.txnid is not None:
             oprot.writeFieldBegin('txnid', TType.I64, 1)
             oprot.writeI64(self.txnid)
-            oprot.writeFieldEnd()
-        if self.replPolicy is not None:
-            oprot.writeFieldBegin('replPolicy', TType.STRING, 2)
-            oprot.writeString(self.replPolicy.encode('utf-8') if sys.version_info[0] == 2 else self.replPolicy)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -9962,10 +7590,10 @@ class AbortTxnsRequest(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.txn_ids = []
-                    (_etype519, _size516) = iprot.readListBegin()
-                    for _i520 in range(_size516):
-                        _elem521 = iprot.readI64()
-                        self.txn_ids.append(_elem521)
+                    (_etype430, _size427) = iprot.readListBegin()
+                    for _i431 in range(_size427):
+                        _elem432 = iprot.readI64()
+                        self.txn_ids.append(_elem432)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -9982,8 +7610,8 @@ class AbortTxnsRequest(object):
         if self.txn_ids is not None:
             oprot.writeFieldBegin('txn_ids', TType.LIST, 1)
             oprot.writeListBegin(TType.I64, len(self.txn_ids))
-            for iter522 in self.txn_ids:
-                oprot.writeI64(iter522)
+            for iter433 in self.txn_ids:
+                oprot.writeI64(iter433)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -10010,13 +7638,11 @@ class CommitTxnRequest(object):
     """
     Attributes:
      - txnid
-     - replPolicy
     """
 
 
-    def __init__(self, txnid=None, replPolicy=None,):
+    def __init__(self, txnid=None,):
         self.txnid = txnid
-        self.replPolicy = replPolicy
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -10030,11 +7656,6 @@ class CommitTxnRequest(object):
             if fid == 1:
                 if ftype == TType.I64:
                     self.txnid = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.replPolicy = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -10051,508 +7672,12 @@ class CommitTxnRequest(object):
             oprot.writeFieldBegin('txnid', TType.I64, 1)
             oprot.writeI64(self.txnid)
             oprot.writeFieldEnd()
-        if self.replPolicy is not None:
-            oprot.writeFieldBegin('replPolicy', TType.STRING, 2)
-            oprot.writeString(self.replPolicy.encode('utf-8') if sys.version_info[0] == 2 else self.replPolicy)
-            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
     def validate(self):
         if self.txnid is None:
             raise TProtocolException(message='Required field txnid is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class GetValidWriteIdsRequest(object):
-    """
-    Attributes:
-     - fullTableNames
-     - validTxnList
-    """
-
-
-    def __init__(self, fullTableNames=None, validTxnList=None,):
-        self.fullTableNames = fullTableNames
-        self.validTxnList = validTxnList
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.fullTableNames = []
-                    (_etype526, _size523) = iprot.readListBegin()
-                    for _i527 in range(_size523):
-                        _elem528 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.fullTableNames.append(_elem528)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.validTxnList = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('GetValidWriteIdsRequest')
-        if self.fullTableNames is not None:
-            oprot.writeFieldBegin('fullTableNames', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRING, len(self.fullTableNames))
-            for iter529 in self.fullTableNames:
-                oprot.writeString(iter529.encode('utf-8') if sys.version_info[0] == 2 else iter529)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.validTxnList is not None:
-            oprot.writeFieldBegin('validTxnList', TType.STRING, 2)
-            oprot.writeString(self.validTxnList.encode('utf-8') if sys.version_info[0] == 2 else self.validTxnList)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.fullTableNames is None:
-            raise TProtocolException(message='Required field fullTableNames is unset!')
-        if self.validTxnList is None:
-            raise TProtocolException(message='Required field validTxnList is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class TableValidWriteIds(object):
-    """
-    Attributes:
-     - fullTableName
-     - writeIdHighWaterMark
-     - invalidWriteIds
-     - minOpenWriteId
-     - abortedBits
-    """
-
-
-    def __init__(self, fullTableName=None, writeIdHighWaterMark=None, invalidWriteIds=None, minOpenWriteId=None, abortedBits=None,):
-        self.fullTableName = fullTableName
-        self.writeIdHighWaterMark = writeIdHighWaterMark
-        self.invalidWriteIds = invalidWriteIds
-        self.minOpenWriteId = minOpenWriteId
-        self.abortedBits = abortedBits
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.fullTableName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.I64:
-                    self.writeIdHighWaterMark = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.LIST:
-                    self.invalidWriteIds = []
-                    (_etype533, _size530) = iprot.readListBegin()
-                    for _i534 in range(_size530):
-                        _elem535 = iprot.readI64()
-                        self.invalidWriteIds.append(_elem535)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.I64:
-                    self.minOpenWriteId = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.abortedBits = iprot.readBinary()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('TableValidWriteIds')
-        if self.fullTableName is not None:
-            oprot.writeFieldBegin('fullTableName', TType.STRING, 1)
-            oprot.writeString(self.fullTableName.encode('utf-8') if sys.version_info[0] == 2 else self.fullTableName)
-            oprot.writeFieldEnd()
-        if self.writeIdHighWaterMark is not None:
-            oprot.writeFieldBegin('writeIdHighWaterMark', TType.I64, 2)
-            oprot.writeI64(self.writeIdHighWaterMark)
-            oprot.writeFieldEnd()
-        if self.invalidWriteIds is not None:
-            oprot.writeFieldBegin('invalidWriteIds', TType.LIST, 3)
-            oprot.writeListBegin(TType.I64, len(self.invalidWriteIds))
-            for iter536 in self.invalidWriteIds:
-                oprot.writeI64(iter536)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.minOpenWriteId is not None:
-            oprot.writeFieldBegin('minOpenWriteId', TType.I64, 4)
-            oprot.writeI64(self.minOpenWriteId)
-            oprot.writeFieldEnd()
-        if self.abortedBits is not None:
-            oprot.writeFieldBegin('abortedBits', TType.STRING, 5)
-            oprot.writeBinary(self.abortedBits)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.fullTableName is None:
-            raise TProtocolException(message='Required field fullTableName is unset!')
-        if self.writeIdHighWaterMark is None:
-            raise TProtocolException(message='Required field writeIdHighWaterMark is unset!')
-        if self.invalidWriteIds is None:
-            raise TProtocolException(message='Required field invalidWriteIds is unset!')
-        if self.abortedBits is None:
-            raise TProtocolException(message='Required field abortedBits is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class GetValidWriteIdsResponse(object):
-    """
-    Attributes:
-     - tblValidWriteIds
-    """
-
-
-    def __init__(self, tblValidWriteIds=None,):
-        self.tblValidWriteIds = tblValidWriteIds
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.tblValidWriteIds = []
-                    (_etype540, _size537) = iprot.readListBegin()
-                    for _i541 in range(_size537):
-                        _elem542 = TableValidWriteIds()
-                        _elem542.read(iprot)
-                        self.tblValidWriteIds.append(_elem542)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('GetValidWriteIdsResponse')
-        if self.tblValidWriteIds is not None:
-            oprot.writeFieldBegin('tblValidWriteIds', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.tblValidWriteIds))
-            for iter543 in self.tblValidWriteIds:
-                iter543.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.tblValidWriteIds is None:
-            raise TProtocolException(message='Required field tblValidWriteIds is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class AllocateTableWriteIdsRequest(object):
-    """
-    Attributes:
-     - txnIds
-     - dbName
-     - tableName
-    """
-
-
-    def __init__(self, txnIds=None, dbName=None, tableName=None,):
-        self.txnIds = txnIds
-        self.dbName = dbName
-        self.tableName = tableName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.txnIds = []
-                    (_etype547, _size544) = iprot.readListBegin()
-                    for _i548 in range(_size544):
-                        _elem549 = iprot.readI64()
-                        self.txnIds.append(_elem549)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.dbName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.tableName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('AllocateTableWriteIdsRequest')
-        if self.txnIds is not None:
-            oprot.writeFieldBegin('txnIds', TType.LIST, 1)
-            oprot.writeListBegin(TType.I64, len(self.txnIds))
-            for iter550 in self.txnIds:
-                oprot.writeI64(iter550)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.dbName is not None:
-            oprot.writeFieldBegin('dbName', TType.STRING, 2)
-            oprot.writeString(self.dbName.encode('utf-8') if sys.version_info[0] == 2 else self.dbName)
-            oprot.writeFieldEnd()
-        if self.tableName is not None:
-            oprot.writeFieldBegin('tableName', TType.STRING, 3)
-            oprot.writeString(self.tableName.encode('utf-8') if sys.version_info[0] == 2 else self.tableName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.txnIds is None:
-            raise TProtocolException(message='Required field txnIds is unset!')
-        if self.dbName is None:
-            raise TProtocolException(message='Required field dbName is unset!')
-        if self.tableName is None:
-            raise TProtocolException(message='Required field tableName is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class TxnToWriteId(object):
-    """
-    Attributes:
-     - txnId
-     - writeId
-    """
-
-
-    def __init__(self, txnId=None, writeId=None,):
-        self.txnId = txnId
-        self.writeId = writeId
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.I64:
-                    self.txnId = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.I64:
-                    self.writeId = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('TxnToWriteId')
-        if self.txnId is not None:
-            oprot.writeFieldBegin('txnId', TType.I64, 1)
-            oprot.writeI64(self.txnId)
-            oprot.writeFieldEnd()
-        if self.writeId is not None:
-            oprot.writeFieldBegin('writeId', TType.I64, 2)
-            oprot.writeI64(self.writeId)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.txnId is None:
-            raise TProtocolException(message='Required field txnId is unset!')
-        if self.writeId is None:
-            raise TProtocolException(message='Required field writeId is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class AllocateTableWriteIdsResponse(object):
-    """
-    Attributes:
-     - txnToWriteIds
-    """
-
-
-    def __init__(self, txnToWriteIds=None,):
-        self.txnToWriteIds = txnToWriteIds
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.txnToWriteIds = []
-                    (_etype554, _size551) = iprot.readListBegin()
-                    for _i555 in range(_size551):
-                        _elem556 = TxnToWriteId()
-                        _elem556.read(iprot)
-                        self.txnToWriteIds.append(_elem556)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('AllocateTableWriteIdsResponse')
-        if self.txnToWriteIds is not None:
-            oprot.writeFieldBegin('txnToWriteIds', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.txnToWriteIds))
-            for iter557 in self.txnToWriteIds:
-                iter557.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.txnToWriteIds is None:
-            raise TProtocolException(message='Required field txnToWriteIds is unset!')
         return
 
     def __repr__(self):
@@ -10576,19 +7701,19 @@ class LockComponent(object):
      - tablename
      - partitionname
      - operationType
-     - isTransactional
+     - isAcid
      - isDynamicPartitionWrite
     """
 
 
-    def __init__(self, type=None, level=None, dbname=None, tablename=None, partitionname=None, operationType=5, isTransactional=False, isDynamicPartitionWrite=False,):
+    def __init__(self, type=None, level=None, dbname=None, tablename=None, partitionname=None, operationType=5, isAcid=False, isDynamicPartitionWrite=False,):
         self.type = type
         self.level = level
         self.dbname = dbname
         self.tablename = tablename
         self.partitionname = partitionname
         self.operationType = operationType
-        self.isTransactional = isTransactional
+        self.isAcid = isAcid
         self.isDynamicPartitionWrite = isDynamicPartitionWrite
 
     def read(self, iprot):
@@ -10632,7 +7757,7 @@ class LockComponent(object):
                     iprot.skip(ftype)
             elif fid == 7:
                 if ftype == TType.BOOL:
-                    self.isTransactional = iprot.readBool()
+                    self.isAcid = iprot.readBool()
                 else:
                     iprot.skip(ftype)
             elif fid == 8:
@@ -10674,9 +7799,9 @@ class LockComponent(object):
             oprot.writeFieldBegin('operationType', TType.I32, 6)
             oprot.writeI32(self.operationType)
             oprot.writeFieldEnd()
-        if self.isTransactional is not None:
-            oprot.writeFieldBegin('isTransactional', TType.BOOL, 7)
-            oprot.writeBool(self.isTransactional)
+        if self.isAcid is not None:
+            oprot.writeFieldBegin('isAcid', TType.BOOL, 7)
+            oprot.writeBool(self.isAcid)
             oprot.writeFieldEnd()
         if self.isDynamicPartitionWrite is not None:
             oprot.writeFieldBegin('isDynamicPartitionWrite', TType.BOOL, 8)
@@ -10736,11 +7861,11 @@ class LockRequest(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.component = []
-                    (_etype561, _size558) = iprot.readListBegin()
-                    for _i562 in range(_size558):
-                        _elem563 = LockComponent()
-                        _elem563.read(iprot)
-                        self.component.append(_elem563)
+                    (_etype437, _size434) = iprot.readListBegin()
+                    for _i438 in range(_size434):
+                        _elem439 = LockComponent()
+                        _elem439.read(iprot)
+                        self.component.append(_elem439)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -10777,8 +7902,8 @@ class LockRequest(object):
         if self.component is not None:
             oprot.writeFieldBegin('component', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.component))
-            for iter564 in self.component:
-                iter564.write(oprot)
+            for iter440 in self.component:
+                iter440.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.txnid is not None:
@@ -11376,11 +8501,11 @@ class ShowLocksResponse(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.locks = []
-                    (_etype568, _size565) = iprot.readListBegin()
-                    for _i569 in range(_size565):
-                        _elem570 = ShowLocksResponseElement()
-                        _elem570.read(iprot)
-                        self.locks.append(_elem570)
+                    (_etype444, _size441) = iprot.readListBegin()
+                    for _i445 in range(_size441):
+                        _elem446 = ShowLocksResponseElement()
+                        _elem446.read(iprot)
+                        self.locks.append(_elem446)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -11397,8 +8522,8 @@ class ShowLocksResponse(object):
         if self.locks is not None:
             oprot.writeFieldBegin('locks', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.locks))
-            for iter571 in self.locks:
-                iter571.write(oprot)
+            for iter447 in self.locks:
+                iter447.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -11581,20 +8706,20 @@ class HeartbeatTxnRangeResponse(object):
             if fid == 1:
                 if ftype == TType.SET:
                     self.aborted = set()
-                    (_etype575, _size572) = iprot.readSetBegin()
-                    for _i576 in range(_size572):
-                        _elem577 = iprot.readI64()
-                        self.aborted.add(_elem577)
+                    (_etype451, _size448) = iprot.readSetBegin()
+                    for _i452 in range(_size448):
+                        _elem453 = iprot.readI64()
+                        self.aborted.add(_elem453)
                     iprot.readSetEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.SET:
                     self.nosuch = set()
-                    (_etype581, _size578) = iprot.readSetBegin()
-                    for _i582 in range(_size578):
-                        _elem583 = iprot.readI64()
-                        self.nosuch.add(_elem583)
+                    (_etype457, _size454) = iprot.readSetBegin()
+                    for _i458 in range(_size454):
+                        _elem459 = iprot.readI64()
+                        self.nosuch.add(_elem459)
                     iprot.readSetEnd()
                 else:
                     iprot.skip(ftype)
@@ -11611,15 +8736,15 @@ class HeartbeatTxnRangeResponse(object):
         if self.aborted is not None:
             oprot.writeFieldBegin('aborted', TType.SET, 1)
             oprot.writeSetBegin(TType.I64, len(self.aborted))
-            for iter584 in self.aborted:
-                oprot.writeI64(iter584)
+            for iter460 in self.aborted:
+                oprot.writeI64(iter460)
             oprot.writeSetEnd()
             oprot.writeFieldEnd()
         if self.nosuch is not None:
             oprot.writeFieldBegin('nosuch', TType.SET, 2)
             oprot.writeSetBegin(TType.I64, len(self.nosuch))
-            for iter585 in self.nosuch:
-                oprot.writeI64(iter585)
+            for iter461 in self.nosuch:
+                oprot.writeI64(iter461)
             oprot.writeSetEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -11701,11 +8826,11 @@ class CompactionRequest(object):
             elif fid == 6:
                 if ftype == TType.MAP:
                     self.properties = {}
-                    (_ktype587, _vtype588, _size586) = iprot.readMapBegin()
-                    for _i590 in range(_size586):
-                        _key591 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        _val592 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.properties[_key591] = _val592
+                    (_ktype463, _vtype464, _size462) = iprot.readMapBegin()
+                    for _i466 in range(_size462):
+                        _key467 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        _val468 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.properties[_key467] = _val468
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -11742,9 +8867,9 @@ class CompactionRequest(object):
         if self.properties is not None:
             oprot.writeFieldBegin('properties', TType.MAP, 6)
             oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.properties))
-            for kiter593, viter594 in self.properties.items():
-                oprot.writeString(kiter593.encode('utf-8') if sys.version_info[0] == 2 else kiter593)
-                oprot.writeString(viter594.encode('utf-8') if sys.version_info[0] == 2 else viter594)
+            for kiter469, viter470 in self.properties.items():
+                oprot.writeString(kiter469.encode('utf-8') if sys.version_info[0] == 2 else kiter469)
+                oprot.writeString(viter470.encode('utf-8') if sys.version_info[0] == 2 else viter470)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -12113,11 +9238,11 @@ class ShowCompactResponse(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.compacts = []
-                    (_etype598, _size595) = iprot.readListBegin()
-                    for _i599 in range(_size595):
-                        _elem600 = ShowCompactResponseElement()
-                        _elem600.read(iprot)
-                        self.compacts.append(_elem600)
+                    (_etype474, _size471) = iprot.readListBegin()
+                    for _i475 in range(_size471):
+                        _elem476 = ShowCompactResponseElement()
+                        _elem476.read(iprot)
+                        self.compacts.append(_elem476)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -12134,8 +9259,8 @@ class ShowCompactResponse(object):
         if self.compacts is not None:
             oprot.writeFieldBegin('compacts', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.compacts))
-            for iter601 in self.compacts:
-                iter601.write(oprot)
+            for iter477 in self.compacts:
+                iter477.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -12162,7 +9287,6 @@ class AddDynamicPartitions(object):
     """
     Attributes:
      - txnid
-     - writeid
      - dbname
      - tablename
      - partitionnames
@@ -12170,9 +9294,8 @@ class AddDynamicPartitions(object):
     """
 
 
-    def __init__(self, txnid=None, writeid=None, dbname=None, tablename=None, partitionnames=None, operationType=5,):
+    def __init__(self, txnid=None, dbname=None, tablename=None, partitionnames=None, operationType=5,):
         self.txnid = txnid
-        self.writeid = writeid
         self.dbname = dbname
         self.tablename = tablename
         self.partitionnames = partitionnames
@@ -12193,31 +9316,26 @@ class AddDynamicPartitions(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.I64:
-                    self.writeid = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
                 if ftype == TType.STRING:
                     self.dbname = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 4:
+            elif fid == 3:
                 if ftype == TType.STRING:
                     self.tablename = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 5:
+            elif fid == 4:
                 if ftype == TType.LIST:
                     self.partitionnames = []
-                    (_etype605, _size602) = iprot.readListBegin()
-                    for _i606 in range(_size602):
-                        _elem607 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.partitionnames.append(_elem607)
+                    (_etype481, _size478) = iprot.readListBegin()
+                    for _i482 in range(_size478):
+                        _elem483 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.partitionnames.append(_elem483)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
-            elif fid == 6:
+            elif fid == 5:
                 if ftype == TType.I32:
                     self.operationType = iprot.readI32()
                 else:
@@ -12236,27 +9354,23 @@ class AddDynamicPartitions(object):
             oprot.writeFieldBegin('txnid', TType.I64, 1)
             oprot.writeI64(self.txnid)
             oprot.writeFieldEnd()
-        if self.writeid is not None:
-            oprot.writeFieldBegin('writeid', TType.I64, 2)
-            oprot.writeI64(self.writeid)
-            oprot.writeFieldEnd()
         if self.dbname is not None:
-            oprot.writeFieldBegin('dbname', TType.STRING, 3)
+            oprot.writeFieldBegin('dbname', TType.STRING, 2)
             oprot.writeString(self.dbname.encode('utf-8') if sys.version_info[0] == 2 else self.dbname)
             oprot.writeFieldEnd()
         if self.tablename is not None:
-            oprot.writeFieldBegin('tablename', TType.STRING, 4)
+            oprot.writeFieldBegin('tablename', TType.STRING, 3)
             oprot.writeString(self.tablename.encode('utf-8') if sys.version_info[0] == 2 else self.tablename)
             oprot.writeFieldEnd()
         if self.partitionnames is not None:
-            oprot.writeFieldBegin('partitionnames', TType.LIST, 5)
+            oprot.writeFieldBegin('partitionnames', TType.LIST, 4)
             oprot.writeListBegin(TType.STRING, len(self.partitionnames))
-            for iter608 in self.partitionnames:
-                oprot.writeString(iter608.encode('utf-8') if sys.version_info[0] == 2 else iter608)
+            for iter484 in self.partitionnames:
+                oprot.writeString(iter484.encode('utf-8') if sys.version_info[0] == 2 else iter484)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.operationType is not None:
-            oprot.writeFieldBegin('operationType', TType.I32, 6)
+            oprot.writeFieldBegin('operationType', TType.I32, 5)
             oprot.writeI32(self.operationType)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -12265,243 +9379,12 @@ class AddDynamicPartitions(object):
     def validate(self):
         if self.txnid is None:
             raise TProtocolException(message='Required field txnid is unset!')
-        if self.writeid is None:
-            raise TProtocolException(message='Required field writeid is unset!')
         if self.dbname is None:
             raise TProtocolException(message='Required field dbname is unset!')
         if self.tablename is None:
             raise TProtocolException(message='Required field tablename is unset!')
         if self.partitionnames is None:
             raise TProtocolException(message='Required field partitionnames is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class BasicTxnInfo(object):
-    """
-    Attributes:
-     - isnull
-     - time
-     - txnid
-     - dbname
-     - tablename
-     - partitionname
-    """
-
-
-    def __init__(self, isnull=None, time=None, txnid=None, dbname=None, tablename=None, partitionname=None,):
-        self.isnull = isnull
-        self.time = time
-        self.txnid = txnid
-        self.dbname = dbname
-        self.tablename = tablename
-        self.partitionname = partitionname
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.BOOL:
-                    self.isnull = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.I64:
-                    self.time = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.I64:
-                    self.txnid = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.dbname = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.tablename = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.partitionname = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('BasicTxnInfo')
-        if self.isnull is not None:
-            oprot.writeFieldBegin('isnull', TType.BOOL, 1)
-            oprot.writeBool(self.isnull)
-            oprot.writeFieldEnd()
-        if self.time is not None:
-            oprot.writeFieldBegin('time', TType.I64, 2)
-            oprot.writeI64(self.time)
-            oprot.writeFieldEnd()
-        if self.txnid is not None:
-            oprot.writeFieldBegin('txnid', TType.I64, 3)
-            oprot.writeI64(self.txnid)
-            oprot.writeFieldEnd()
-        if self.dbname is not None:
-            oprot.writeFieldBegin('dbname', TType.STRING, 4)
-            oprot.writeString(self.dbname.encode('utf-8') if sys.version_info[0] == 2 else self.dbname)
-            oprot.writeFieldEnd()
-        if self.tablename is not None:
-            oprot.writeFieldBegin('tablename', TType.STRING, 5)
-            oprot.writeString(self.tablename.encode('utf-8') if sys.version_info[0] == 2 else self.tablename)
-            oprot.writeFieldEnd()
-        if self.partitionname is not None:
-            oprot.writeFieldBegin('partitionname', TType.STRING, 6)
-            oprot.writeString(self.partitionname.encode('utf-8') if sys.version_info[0] == 2 else self.partitionname)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.isnull is None:
-            raise TProtocolException(message='Required field isnull is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class CreationMetadata(object):
-    """
-    Attributes:
-     - catName
-     - dbName
-     - tblName
-     - tablesUsed
-     - validTxnList
-    """
-
-
-    def __init__(self, catName=None, dbName=None, tblName=None, tablesUsed=None, validTxnList=None,):
-        self.catName = catName
-        self.dbName = dbName
-        self.tblName = tblName
-        self.tablesUsed = tablesUsed
-        self.validTxnList = validTxnList
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.dbName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.tblName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.SET:
-                    self.tablesUsed = set()
-                    (_etype612, _size609) = iprot.readSetBegin()
-                    for _i613 in range(_size609):
-                        _elem614 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.tablesUsed.add(_elem614)
-                    iprot.readSetEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.validTxnList = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('CreationMetadata')
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 1)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.dbName is not None:
-            oprot.writeFieldBegin('dbName', TType.STRING, 2)
-            oprot.writeString(self.dbName.encode('utf-8') if sys.version_info[0] == 2 else self.dbName)
-            oprot.writeFieldEnd()
-        if self.tblName is not None:
-            oprot.writeFieldBegin('tblName', TType.STRING, 3)
-            oprot.writeString(self.tblName.encode('utf-8') if sys.version_info[0] == 2 else self.tblName)
-            oprot.writeFieldEnd()
-        if self.tablesUsed is not None:
-            oprot.writeFieldBegin('tablesUsed', TType.SET, 4)
-            oprot.writeSetBegin(TType.STRING, len(self.tablesUsed))
-            for iter615 in self.tablesUsed:
-                oprot.writeString(iter615.encode('utf-8') if sys.version_info[0] == 2 else iter615)
-            oprot.writeSetEnd()
-            oprot.writeFieldEnd()
-        if self.validTxnList is not None:
-            oprot.writeFieldBegin('validTxnList', TType.STRING, 5)
-            oprot.writeString(self.validTxnList.encode('utf-8') if sys.version_info[0] == 2 else self.validTxnList)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.catName is None:
-            raise TProtocolException(message='Required field catName is unset!')
-        if self.dbName is None:
-            raise TProtocolException(message='Required field dbName is unset!')
-        if self.tblName is None:
-            raise TProtocolException(message='Required field tblName is unset!')
-        if self.tablesUsed is None:
-            raise TProtocolException(message='Required field tablesUsed is unset!')
         return
 
     def __repr__(self):
@@ -12595,11 +9478,10 @@ class NotificationEvent(object):
      - tableName
      - message
      - messageFormat
-     - catName
     """
 
 
-    def __init__(self, eventId=None, eventTime=None, eventType=None, dbName=None, tableName=None, message=None, messageFormat=None, catName=None,):
+    def __init__(self, eventId=None, eventTime=None, eventType=None, dbName=None, tableName=None, message=None, messageFormat=None,):
         self.eventId = eventId
         self.eventTime = eventTime
         self.eventType = eventType
@@ -12607,7 +9489,6 @@ class NotificationEvent(object):
         self.tableName = tableName
         self.message = message
         self.messageFormat = messageFormat
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -12653,11 +9534,6 @@ class NotificationEvent(object):
                     self.messageFormat = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 8:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -12695,10 +9571,6 @@ class NotificationEvent(object):
         if self.messageFormat is not None:
             oprot.writeFieldBegin('messageFormat', TType.STRING, 7)
             oprot.writeString(self.messageFormat.encode('utf-8') if sys.version_info[0] == 2 else self.messageFormat)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 8)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -12748,11 +9620,11 @@ class NotificationEventResponse(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.events = []
-                    (_etype619, _size616) = iprot.readListBegin()
-                    for _i620 in range(_size616):
-                        _elem621 = NotificationEvent()
-                        _elem621.read(iprot)
-                        self.events.append(_elem621)
+                    (_etype488, _size485) = iprot.readListBegin()
+                    for _i489 in range(_size485):
+                        _elem490 = NotificationEvent()
+                        _elem490.read(iprot)
+                        self.events.append(_elem490)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -12769,8 +9641,8 @@ class NotificationEventResponse(object):
         if self.events is not None:
             oprot.writeFieldBegin('events', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.events))
-            for iter622 in self.events:
-                iter622.write(oprot)
+            for iter491 in self.events:
+                iter491.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -12851,157 +9723,15 @@ class CurrentNotificationEventId(object):
         return not (self == other)
 
 
-class NotificationEventsCountRequest(object):
-    """
-    Attributes:
-     - fromEventId
-     - dbName
-     - catName
-    """
-
-
-    def __init__(self, fromEventId=None, dbName=None, catName=None,):
-        self.fromEventId = fromEventId
-        self.dbName = dbName
-        self.catName = catName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.I64:
-                    self.fromEventId = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.dbName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('NotificationEventsCountRequest')
-        if self.fromEventId is not None:
-            oprot.writeFieldBegin('fromEventId', TType.I64, 1)
-            oprot.writeI64(self.fromEventId)
-            oprot.writeFieldEnd()
-        if self.dbName is not None:
-            oprot.writeFieldBegin('dbName', TType.STRING, 2)
-            oprot.writeString(self.dbName.encode('utf-8') if sys.version_info[0] == 2 else self.dbName)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 3)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.fromEventId is None:
-            raise TProtocolException(message='Required field fromEventId is unset!')
-        if self.dbName is None:
-            raise TProtocolException(message='Required field dbName is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class NotificationEventsCountResponse(object):
-    """
-    Attributes:
-     - eventsCount
-    """
-
-
-    def __init__(self, eventsCount=None,):
-        self.eventsCount = eventsCount
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.I64:
-                    self.eventsCount = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('NotificationEventsCountResponse')
-        if self.eventsCount is not None:
-            oprot.writeFieldBegin('eventsCount', TType.I64, 1)
-            oprot.writeI64(self.eventsCount)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.eventsCount is None:
-            raise TProtocolException(message='Required field eventsCount is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
 class InsertEventRequestData(object):
     """
     Attributes:
-     - replace
      - filesAdded
      - filesAddedChecksum
     """
 
 
-    def __init__(self, replace=None, filesAdded=None, filesAddedChecksum=None,):
-        self.replace = replace
+    def __init__(self, filesAdded=None, filesAddedChecksum=None,):
         self.filesAdded = filesAdded
         self.filesAddedChecksum = filesAddedChecksum
 
@@ -13015,27 +9745,22 @@ class InsertEventRequestData(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.BOOL:
-                    self.replace = iprot.readBool()
+                if ftype == TType.LIST:
+                    self.filesAdded = []
+                    (_etype495, _size492) = iprot.readListBegin()
+                    for _i496 in range(_size492):
+                        _elem497 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.filesAdded.append(_elem497)
+                    iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.LIST:
-                    self.filesAdded = []
-                    (_etype626, _size623) = iprot.readListBegin()
-                    for _i627 in range(_size623):
-                        _elem628 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.filesAdded.append(_elem628)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.LIST:
                     self.filesAddedChecksum = []
-                    (_etype632, _size629) = iprot.readListBegin()
-                    for _i633 in range(_size629):
-                        _elem634 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.filesAddedChecksum.append(_elem634)
+                    (_etype501, _size498) = iprot.readListBegin()
+                    for _i502 in range(_size498):
+                        _elem503 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.filesAddedChecksum.append(_elem503)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -13049,22 +9774,18 @@ class InsertEventRequestData(object):
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
         oprot.writeStructBegin('InsertEventRequestData')
-        if self.replace is not None:
-            oprot.writeFieldBegin('replace', TType.BOOL, 1)
-            oprot.writeBool(self.replace)
-            oprot.writeFieldEnd()
         if self.filesAdded is not None:
-            oprot.writeFieldBegin('filesAdded', TType.LIST, 2)
+            oprot.writeFieldBegin('filesAdded', TType.LIST, 1)
             oprot.writeListBegin(TType.STRING, len(self.filesAdded))
-            for iter635 in self.filesAdded:
-                oprot.writeString(iter635.encode('utf-8') if sys.version_info[0] == 2 else iter635)
+            for iter504 in self.filesAdded:
+                oprot.writeString(iter504.encode('utf-8') if sys.version_info[0] == 2 else iter504)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.filesAddedChecksum is not None:
-            oprot.writeFieldBegin('filesAddedChecksum', TType.LIST, 3)
+            oprot.writeFieldBegin('filesAddedChecksum', TType.LIST, 2)
             oprot.writeListBegin(TType.STRING, len(self.filesAddedChecksum))
-            for iter636 in self.filesAddedChecksum:
-                oprot.writeString(iter636.encode('utf-8') if sys.version_info[0] == 2 else iter636)
+            for iter505 in self.filesAddedChecksum:
+                oprot.writeString(iter505.encode('utf-8') if sys.version_info[0] == 2 else iter505)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -13152,17 +9873,15 @@ class FireEventRequest(object):
      - dbName
      - tableName
      - partitionVals
-     - catName
     """
 
 
-    def __init__(self, successful=None, data=None, dbName=None, tableName=None, partitionVals=None, catName=None,):
+    def __init__(self, successful=None, data=None, dbName=None, tableName=None, partitionVals=None,):
         self.successful = successful
         self.data = data
         self.dbName = dbName
         self.tableName = tableName
         self.partitionVals = partitionVals
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -13197,16 +9916,11 @@ class FireEventRequest(object):
             elif fid == 5:
                 if ftype == TType.LIST:
                     self.partitionVals = []
-                    (_etype640, _size637) = iprot.readListBegin()
-                    for _i641 in range(_size637):
-                        _elem642 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.partitionVals.append(_elem642)
+                    (_etype509, _size506) = iprot.readListBegin()
+                    for _i510 in range(_size506):
+                        _elem511 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.partitionVals.append(_elem511)
                     iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -13238,13 +9952,9 @@ class FireEventRequest(object):
         if self.partitionVals is not None:
             oprot.writeFieldBegin('partitionVals', TType.LIST, 5)
             oprot.writeListBegin(TType.STRING, len(self.partitionVals))
-            for iter643 in self.partitionVals:
-                oprot.writeString(iter643.encode('utf-8') if sys.version_info[0] == 2 else iter643)
+            for iter512 in self.partitionVals:
+                oprot.writeString(iter512.encode('utf-8') if sys.version_info[0] == 2 else iter512)
             oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 6)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -13399,12 +10109,12 @@ class GetFileMetadataByExprResult(object):
             if fid == 1:
                 if ftype == TType.MAP:
                     self.metadata = {}
-                    (_ktype645, _vtype646, _size644) = iprot.readMapBegin()
-                    for _i648 in range(_size644):
-                        _key649 = iprot.readI64()
-                        _val650 = MetadataPpdResult()
-                        _val650.read(iprot)
-                        self.metadata[_key649] = _val650
+                    (_ktype514, _vtype515, _size513) = iprot.readMapBegin()
+                    for _i517 in range(_size513):
+                        _key518 = iprot.readI64()
+                        _val519 = MetadataPpdResult()
+                        _val519.read(iprot)
+                        self.metadata[_key518] = _val519
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -13426,9 +10136,9 @@ class GetFileMetadataByExprResult(object):
         if self.metadata is not None:
             oprot.writeFieldBegin('metadata', TType.MAP, 1)
             oprot.writeMapBegin(TType.I64, TType.STRUCT, len(self.metadata))
-            for kiter651, viter652 in self.metadata.items():
-                oprot.writeI64(kiter651)
-                viter652.write(oprot)
+            for kiter520, viter521 in self.metadata.items():
+                oprot.writeI64(kiter520)
+                viter521.write(oprot)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         if self.isSupported is not None:
@@ -13485,10 +10195,10 @@ class GetFileMetadataByExprRequest(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.fileIds = []
-                    (_etype656, _size653) = iprot.readListBegin()
-                    for _i657 in range(_size653):
-                        _elem658 = iprot.readI64()
-                        self.fileIds.append(_elem658)
+                    (_etype525, _size522) = iprot.readListBegin()
+                    for _i526 in range(_size522):
+                        _elem527 = iprot.readI64()
+                        self.fileIds.append(_elem527)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -13520,8 +10230,8 @@ class GetFileMetadataByExprRequest(object):
         if self.fileIds is not None:
             oprot.writeFieldBegin('fileIds', TType.LIST, 1)
             oprot.writeListBegin(TType.I64, len(self.fileIds))
-            for iter659 in self.fileIds:
-                oprot.writeI64(iter659)
+            for iter528 in self.fileIds:
+                oprot.writeI64(iter528)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.expr is not None:
@@ -13582,11 +10292,11 @@ class GetFileMetadataResult(object):
             if fid == 1:
                 if ftype == TType.MAP:
                     self.metadata = {}
-                    (_ktype661, _vtype662, _size660) = iprot.readMapBegin()
-                    for _i664 in range(_size660):
-                        _key665 = iprot.readI64()
-                        _val666 = iprot.readBinary()
-                        self.metadata[_key665] = _val666
+                    (_ktype530, _vtype531, _size529) = iprot.readMapBegin()
+                    for _i533 in range(_size529):
+                        _key534 = iprot.readI64()
+                        _val535 = iprot.readBinary()
+                        self.metadata[_key534] = _val535
                     iprot.readMapEnd()
                 else:
                     iprot.skip(ftype)
@@ -13608,9 +10318,9 @@ class GetFileMetadataResult(object):
         if self.metadata is not None:
             oprot.writeFieldBegin('metadata', TType.MAP, 1)
             oprot.writeMapBegin(TType.I64, TType.STRING, len(self.metadata))
-            for kiter667, viter668 in self.metadata.items():
-                oprot.writeI64(kiter667)
-                oprot.writeBinary(viter668)
+            for kiter536, viter537 in self.metadata.items():
+                oprot.writeI64(kiter536)
+                oprot.writeBinary(viter537)
             oprot.writeMapEnd()
             oprot.writeFieldEnd()
         if self.isSupported is not None:
@@ -13661,10 +10371,10 @@ class GetFileMetadataRequest(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.fileIds = []
-                    (_etype672, _size669) = iprot.readListBegin()
-                    for _i673 in range(_size669):
-                        _elem674 = iprot.readI64()
-                        self.fileIds.append(_elem674)
+                    (_etype541, _size538) = iprot.readListBegin()
+                    for _i542 in range(_size538):
+                        _elem543 = iprot.readI64()
+                        self.fileIds.append(_elem543)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -13681,8 +10391,8 @@ class GetFileMetadataRequest(object):
         if self.fileIds is not None:
             oprot.writeFieldBegin('fileIds', TType.LIST, 1)
             oprot.writeListBegin(TType.I64, len(self.fileIds))
-            for iter675 in self.fileIds:
-                oprot.writeI64(iter675)
+            for iter544 in self.fileIds:
+                oprot.writeI64(iter544)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -13771,20 +10481,20 @@ class PutFileMetadataRequest(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.fileIds = []
-                    (_etype679, _size676) = iprot.readListBegin()
-                    for _i680 in range(_size676):
-                        _elem681 = iprot.readI64()
-                        self.fileIds.append(_elem681)
+                    (_etype548, _size545) = iprot.readListBegin()
+                    for _i549 in range(_size545):
+                        _elem550 = iprot.readI64()
+                        self.fileIds.append(_elem550)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.metadata = []
-                    (_etype685, _size682) = iprot.readListBegin()
-                    for _i686 in range(_size682):
-                        _elem687 = iprot.readBinary()
-                        self.metadata.append(_elem687)
+                    (_etype554, _size551) = iprot.readListBegin()
+                    for _i555 in range(_size551):
+                        _elem556 = iprot.readBinary()
+                        self.metadata.append(_elem556)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -13806,15 +10516,15 @@ class PutFileMetadataRequest(object):
         if self.fileIds is not None:
             oprot.writeFieldBegin('fileIds', TType.LIST, 1)
             oprot.writeListBegin(TType.I64, len(self.fileIds))
-            for iter688 in self.fileIds:
-                oprot.writeI64(iter688)
+            for iter557 in self.fileIds:
+                oprot.writeI64(iter557)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.metadata is not None:
             oprot.writeFieldBegin('metadata', TType.LIST, 2)
             oprot.writeListBegin(TType.STRING, len(self.metadata))
-            for iter689 in self.metadata:
-                oprot.writeBinary(iter689)
+            for iter558 in self.metadata:
+                oprot.writeBinary(iter558)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.type is not None:
@@ -13905,10 +10615,10 @@ class ClearFileMetadataRequest(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.fileIds = []
-                    (_etype693, _size690) = iprot.readListBegin()
-                    for _i694 in range(_size690):
-                        _elem695 = iprot.readI64()
-                        self.fileIds.append(_elem695)
+                    (_etype562, _size559) = iprot.readListBegin()
+                    for _i563 in range(_size559):
+                        _elem564 = iprot.readI64()
+                        self.fileIds.append(_elem564)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -13925,8 +10635,8 @@ class ClearFileMetadataRequest(object):
         if self.fileIds is not None:
             oprot.writeFieldBegin('fileIds', TType.LIST, 1)
             oprot.writeListBegin(TType.I64, len(self.fileIds))
-            for iter696 in self.fileIds:
-                oprot.writeI64(iter696)
+            for iter565 in self.fileIds:
+                oprot.writeI64(iter565)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -14122,11 +10832,11 @@ class GetAllFunctionsResponse(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.functions = []
-                    (_etype700, _size697) = iprot.readListBegin()
-                    for _i701 in range(_size697):
-                        _elem702 = Function()
-                        _elem702.read(iprot)
-                        self.functions.append(_elem702)
+                    (_etype569, _size566) = iprot.readListBegin()
+                    for _i570 in range(_size566):
+                        _elem571 = Function()
+                        _elem571.read(iprot)
+                        self.functions.append(_elem571)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -14143,8 +10853,8 @@ class GetAllFunctionsResponse(object):
         if self.functions is not None:
             oprot.writeFieldBegin('functions', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.functions))
-            for iter703 in self.functions:
-                iter703.write(oprot)
+            for iter572 in self.functions:
+                iter572.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -14187,10 +10897,10 @@ class ClientCapabilities(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.values = []
-                    (_etype707, _size704) = iprot.readListBegin()
-                    for _i708 in range(_size704):
-                        _elem709 = iprot.readI32()
-                        self.values.append(_elem709)
+                    (_etype576, _size573) = iprot.readListBegin()
+                    for _i577 in range(_size573):
+                        _elem578 = iprot.readI32()
+                        self.values.append(_elem578)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -14207,8 +10917,8 @@ class ClientCapabilities(object):
         if self.values is not None:
             oprot.writeFieldBegin('values', TType.LIST, 1)
             oprot.writeListBegin(TType.I32, len(self.values))
-            for iter710 in self.values:
-                oprot.writeI32(iter710)
+            for iter579 in self.values:
+                oprot.writeI32(iter579)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -14237,15 +10947,13 @@ class GetTableRequest(object):
      - dbName
      - tblName
      - capabilities
-     - catName
     """
 
 
-    def __init__(self, dbName=None, tblName=None, capabilities=None, catName=None,):
+    def __init__(self, dbName=None, tblName=None, capabilities=None,):
         self.dbName = dbName
         self.tblName = tblName
         self.capabilities = capabilities
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -14272,11 +10980,6 @@ class GetTableRequest(object):
                     self.capabilities.read(iprot)
                 else:
                     iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -14298,10 +11001,6 @@ class GetTableRequest(object):
         if self.capabilities is not None:
             oprot.writeFieldBegin('capabilities', TType.STRUCT, 3)
             self.capabilities.write(oprot)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 4)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -14390,15 +11089,13 @@ class GetTablesRequest(object):
      - dbName
      - tblNames
      - capabilities
-     - catName
     """
 
 
-    def __init__(self, dbName=None, tblNames=None, capabilities=None, catName=None,):
+    def __init__(self, dbName=None, tblNames=None, capabilities=None,):
         self.dbName = dbName
         self.tblNames = tblNames
         self.capabilities = capabilities
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -14417,10 +11114,10 @@ class GetTablesRequest(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.tblNames = []
-                    (_etype714, _size711) = iprot.readListBegin()
-                    for _i715 in range(_size711):
-                        _elem716 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.tblNames.append(_elem716)
+                    (_etype583, _size580) = iprot.readListBegin()
+                    for _i584 in range(_size580):
+                        _elem585 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.tblNames.append(_elem585)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -14428,11 +11125,6 @@ class GetTablesRequest(object):
                 if ftype == TType.STRUCT:
                     self.capabilities = ClientCapabilities()
                     self.capabilities.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -14452,17 +11144,13 @@ class GetTablesRequest(object):
         if self.tblNames is not None:
             oprot.writeFieldBegin('tblNames', TType.LIST, 2)
             oprot.writeListBegin(TType.STRING, len(self.tblNames))
-            for iter717 in self.tblNames:
-                oprot.writeString(iter717.encode('utf-8') if sys.version_info[0] == 2 else iter717)
+            for iter586 in self.tblNames:
+                oprot.writeString(iter586.encode('utf-8') if sys.version_info[0] == 2 else iter586)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.capabilities is not None:
             oprot.writeFieldBegin('capabilities', TType.STRUCT, 3)
             self.capabilities.write(oprot)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 4)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -14506,11 +11194,11 @@ class GetTablesResult(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.tables = []
-                    (_etype721, _size718) = iprot.readListBegin()
-                    for _i722 in range(_size718):
-                        _elem723 = Table()
-                        _elem723.read(iprot)
-                        self.tables.append(_elem723)
+                    (_etype590, _size587) = iprot.readListBegin()
+                    for _i591 in range(_size587):
+                        _elem592 = Table()
+                        _elem592.read(iprot)
+                        self.tables.append(_elem592)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -14527,8 +11215,8 @@ class GetTablesResult(object):
         if self.tables is not None:
             oprot.writeFieldBegin('tables', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.tables))
-            for iter724 in self.tables:
-                iter724.write(oprot)
+            for iter593 in self.tables:
+                iter593.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -14551,117 +11239,6 @@ class GetTablesResult(object):
         return not (self == other)
 
 
-class CmRecycleRequest(object):
-    """
-    Attributes:
-     - dataPath
-     - purge
-    """
-
-
-    def __init__(self, dataPath=None, purge=None,):
-        self.dataPath = dataPath
-        self.purge = purge
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.dataPath = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.BOOL:
-                    self.purge = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('CmRecycleRequest')
-        if self.dataPath is not None:
-            oprot.writeFieldBegin('dataPath', TType.STRING, 1)
-            oprot.writeString(self.dataPath.encode('utf-8') if sys.version_info[0] == 2 else self.dataPath)
-            oprot.writeFieldEnd()
-        if self.purge is not None:
-            oprot.writeFieldBegin('purge', TType.BOOL, 2)
-            oprot.writeBool(self.purge)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.dataPath is None:
-            raise TProtocolException(message='Required field dataPath is unset!')
-        if self.purge is None:
-            raise TProtocolException(message='Required field purge is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class CmRecycleResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('CmRecycleResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
 class TableMeta(object):
     """
     Attributes:
@@ -14669,16 +11246,14 @@ class TableMeta(object):
      - tableName
      - tableType
      - comments
-     - catName
     """
 
 
-    def __init__(self, dbName=None, tableName=None, tableType=None, comments=None, catName=None,):
+    def __init__(self, dbName=None, tableName=None, tableType=None, comments=None,):
         self.dbName = dbName
         self.tableName = tableName
         self.tableType = tableType
         self.comments = comments
-        self.catName = catName
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -14709,11 +11284,6 @@ class TableMeta(object):
                     self.comments = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -14740,10 +11310,6 @@ class TableMeta(object):
             oprot.writeFieldBegin('comments', TType.STRING, 4)
             oprot.writeString(self.comments.encode('utf-8') if sys.version_info[0] == 2 else self.comments)
             oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 5)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -14754,3692 +11320,6 @@ class TableMeta(object):
             raise TProtocolException(message='Required field tableName is unset!')
         if self.tableType is None:
             raise TProtocolException(message='Required field tableType is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class Materialization(object):
-    """
-    Attributes:
-     - tablesUsed
-     - validTxnList
-     - invalidationTime
-     - sourceTablesUpdateDeleteModified
-    """
-
-
-    def __init__(self, tablesUsed=None, validTxnList=None, invalidationTime=None, sourceTablesUpdateDeleteModified=None,):
-        self.tablesUsed = tablesUsed
-        self.validTxnList = validTxnList
-        self.invalidationTime = invalidationTime
-        self.sourceTablesUpdateDeleteModified = sourceTablesUpdateDeleteModified
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.SET:
-                    self.tablesUsed = set()
-                    (_etype728, _size725) = iprot.readSetBegin()
-                    for _i729 in range(_size725):
-                        _elem730 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.tablesUsed.add(_elem730)
-                    iprot.readSetEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.validTxnList = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.I64:
-                    self.invalidationTime = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.BOOL:
-                    self.sourceTablesUpdateDeleteModified = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('Materialization')
-        if self.tablesUsed is not None:
-            oprot.writeFieldBegin('tablesUsed', TType.SET, 1)
-            oprot.writeSetBegin(TType.STRING, len(self.tablesUsed))
-            for iter731 in self.tablesUsed:
-                oprot.writeString(iter731.encode('utf-8') if sys.version_info[0] == 2 else iter731)
-            oprot.writeSetEnd()
-            oprot.writeFieldEnd()
-        if self.validTxnList is not None:
-            oprot.writeFieldBegin('validTxnList', TType.STRING, 2)
-            oprot.writeString(self.validTxnList.encode('utf-8') if sys.version_info[0] == 2 else self.validTxnList)
-            oprot.writeFieldEnd()
-        if self.invalidationTime is not None:
-            oprot.writeFieldBegin('invalidationTime', TType.I64, 3)
-            oprot.writeI64(self.invalidationTime)
-            oprot.writeFieldEnd()
-        if self.sourceTablesUpdateDeleteModified is not None:
-            oprot.writeFieldBegin('sourceTablesUpdateDeleteModified', TType.BOOL, 4)
-            oprot.writeBool(self.sourceTablesUpdateDeleteModified)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.tablesUsed is None:
-            raise TProtocolException(message='Required field tablesUsed is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMResourcePlan(object):
-    """
-    Attributes:
-     - name
-     - status
-     - queryParallelism
-     - defaultPoolPath
-    """
-
-
-    def __init__(self, name=None, status=None, queryParallelism=None, defaultPoolPath=None,):
-        self.name = name
-        self.status = status
-        self.queryParallelism = queryParallelism
-        self.defaultPoolPath = defaultPoolPath
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.I32:
-                    self.status = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.I32:
-                    self.queryParallelism = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.defaultPoolPath = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMResourcePlan')
-        if self.name is not None:
-            oprot.writeFieldBegin('name', TType.STRING, 1)
-            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
-            oprot.writeFieldEnd()
-        if self.status is not None:
-            oprot.writeFieldBegin('status', TType.I32, 2)
-            oprot.writeI32(self.status)
-            oprot.writeFieldEnd()
-        if self.queryParallelism is not None:
-            oprot.writeFieldBegin('queryParallelism', TType.I32, 3)
-            oprot.writeI32(self.queryParallelism)
-            oprot.writeFieldEnd()
-        if self.defaultPoolPath is not None:
-            oprot.writeFieldBegin('defaultPoolPath', TType.STRING, 4)
-            oprot.writeString(self.defaultPoolPath.encode('utf-8') if sys.version_info[0] == 2 else self.defaultPoolPath)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.name is None:
-            raise TProtocolException(message='Required field name is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMNullableResourcePlan(object):
-    """
-    Attributes:
-     - name
-     - status
-     - queryParallelism
-     - isSetQueryParallelism
-     - defaultPoolPath
-     - isSetDefaultPoolPath
-    """
-
-
-    def __init__(self, name=None, status=None, queryParallelism=None, isSetQueryParallelism=None, defaultPoolPath=None, isSetDefaultPoolPath=None,):
-        self.name = name
-        self.status = status
-        self.queryParallelism = queryParallelism
-        self.isSetQueryParallelism = isSetQueryParallelism
-        self.defaultPoolPath = defaultPoolPath
-        self.isSetDefaultPoolPath = isSetDefaultPoolPath
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.I32:
-                    self.status = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.I32:
-                    self.queryParallelism = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.BOOL:
-                    self.isSetQueryParallelism = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.defaultPoolPath = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 7:
-                if ftype == TType.BOOL:
-                    self.isSetDefaultPoolPath = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMNullableResourcePlan')
-        if self.name is not None:
-            oprot.writeFieldBegin('name', TType.STRING, 1)
-            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
-            oprot.writeFieldEnd()
-        if self.status is not None:
-            oprot.writeFieldBegin('status', TType.I32, 2)
-            oprot.writeI32(self.status)
-            oprot.writeFieldEnd()
-        if self.queryParallelism is not None:
-            oprot.writeFieldBegin('queryParallelism', TType.I32, 4)
-            oprot.writeI32(self.queryParallelism)
-            oprot.writeFieldEnd()
-        if self.isSetQueryParallelism is not None:
-            oprot.writeFieldBegin('isSetQueryParallelism', TType.BOOL, 5)
-            oprot.writeBool(self.isSetQueryParallelism)
-            oprot.writeFieldEnd()
-        if self.defaultPoolPath is not None:
-            oprot.writeFieldBegin('defaultPoolPath', TType.STRING, 6)
-            oprot.writeString(self.defaultPoolPath.encode('utf-8') if sys.version_info[0] == 2 else self.defaultPoolPath)
-            oprot.writeFieldEnd()
-        if self.isSetDefaultPoolPath is not None:
-            oprot.writeFieldBegin('isSetDefaultPoolPath', TType.BOOL, 7)
-            oprot.writeBool(self.isSetDefaultPoolPath)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMPool(object):
-    """
-    Attributes:
-     - resourcePlanName
-     - poolPath
-     - allocFraction
-     - queryParallelism
-     - schedulingPolicy
-    """
-
-
-    def __init__(self, resourcePlanName=None, poolPath=None, allocFraction=None, queryParallelism=None, schedulingPolicy=None,):
-        self.resourcePlanName = resourcePlanName
-        self.poolPath = poolPath
-        self.allocFraction = allocFraction
-        self.queryParallelism = queryParallelism
-        self.schedulingPolicy = schedulingPolicy
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.poolPath = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.DOUBLE:
-                    self.allocFraction = iprot.readDouble()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.I32:
-                    self.queryParallelism = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.schedulingPolicy = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMPool')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        if self.poolPath is not None:
-            oprot.writeFieldBegin('poolPath', TType.STRING, 2)
-            oprot.writeString(self.poolPath.encode('utf-8') if sys.version_info[0] == 2 else self.poolPath)
-            oprot.writeFieldEnd()
-        if self.allocFraction is not None:
-            oprot.writeFieldBegin('allocFraction', TType.DOUBLE, 3)
-            oprot.writeDouble(self.allocFraction)
-            oprot.writeFieldEnd()
-        if self.queryParallelism is not None:
-            oprot.writeFieldBegin('queryParallelism', TType.I32, 4)
-            oprot.writeI32(self.queryParallelism)
-            oprot.writeFieldEnd()
-        if self.schedulingPolicy is not None:
-            oprot.writeFieldBegin('schedulingPolicy', TType.STRING, 5)
-            oprot.writeString(self.schedulingPolicy.encode('utf-8') if sys.version_info[0] == 2 else self.schedulingPolicy)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.resourcePlanName is None:
-            raise TProtocolException(message='Required field resourcePlanName is unset!')
-        if self.poolPath is None:
-            raise TProtocolException(message='Required field poolPath is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMNullablePool(object):
-    """
-    Attributes:
-     - resourcePlanName
-     - poolPath
-     - allocFraction
-     - queryParallelism
-     - schedulingPolicy
-     - isSetSchedulingPolicy
-    """
-
-
-    def __init__(self, resourcePlanName=None, poolPath=None, allocFraction=None, queryParallelism=None, schedulingPolicy=None, isSetSchedulingPolicy=None,):
-        self.resourcePlanName = resourcePlanName
-        self.poolPath = poolPath
-        self.allocFraction = allocFraction
-        self.queryParallelism = queryParallelism
-        self.schedulingPolicy = schedulingPolicy
-        self.isSetSchedulingPolicy = isSetSchedulingPolicy
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.poolPath = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.DOUBLE:
-                    self.allocFraction = iprot.readDouble()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.I32:
-                    self.queryParallelism = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.STRING:
-                    self.schedulingPolicy = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.BOOL:
-                    self.isSetSchedulingPolicy = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMNullablePool')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        if self.poolPath is not None:
-            oprot.writeFieldBegin('poolPath', TType.STRING, 2)
-            oprot.writeString(self.poolPath.encode('utf-8') if sys.version_info[0] == 2 else self.poolPath)
-            oprot.writeFieldEnd()
-        if self.allocFraction is not None:
-            oprot.writeFieldBegin('allocFraction', TType.DOUBLE, 3)
-            oprot.writeDouble(self.allocFraction)
-            oprot.writeFieldEnd()
-        if self.queryParallelism is not None:
-            oprot.writeFieldBegin('queryParallelism', TType.I32, 4)
-            oprot.writeI32(self.queryParallelism)
-            oprot.writeFieldEnd()
-        if self.schedulingPolicy is not None:
-            oprot.writeFieldBegin('schedulingPolicy', TType.STRING, 5)
-            oprot.writeString(self.schedulingPolicy.encode('utf-8') if sys.version_info[0] == 2 else self.schedulingPolicy)
-            oprot.writeFieldEnd()
-        if self.isSetSchedulingPolicy is not None:
-            oprot.writeFieldBegin('isSetSchedulingPolicy', TType.BOOL, 6)
-            oprot.writeBool(self.isSetSchedulingPolicy)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.resourcePlanName is None:
-            raise TProtocolException(message='Required field resourcePlanName is unset!')
-        if self.poolPath is None:
-            raise TProtocolException(message='Required field poolPath is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMTrigger(object):
-    """
-    Attributes:
-     - resourcePlanName
-     - triggerName
-     - triggerExpression
-     - actionExpression
-     - isInUnmanaged
-    """
-
-
-    def __init__(self, resourcePlanName=None, triggerName=None, triggerExpression=None, actionExpression=None, isInUnmanaged=None,):
-        self.resourcePlanName = resourcePlanName
-        self.triggerName = triggerName
-        self.triggerExpression = triggerExpression
-        self.actionExpression = actionExpression
-        self.isInUnmanaged = isInUnmanaged
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.triggerName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.triggerExpression = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.actionExpression = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.BOOL:
-                    self.isInUnmanaged = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMTrigger')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        if self.triggerName is not None:
-            oprot.writeFieldBegin('triggerName', TType.STRING, 2)
-            oprot.writeString(self.triggerName.encode('utf-8') if sys.version_info[0] == 2 else self.triggerName)
-            oprot.writeFieldEnd()
-        if self.triggerExpression is not None:
-            oprot.writeFieldBegin('triggerExpression', TType.STRING, 3)
-            oprot.writeString(self.triggerExpression.encode('utf-8') if sys.version_info[0] == 2 else self.triggerExpression)
-            oprot.writeFieldEnd()
-        if self.actionExpression is not None:
-            oprot.writeFieldBegin('actionExpression', TType.STRING, 4)
-            oprot.writeString(self.actionExpression.encode('utf-8') if sys.version_info[0] == 2 else self.actionExpression)
-            oprot.writeFieldEnd()
-        if self.isInUnmanaged is not None:
-            oprot.writeFieldBegin('isInUnmanaged', TType.BOOL, 5)
-            oprot.writeBool(self.isInUnmanaged)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.resourcePlanName is None:
-            raise TProtocolException(message='Required field resourcePlanName is unset!')
-        if self.triggerName is None:
-            raise TProtocolException(message='Required field triggerName is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMMapping(object):
-    """
-    Attributes:
-     - resourcePlanName
-     - entityType
-     - entityName
-     - poolPath
-     - ordering
-    """
-
-
-    def __init__(self, resourcePlanName=None, entityType=None, entityName=None, poolPath=None, ordering=None,):
-        self.resourcePlanName = resourcePlanName
-        self.entityType = entityType
-        self.entityName = entityName
-        self.poolPath = poolPath
-        self.ordering = ordering
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.entityType = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.entityName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.poolPath = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.I32:
-                    self.ordering = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMMapping')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        if self.entityType is not None:
-            oprot.writeFieldBegin('entityType', TType.STRING, 2)
-            oprot.writeString(self.entityType.encode('utf-8') if sys.version_info[0] == 2 else self.entityType)
-            oprot.writeFieldEnd()
-        if self.entityName is not None:
-            oprot.writeFieldBegin('entityName', TType.STRING, 3)
-            oprot.writeString(self.entityName.encode('utf-8') if sys.version_info[0] == 2 else self.entityName)
-            oprot.writeFieldEnd()
-        if self.poolPath is not None:
-            oprot.writeFieldBegin('poolPath', TType.STRING, 4)
-            oprot.writeString(self.poolPath.encode('utf-8') if sys.version_info[0] == 2 else self.poolPath)
-            oprot.writeFieldEnd()
-        if self.ordering is not None:
-            oprot.writeFieldBegin('ordering', TType.I32, 5)
-            oprot.writeI32(self.ordering)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.resourcePlanName is None:
-            raise TProtocolException(message='Required field resourcePlanName is unset!')
-        if self.entityType is None:
-            raise TProtocolException(message='Required field entityType is unset!')
-        if self.entityName is None:
-            raise TProtocolException(message='Required field entityName is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMPoolTrigger(object):
-    """
-    Attributes:
-     - pool
-     - trigger
-    """
-
-
-    def __init__(self, pool=None, trigger=None,):
-        self.pool = pool
-        self.trigger = trigger
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.pool = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.trigger = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMPoolTrigger')
-        if self.pool is not None:
-            oprot.writeFieldBegin('pool', TType.STRING, 1)
-            oprot.writeString(self.pool.encode('utf-8') if sys.version_info[0] == 2 else self.pool)
-            oprot.writeFieldEnd()
-        if self.trigger is not None:
-            oprot.writeFieldBegin('trigger', TType.STRING, 2)
-            oprot.writeString(self.trigger.encode('utf-8') if sys.version_info[0] == 2 else self.trigger)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.pool is None:
-            raise TProtocolException(message='Required field pool is unset!')
-        if self.trigger is None:
-            raise TProtocolException(message='Required field trigger is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMFullResourcePlan(object):
-    """
-    Attributes:
-     - plan
-     - pools
-     - mappings
-     - triggers
-     - poolTriggers
-    """
-
-
-    def __init__(self, plan=None, pools=None, mappings=None, triggers=None, poolTriggers=None,):
-        self.plan = plan
-        self.pools = pools
-        self.mappings = mappings
-        self.triggers = triggers
-        self.poolTriggers = poolTriggers
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.plan = WMResourcePlan()
-                    self.plan.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.LIST:
-                    self.pools = []
-                    (_etype735, _size732) = iprot.readListBegin()
-                    for _i736 in range(_size732):
-                        _elem737 = WMPool()
-                        _elem737.read(iprot)
-                        self.pools.append(_elem737)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.LIST:
-                    self.mappings = []
-                    (_etype741, _size738) = iprot.readListBegin()
-                    for _i742 in range(_size738):
-                        _elem743 = WMMapping()
-                        _elem743.read(iprot)
-                        self.mappings.append(_elem743)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.LIST:
-                    self.triggers = []
-                    (_etype747, _size744) = iprot.readListBegin()
-                    for _i748 in range(_size744):
-                        _elem749 = WMTrigger()
-                        _elem749.read(iprot)
-                        self.triggers.append(_elem749)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.LIST:
-                    self.poolTriggers = []
-                    (_etype753, _size750) = iprot.readListBegin()
-                    for _i754 in range(_size750):
-                        _elem755 = WMPoolTrigger()
-                        _elem755.read(iprot)
-                        self.poolTriggers.append(_elem755)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMFullResourcePlan')
-        if self.plan is not None:
-            oprot.writeFieldBegin('plan', TType.STRUCT, 1)
-            self.plan.write(oprot)
-            oprot.writeFieldEnd()
-        if self.pools is not None:
-            oprot.writeFieldBegin('pools', TType.LIST, 2)
-            oprot.writeListBegin(TType.STRUCT, len(self.pools))
-            for iter756 in self.pools:
-                iter756.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.mappings is not None:
-            oprot.writeFieldBegin('mappings', TType.LIST, 3)
-            oprot.writeListBegin(TType.STRUCT, len(self.mappings))
-            for iter757 in self.mappings:
-                iter757.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.triggers is not None:
-            oprot.writeFieldBegin('triggers', TType.LIST, 4)
-            oprot.writeListBegin(TType.STRUCT, len(self.triggers))
-            for iter758 in self.triggers:
-                iter758.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.poolTriggers is not None:
-            oprot.writeFieldBegin('poolTriggers', TType.LIST, 5)
-            oprot.writeListBegin(TType.STRUCT, len(self.poolTriggers))
-            for iter759 in self.poolTriggers:
-                iter759.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        if self.plan is None:
-            raise TProtocolException(message='Required field plan is unset!')
-        if self.pools is None:
-            raise TProtocolException(message='Required field pools is unset!')
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMCreateResourcePlanRequest(object):
-    """
-    Attributes:
-     - resourcePlan
-     - copyFrom
-    """
-
-
-    def __init__(self, resourcePlan=None, copyFrom=None,):
-        self.resourcePlan = resourcePlan
-        self.copyFrom = copyFrom
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.resourcePlan = WMResourcePlan()
-                    self.resourcePlan.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.copyFrom = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMCreateResourcePlanRequest')
-        if self.resourcePlan is not None:
-            oprot.writeFieldBegin('resourcePlan', TType.STRUCT, 1)
-            self.resourcePlan.write(oprot)
-            oprot.writeFieldEnd()
-        if self.copyFrom is not None:
-            oprot.writeFieldBegin('copyFrom', TType.STRING, 2)
-            oprot.writeString(self.copyFrom.encode('utf-8') if sys.version_info[0] == 2 else self.copyFrom)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMCreateResourcePlanResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMCreateResourcePlanResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMGetActiveResourcePlanRequest(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMGetActiveResourcePlanRequest')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMGetActiveResourcePlanResponse(object):
-    """
-    Attributes:
-     - resourcePlan
-    """
-
-
-    def __init__(self, resourcePlan=None,):
-        self.resourcePlan = resourcePlan
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.resourcePlan = WMFullResourcePlan()
-                    self.resourcePlan.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMGetActiveResourcePlanResponse')
-        if self.resourcePlan is not None:
-            oprot.writeFieldBegin('resourcePlan', TType.STRUCT, 1)
-            self.resourcePlan.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMGetResourcePlanRequest(object):
-    """
-    Attributes:
-     - resourcePlanName
-    """
-
-
-    def __init__(self, resourcePlanName=None,):
-        self.resourcePlanName = resourcePlanName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMGetResourcePlanRequest')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMGetResourcePlanResponse(object):
-    """
-    Attributes:
-     - resourcePlan
-    """
-
-
-    def __init__(self, resourcePlan=None,):
-        self.resourcePlan = resourcePlan
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.resourcePlan = WMFullResourcePlan()
-                    self.resourcePlan.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMGetResourcePlanResponse')
-        if self.resourcePlan is not None:
-            oprot.writeFieldBegin('resourcePlan', TType.STRUCT, 1)
-            self.resourcePlan.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMGetAllResourcePlanRequest(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMGetAllResourcePlanRequest')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMGetAllResourcePlanResponse(object):
-    """
-    Attributes:
-     - resourcePlans
-    """
-
-
-    def __init__(self, resourcePlans=None,):
-        self.resourcePlans = resourcePlans
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.resourcePlans = []
-                    (_etype763, _size760) = iprot.readListBegin()
-                    for _i764 in range(_size760):
-                        _elem765 = WMResourcePlan()
-                        _elem765.read(iprot)
-                        self.resourcePlans.append(_elem765)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMGetAllResourcePlanResponse')
-        if self.resourcePlans is not None:
-            oprot.writeFieldBegin('resourcePlans', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.resourcePlans))
-            for iter766 in self.resourcePlans:
-                iter766.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMAlterResourcePlanRequest(object):
-    """
-    Attributes:
-     - resourcePlanName
-     - resourcePlan
-     - isEnableAndActivate
-     - isForceDeactivate
-     - isReplace
-    """
-
-
-    def __init__(self, resourcePlanName=None, resourcePlan=None, isEnableAndActivate=None, isForceDeactivate=None, isReplace=None,):
-        self.resourcePlanName = resourcePlanName
-        self.resourcePlan = resourcePlan
-        self.isEnableAndActivate = isEnableAndActivate
-        self.isForceDeactivate = isForceDeactivate
-        self.isReplace = isReplace
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRUCT:
-                    self.resourcePlan = WMNullableResourcePlan()
-                    self.resourcePlan.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.BOOL:
-                    self.isEnableAndActivate = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.BOOL:
-                    self.isForceDeactivate = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.BOOL:
-                    self.isReplace = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMAlterResourcePlanRequest')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        if self.resourcePlan is not None:
-            oprot.writeFieldBegin('resourcePlan', TType.STRUCT, 2)
-            self.resourcePlan.write(oprot)
-            oprot.writeFieldEnd()
-        if self.isEnableAndActivate is not None:
-            oprot.writeFieldBegin('isEnableAndActivate', TType.BOOL, 3)
-            oprot.writeBool(self.isEnableAndActivate)
-            oprot.writeFieldEnd()
-        if self.isForceDeactivate is not None:
-            oprot.writeFieldBegin('isForceDeactivate', TType.BOOL, 4)
-            oprot.writeBool(self.isForceDeactivate)
-            oprot.writeFieldEnd()
-        if self.isReplace is not None:
-            oprot.writeFieldBegin('isReplace', TType.BOOL, 5)
-            oprot.writeBool(self.isReplace)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMAlterResourcePlanResponse(object):
-    """
-    Attributes:
-     - fullResourcePlan
-    """
-
-
-    def __init__(self, fullResourcePlan=None,):
-        self.fullResourcePlan = fullResourcePlan
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.fullResourcePlan = WMFullResourcePlan()
-                    self.fullResourcePlan.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMAlterResourcePlanResponse')
-        if self.fullResourcePlan is not None:
-            oprot.writeFieldBegin('fullResourcePlan', TType.STRUCT, 1)
-            self.fullResourcePlan.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMValidateResourcePlanRequest(object):
-    """
-    Attributes:
-     - resourcePlanName
-    """
-
-
-    def __init__(self, resourcePlanName=None,):
-        self.resourcePlanName = resourcePlanName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMValidateResourcePlanRequest')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMValidateResourcePlanResponse(object):
-    """
-    Attributes:
-     - errors
-     - warnings
-    """
-
-
-    def __init__(self, errors=None, warnings=None,):
-        self.errors = errors
-        self.warnings = warnings
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.errors = []
-                    (_etype770, _size767) = iprot.readListBegin()
-                    for _i771 in range(_size767):
-                        _elem772 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.errors.append(_elem772)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.LIST:
-                    self.warnings = []
-                    (_etype776, _size773) = iprot.readListBegin()
-                    for _i777 in range(_size773):
-                        _elem778 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.warnings.append(_elem778)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMValidateResourcePlanResponse')
-        if self.errors is not None:
-            oprot.writeFieldBegin('errors', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRING, len(self.errors))
-            for iter779 in self.errors:
-                oprot.writeString(iter779.encode('utf-8') if sys.version_info[0] == 2 else iter779)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.warnings is not None:
-            oprot.writeFieldBegin('warnings', TType.LIST, 2)
-            oprot.writeListBegin(TType.STRING, len(self.warnings))
-            for iter780 in self.warnings:
-                oprot.writeString(iter780.encode('utf-8') if sys.version_info[0] == 2 else iter780)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMDropResourcePlanRequest(object):
-    """
-    Attributes:
-     - resourcePlanName
-    """
-
-
-    def __init__(self, resourcePlanName=None,):
-        self.resourcePlanName = resourcePlanName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMDropResourcePlanRequest')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMDropResourcePlanResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMDropResourcePlanResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMCreateTriggerRequest(object):
-    """
-    Attributes:
-     - trigger
-    """
-
-
-    def __init__(self, trigger=None,):
-        self.trigger = trigger
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.trigger = WMTrigger()
-                    self.trigger.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMCreateTriggerRequest')
-        if self.trigger is not None:
-            oprot.writeFieldBegin('trigger', TType.STRUCT, 1)
-            self.trigger.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMCreateTriggerResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMCreateTriggerResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMAlterTriggerRequest(object):
-    """
-    Attributes:
-     - trigger
-    """
-
-
-    def __init__(self, trigger=None,):
-        self.trigger = trigger
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.trigger = WMTrigger()
-                    self.trigger.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMAlterTriggerRequest')
-        if self.trigger is not None:
-            oprot.writeFieldBegin('trigger', TType.STRUCT, 1)
-            self.trigger.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMAlterTriggerResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMAlterTriggerResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMDropTriggerRequest(object):
-    """
-    Attributes:
-     - resourcePlanName
-     - triggerName
-    """
-
-
-    def __init__(self, resourcePlanName=None, triggerName=None,):
-        self.resourcePlanName = resourcePlanName
-        self.triggerName = triggerName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.triggerName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMDropTriggerRequest')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        if self.triggerName is not None:
-            oprot.writeFieldBegin('triggerName', TType.STRING, 2)
-            oprot.writeString(self.triggerName.encode('utf-8') if sys.version_info[0] == 2 else self.triggerName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMDropTriggerResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMDropTriggerResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMGetTriggersForResourePlanRequest(object):
-    """
-    Attributes:
-     - resourcePlanName
-    """
-
-
-    def __init__(self, resourcePlanName=None,):
-        self.resourcePlanName = resourcePlanName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMGetTriggersForResourePlanRequest')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMGetTriggersForResourePlanResponse(object):
-    """
-    Attributes:
-     - triggers
-    """
-
-
-    def __init__(self, triggers=None,):
-        self.triggers = triggers
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.triggers = []
-                    (_etype784, _size781) = iprot.readListBegin()
-                    for _i785 in range(_size781):
-                        _elem786 = WMTrigger()
-                        _elem786.read(iprot)
-                        self.triggers.append(_elem786)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMGetTriggersForResourePlanResponse')
-        if self.triggers is not None:
-            oprot.writeFieldBegin('triggers', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.triggers))
-            for iter787 in self.triggers:
-                iter787.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMCreatePoolRequest(object):
-    """
-    Attributes:
-     - pool
-    """
-
-
-    def __init__(self, pool=None,):
-        self.pool = pool
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.pool = WMPool()
-                    self.pool.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMCreatePoolRequest')
-        if self.pool is not None:
-            oprot.writeFieldBegin('pool', TType.STRUCT, 1)
-            self.pool.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMCreatePoolResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMCreatePoolResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMAlterPoolRequest(object):
-    """
-    Attributes:
-     - pool
-     - poolPath
-    """
-
-
-    def __init__(self, pool=None, poolPath=None,):
-        self.pool = pool
-        self.poolPath = poolPath
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.pool = WMNullablePool()
-                    self.pool.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.poolPath = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMAlterPoolRequest')
-        if self.pool is not None:
-            oprot.writeFieldBegin('pool', TType.STRUCT, 1)
-            self.pool.write(oprot)
-            oprot.writeFieldEnd()
-        if self.poolPath is not None:
-            oprot.writeFieldBegin('poolPath', TType.STRING, 2)
-            oprot.writeString(self.poolPath.encode('utf-8') if sys.version_info[0] == 2 else self.poolPath)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMAlterPoolResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMAlterPoolResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMDropPoolRequest(object):
-    """
-    Attributes:
-     - resourcePlanName
-     - poolPath
-    """
-
-
-    def __init__(self, resourcePlanName=None, poolPath=None,):
-        self.resourcePlanName = resourcePlanName
-        self.poolPath = poolPath
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.poolPath = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMDropPoolRequest')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        if self.poolPath is not None:
-            oprot.writeFieldBegin('poolPath', TType.STRING, 2)
-            oprot.writeString(self.poolPath.encode('utf-8') if sys.version_info[0] == 2 else self.poolPath)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMDropPoolResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMDropPoolResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMCreateOrUpdateMappingRequest(object):
-    """
-    Attributes:
-     - mapping
-     - update
-    """
-
-
-    def __init__(self, mapping=None, update=None,):
-        self.mapping = mapping
-        self.update = update
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.mapping = WMMapping()
-                    self.mapping.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.BOOL:
-                    self.update = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMCreateOrUpdateMappingRequest')
-        if self.mapping is not None:
-            oprot.writeFieldBegin('mapping', TType.STRUCT, 1)
-            self.mapping.write(oprot)
-            oprot.writeFieldEnd()
-        if self.update is not None:
-            oprot.writeFieldBegin('update', TType.BOOL, 2)
-            oprot.writeBool(self.update)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMCreateOrUpdateMappingResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMCreateOrUpdateMappingResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMDropMappingRequest(object):
-    """
-    Attributes:
-     - mapping
-    """
-
-
-    def __init__(self, mapping=None,):
-        self.mapping = mapping
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.mapping = WMMapping()
-                    self.mapping.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMDropMappingRequest')
-        if self.mapping is not None:
-            oprot.writeFieldBegin('mapping', TType.STRUCT, 1)
-            self.mapping.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMDropMappingResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMDropMappingResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMCreateOrDropTriggerToPoolMappingRequest(object):
-    """
-    Attributes:
-     - resourcePlanName
-     - triggerName
-     - poolPath
-     - drop
-    """
-
-
-    def __init__(self, resourcePlanName=None, triggerName=None, poolPath=None, drop=None,):
-        self.resourcePlanName = resourcePlanName
-        self.triggerName = triggerName
-        self.poolPath = poolPath
-        self.drop = drop
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.resourcePlanName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.triggerName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.poolPath = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.BOOL:
-                    self.drop = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMCreateOrDropTriggerToPoolMappingRequest')
-        if self.resourcePlanName is not None:
-            oprot.writeFieldBegin('resourcePlanName', TType.STRING, 1)
-            oprot.writeString(self.resourcePlanName.encode('utf-8') if sys.version_info[0] == 2 else self.resourcePlanName)
-            oprot.writeFieldEnd()
-        if self.triggerName is not None:
-            oprot.writeFieldBegin('triggerName', TType.STRING, 2)
-            oprot.writeString(self.triggerName.encode('utf-8') if sys.version_info[0] == 2 else self.triggerName)
-            oprot.writeFieldEnd()
-        if self.poolPath is not None:
-            oprot.writeFieldBegin('poolPath', TType.STRING, 3)
-            oprot.writeString(self.poolPath.encode('utf-8') if sys.version_info[0] == 2 else self.poolPath)
-            oprot.writeFieldEnd()
-        if self.drop is not None:
-            oprot.writeFieldBegin('drop', TType.BOOL, 4)
-            oprot.writeBool(self.drop)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class WMCreateOrDropTriggerToPoolMappingResponse(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('WMCreateOrDropTriggerToPoolMappingResponse')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class ISchema(object):
-    """
-    Attributes:
-     - schemaType
-     - name
-     - catName
-     - dbName
-     - compatibility
-     - validationLevel
-     - canEvolve
-     - schemaGroup
-     - description
-    """
-
-
-    def __init__(self, schemaType=None, name=None, catName=None, dbName=None, compatibility=None, validationLevel=None, canEvolve=None, schemaGroup=None, description=None,):
-        self.schemaType = schemaType
-        self.name = name
-        self.catName = catName
-        self.dbName = dbName
-        self.compatibility = compatibility
-        self.validationLevel = validationLevel
-        self.canEvolve = canEvolve
-        self.schemaGroup = schemaGroup
-        self.description = description
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.I32:
-                    self.schemaType = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.STRING:
-                    self.dbName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.I32:
-                    self.compatibility = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.I32:
-                    self.validationLevel = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 7:
-                if ftype == TType.BOOL:
-                    self.canEvolve = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 8:
-                if ftype == TType.STRING:
-                    self.schemaGroup = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.STRING:
-                    self.description = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('ISchema')
-        if self.schemaType is not None:
-            oprot.writeFieldBegin('schemaType', TType.I32, 1)
-            oprot.writeI32(self.schemaType)
-            oprot.writeFieldEnd()
-        if self.name is not None:
-            oprot.writeFieldBegin('name', TType.STRING, 2)
-            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
-            oprot.writeFieldEnd()
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 3)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.dbName is not None:
-            oprot.writeFieldBegin('dbName', TType.STRING, 4)
-            oprot.writeString(self.dbName.encode('utf-8') if sys.version_info[0] == 2 else self.dbName)
-            oprot.writeFieldEnd()
-        if self.compatibility is not None:
-            oprot.writeFieldBegin('compatibility', TType.I32, 5)
-            oprot.writeI32(self.compatibility)
-            oprot.writeFieldEnd()
-        if self.validationLevel is not None:
-            oprot.writeFieldBegin('validationLevel', TType.I32, 6)
-            oprot.writeI32(self.validationLevel)
-            oprot.writeFieldEnd()
-        if self.canEvolve is not None:
-            oprot.writeFieldBegin('canEvolve', TType.BOOL, 7)
-            oprot.writeBool(self.canEvolve)
-            oprot.writeFieldEnd()
-        if self.schemaGroup is not None:
-            oprot.writeFieldBegin('schemaGroup', TType.STRING, 8)
-            oprot.writeString(self.schemaGroup.encode('utf-8') if sys.version_info[0] == 2 else self.schemaGroup)
-            oprot.writeFieldEnd()
-        if self.description is not None:
-            oprot.writeFieldBegin('description', TType.STRING, 9)
-            oprot.writeString(self.description.encode('utf-8') if sys.version_info[0] == 2 else self.description)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class ISchemaName(object):
-    """
-    Attributes:
-     - catName
-     - dbName
-     - schemaName
-    """
-
-
-    def __init__(self, catName=None, dbName=None, schemaName=None,):
-        self.catName = catName
-        self.dbName = dbName
-        self.schemaName = schemaName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.catName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.dbName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.schemaName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('ISchemaName')
-        if self.catName is not None:
-            oprot.writeFieldBegin('catName', TType.STRING, 1)
-            oprot.writeString(self.catName.encode('utf-8') if sys.version_info[0] == 2 else self.catName)
-            oprot.writeFieldEnd()
-        if self.dbName is not None:
-            oprot.writeFieldBegin('dbName', TType.STRING, 2)
-            oprot.writeString(self.dbName.encode('utf-8') if sys.version_info[0] == 2 else self.dbName)
-            oprot.writeFieldEnd()
-        if self.schemaName is not None:
-            oprot.writeFieldBegin('schemaName', TType.STRING, 3)
-            oprot.writeString(self.schemaName.encode('utf-8') if sys.version_info[0] == 2 else self.schemaName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class AlterISchemaRequest(object):
-    """
-    Attributes:
-     - name
-     - newSchema
-    """
-
-
-    def __init__(self, name=None, newSchema=None,):
-        self.name = name
-        self.newSchema = newSchema
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.name = ISchemaName()
-                    self.name.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRUCT:
-                    self.newSchema = ISchema()
-                    self.newSchema.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('AlterISchemaRequest')
-        if self.name is not None:
-            oprot.writeFieldBegin('name', TType.STRUCT, 1)
-            self.name.write(oprot)
-            oprot.writeFieldEnd()
-        if self.newSchema is not None:
-            oprot.writeFieldBegin('newSchema', TType.STRUCT, 3)
-            self.newSchema.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class SchemaVersion(object):
-    """
-    Attributes:
-     - schema
-     - version
-     - createdAt
-     - cols
-     - state
-     - description
-     - schemaText
-     - fingerprint
-     - name
-     - serDe
-    """
-
-
-    def __init__(self, schema=None, version=None, createdAt=None, cols=None, state=None, description=None, schemaText=None, fingerprint=None, name=None, serDe=None,):
-        self.schema = schema
-        self.version = version
-        self.createdAt = createdAt
-        self.cols = cols
-        self.state = state
-        self.description = description
-        self.schemaText = schemaText
-        self.fingerprint = fingerprint
-        self.name = name
-        self.serDe = serDe
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.schema = ISchemaName()
-                    self.schema.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.I32:
-                    self.version = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.I64:
-                    self.createdAt = iprot.readI64()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.LIST:
-                    self.cols = []
-                    (_etype791, _size788) = iprot.readListBegin()
-                    for _i792 in range(_size788):
-                        _elem793 = FieldSchema()
-                        _elem793.read(iprot)
-                        self.cols.append(_elem793)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.I32:
-                    self.state = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.STRING:
-                    self.description = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 7:
-                if ftype == TType.STRING:
-                    self.schemaText = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 8:
-                if ftype == TType.STRING:
-                    self.fingerprint = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.STRING:
-                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 10:
-                if ftype == TType.STRUCT:
-                    self.serDe = SerDeInfo()
-                    self.serDe.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('SchemaVersion')
-        if self.schema is not None:
-            oprot.writeFieldBegin('schema', TType.STRUCT, 1)
-            self.schema.write(oprot)
-            oprot.writeFieldEnd()
-        if self.version is not None:
-            oprot.writeFieldBegin('version', TType.I32, 2)
-            oprot.writeI32(self.version)
-            oprot.writeFieldEnd()
-        if self.createdAt is not None:
-            oprot.writeFieldBegin('createdAt', TType.I64, 3)
-            oprot.writeI64(self.createdAt)
-            oprot.writeFieldEnd()
-        if self.cols is not None:
-            oprot.writeFieldBegin('cols', TType.LIST, 4)
-            oprot.writeListBegin(TType.STRUCT, len(self.cols))
-            for iter794 in self.cols:
-                iter794.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.state is not None:
-            oprot.writeFieldBegin('state', TType.I32, 5)
-            oprot.writeI32(self.state)
-            oprot.writeFieldEnd()
-        if self.description is not None:
-            oprot.writeFieldBegin('description', TType.STRING, 6)
-            oprot.writeString(self.description.encode('utf-8') if sys.version_info[0] == 2 else self.description)
-            oprot.writeFieldEnd()
-        if self.schemaText is not None:
-            oprot.writeFieldBegin('schemaText', TType.STRING, 7)
-            oprot.writeString(self.schemaText.encode('utf-8') if sys.version_info[0] == 2 else self.schemaText)
-            oprot.writeFieldEnd()
-        if self.fingerprint is not None:
-            oprot.writeFieldBegin('fingerprint', TType.STRING, 8)
-            oprot.writeString(self.fingerprint.encode('utf-8') if sys.version_info[0] == 2 else self.fingerprint)
-            oprot.writeFieldEnd()
-        if self.name is not None:
-            oprot.writeFieldBegin('name', TType.STRING, 9)
-            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
-            oprot.writeFieldEnd()
-        if self.serDe is not None:
-            oprot.writeFieldBegin('serDe', TType.STRUCT, 10)
-            self.serDe.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class SchemaVersionDescriptor(object):
-    """
-    Attributes:
-     - schema
-     - version
-    """
-
-
-    def __init__(self, schema=None, version=None,):
-        self.schema = schema
-        self.version = version
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.schema = ISchemaName()
-                    self.schema.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.I32:
-                    self.version = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('SchemaVersionDescriptor')
-        if self.schema is not None:
-            oprot.writeFieldBegin('schema', TType.STRUCT, 1)
-            self.schema.write(oprot)
-            oprot.writeFieldEnd()
-        if self.version is not None:
-            oprot.writeFieldBegin('version', TType.I32, 2)
-            oprot.writeI32(self.version)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class FindSchemasByColsRqst(object):
-    """
-    Attributes:
-     - colName
-     - colNamespace
-     - type
-    """
-
-
-    def __init__(self, colName=None, colNamespace=None, type=None,):
-        self.colName = colName
-        self.colNamespace = colNamespace
-        self.type = type
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.colName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.colNamespace = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.type = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('FindSchemasByColsRqst')
-        if self.colName is not None:
-            oprot.writeFieldBegin('colName', TType.STRING, 1)
-            oprot.writeString(self.colName.encode('utf-8') if sys.version_info[0] == 2 else self.colName)
-            oprot.writeFieldEnd()
-        if self.colNamespace is not None:
-            oprot.writeFieldBegin('colNamespace', TType.STRING, 2)
-            oprot.writeString(self.colNamespace.encode('utf-8') if sys.version_info[0] == 2 else self.colNamespace)
-            oprot.writeFieldEnd()
-        if self.type is not None:
-            oprot.writeFieldBegin('type', TType.STRING, 3)
-            oprot.writeString(self.type.encode('utf-8') if sys.version_info[0] == 2 else self.type)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class FindSchemasByColsResp(object):
-    """
-    Attributes:
-     - schemaVersions
-    """
-
-
-    def __init__(self, schemaVersions=None,):
-        self.schemaVersions = schemaVersions
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.LIST:
-                    self.schemaVersions = []
-                    (_etype798, _size795) = iprot.readListBegin()
-                    for _i799 in range(_size795):
-                        _elem800 = SchemaVersionDescriptor()
-                        _elem800.read(iprot)
-                        self.schemaVersions.append(_elem800)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('FindSchemasByColsResp')
-        if self.schemaVersions is not None:
-            oprot.writeFieldBegin('schemaVersions', TType.LIST, 1)
-            oprot.writeListBegin(TType.STRUCT, len(self.schemaVersions))
-            for iter801 in self.schemaVersions:
-                iter801.write(oprot)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class MapSchemaVersionToSerdeRequest(object):
-    """
-    Attributes:
-     - schemaVersion
-     - serdeName
-    """
-
-
-    def __init__(self, schemaVersion=None, serdeName=None,):
-        self.schemaVersion = schemaVersion
-        self.serdeName = serdeName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.schemaVersion = SchemaVersionDescriptor()
-                    self.schemaVersion.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.serdeName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('MapSchemaVersionToSerdeRequest')
-        if self.schemaVersion is not None:
-            oprot.writeFieldBegin('schemaVersion', TType.STRUCT, 1)
-            self.schemaVersion.write(oprot)
-            oprot.writeFieldEnd()
-        if self.serdeName is not None:
-            oprot.writeFieldBegin('serdeName', TType.STRING, 2)
-            oprot.writeString(self.serdeName.encode('utf-8') if sys.version_info[0] == 2 else self.serdeName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class SetSchemaVersionStateRequest(object):
-    """
-    Attributes:
-     - schemaVersion
-     - state
-    """
-
-
-    def __init__(self, schemaVersion=None, state=None,):
-        self.schemaVersion = schemaVersion
-        self.state = state
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRUCT:
-                    self.schemaVersion = SchemaVersionDescriptor()
-                    self.schemaVersion.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.I32:
-                    self.state = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('SetSchemaVersionStateRequest')
-        if self.schemaVersion is not None:
-            oprot.writeFieldBegin('schemaVersion', TType.STRUCT, 1)
-            self.schemaVersion.write(oprot)
-            oprot.writeFieldEnd()
-        if self.state is not None:
-            oprot.writeFieldBegin('state', TType.I32, 2)
-            oprot.writeI32(self.state)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class GetSerdeRequest(object):
-    """
-    Attributes:
-     - serdeName
-    """
-
-
-    def __init__(self, serdeName=None,):
-        self.serdeName = serdeName
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.serdeName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('GetSerdeRequest')
-        if self.serdeName is not None:
-            oprot.writeFieldBegin('serdeName', TType.STRING, 1)
-            oprot.writeString(self.serdeName.encode('utf-8') if sys.version_info[0] == 2 else self.serdeName)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
         return
 
     def __repr__(self):
@@ -18926,6 +11806,65 @@ class NoSuchObjectException(TException):
         return not (self == other)
 
 
+class IndexAlreadyExistsException(TException):
+    """
+    Attributes:
+     - message
+    """
+
+
+    def __init__(self, message=None,):
+        self.message = message
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.message = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('IndexAlreadyExistsException')
+        if self.message is not None:
+            oprot.writeFieldBegin('message', TType.STRING, 1)
+            oprot.writeString(self.message.encode('utf-8') if sys.version_info[0] == 2 else self.message)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __str__(self):
+        return repr(self)
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
 class InvalidOperationException(TException):
     """
     Attributes:
@@ -19361,7 +12300,6 @@ SQLPrimaryKey.thrift_spec = (
     (6, TType.BOOL, 'enable_cstr', None, None, ),  # 6
     (7, TType.BOOL, 'validate_cstr', None, None, ),  # 7
     (8, TType.BOOL, 'rely_cstr', None, None, ),  # 8
-    (9, TType.STRING, 'catName', 'UTF8', None, ),  # 9
 )
 all_structs.append(SQLForeignKey)
 SQLForeignKey.thrift_spec = (
@@ -19380,58 +12318,6 @@ SQLForeignKey.thrift_spec = (
     (12, TType.BOOL, 'enable_cstr', None, None, ),  # 12
     (13, TType.BOOL, 'validate_cstr', None, None, ),  # 13
     (14, TType.BOOL, 'rely_cstr', None, None, ),  # 14
-    (15, TType.STRING, 'catName', 'UTF8', None, ),  # 15
-)
-all_structs.append(SQLUniqueConstraint)
-SQLUniqueConstraint.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'catName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'table_db', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'table_name', 'UTF8', None, ),  # 3
-    (4, TType.STRING, 'column_name', 'UTF8', None, ),  # 4
-    (5, TType.I32, 'key_seq', None, None, ),  # 5
-    (6, TType.STRING, 'uk_name', 'UTF8', None, ),  # 6
-    (7, TType.BOOL, 'enable_cstr', None, None, ),  # 7
-    (8, TType.BOOL, 'validate_cstr', None, None, ),  # 8
-    (9, TType.BOOL, 'rely_cstr', None, None, ),  # 9
-)
-all_structs.append(SQLNotNullConstraint)
-SQLNotNullConstraint.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'catName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'table_db', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'table_name', 'UTF8', None, ),  # 3
-    (4, TType.STRING, 'column_name', 'UTF8', None, ),  # 4
-    (5, TType.STRING, 'nn_name', 'UTF8', None, ),  # 5
-    (6, TType.BOOL, 'enable_cstr', None, None, ),  # 6
-    (7, TType.BOOL, 'validate_cstr', None, None, ),  # 7
-    (8, TType.BOOL, 'rely_cstr', None, None, ),  # 8
-)
-all_structs.append(SQLDefaultConstraint)
-SQLDefaultConstraint.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'catName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'table_db', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'table_name', 'UTF8', None, ),  # 3
-    (4, TType.STRING, 'column_name', 'UTF8', None, ),  # 4
-    (5, TType.STRING, 'default_value', 'UTF8', None, ),  # 5
-    (6, TType.STRING, 'dc_name', 'UTF8', None, ),  # 6
-    (7, TType.BOOL, 'enable_cstr', None, None, ),  # 7
-    (8, TType.BOOL, 'validate_cstr', None, None, ),  # 8
-    (9, TType.BOOL, 'rely_cstr', None, None, ),  # 9
-)
-all_structs.append(SQLCheckConstraint)
-SQLCheckConstraint.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'catName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'table_db', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'table_name', 'UTF8', None, ),  # 3
-    (4, TType.STRING, 'column_name', 'UTF8', None, ),  # 4
-    (5, TType.STRING, 'check_expression', 'UTF8', None, ),  # 5
-    (6, TType.STRING, 'dc_name', 'UTF8', None, ),  # 6
-    (7, TType.BOOL, 'enable_cstr', None, None, ),  # 7
-    (8, TType.BOOL, 'validate_cstr', None, None, ),  # 8
-    (9, TType.BOOL, 'rely_cstr', None, None, ),  # 9
 )
 all_structs.append(Type)
 Type.thrift_spec = (
@@ -19449,7 +12335,6 @@ HiveObjectRef.thrift_spec = (
     (3, TType.STRING, 'objectName', 'UTF8', None, ),  # 3
     (4, TType.LIST, 'partValues', (TType.STRING, 'UTF8', False), None, ),  # 4
     (5, TType.STRING, 'columnName', 'UTF8', None, ),  # 5
-    (6, TType.STRING, 'catName', 'UTF8', None, ),  # 6
 )
 all_structs.append(PrivilegeGrantInfo)
 PrivilegeGrantInfo.thrift_spec = (
@@ -19547,38 +12432,6 @@ GrantRevokeRoleResponse.thrift_spec = (
     None,  # 0
     (1, TType.BOOL, 'success', None, None, ),  # 1
 )
-all_structs.append(Catalog)
-Catalog.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'description', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'locationUri', 'UTF8', None, ),  # 3
-)
-all_structs.append(CreateCatalogRequest)
-CreateCatalogRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'catalog', [Catalog, None], None, ),  # 1
-)
-all_structs.append(GetCatalogRequest)
-GetCatalogRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
-)
-all_structs.append(GetCatalogResponse)
-GetCatalogResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'catalog', [Catalog, None], None, ),  # 1
-)
-all_structs.append(GetCatalogsResponse)
-GetCatalogsResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'names', (TType.STRING, 'UTF8', False), None, ),  # 1
-)
-all_structs.append(DropCatalogRequest)
-DropCatalogRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
-)
 all_structs.append(Database)
 Database.thrift_spec = (
     None,  # 0
@@ -19589,7 +12442,6 @@ Database.thrift_spec = (
     (5, TType.STRUCT, 'privileges', [PrincipalPrivilegeSet, None], None, ),  # 5
     (6, TType.STRING, 'ownerName', 'UTF8', None, ),  # 6
     (7, TType.I32, 'ownerType', None, None, ),  # 7
-    (8, TType.STRING, 'catalogName', 'UTF8', None, ),  # 8
 )
 all_structs.append(SerDeInfo)
 SerDeInfo.thrift_spec = (
@@ -19597,10 +12449,6 @@ SerDeInfo.thrift_spec = (
     (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
     (2, TType.STRING, 'serializationLib', 'UTF8', None, ),  # 2
     (3, TType.MAP, 'parameters', (TType.STRING, 'UTF8', TType.STRING, 'UTF8', False), None, ),  # 3
-    (4, TType.STRING, 'description', 'UTF8', None, ),  # 4
-    (5, TType.STRING, 'serializerClass', 'UTF8', None, ),  # 5
-    (6, TType.STRING, 'deserializerClass', 'UTF8', None, ),  # 6
-    (7, TType.I32, 'serdeType', None, None, ),  # 7
 )
 all_structs.append(Order)
 Order.thrift_spec = (
@@ -19649,8 +12497,6 @@ Table.thrift_spec = (
     (13, TType.STRUCT, 'privileges', [PrincipalPrivilegeSet, None], None, ),  # 13
     (14, TType.BOOL, 'temporary', None, False, ),  # 14
     (15, TType.BOOL, 'rewriteEnabled', None, None, ),  # 15
-    (16, TType.STRUCT, 'creationMetadata', [CreationMetadata, None], None, ),  # 16
-    (17, TType.STRING, 'catName', 'UTF8', None, ),  # 17
 )
 all_structs.append(Partition)
 Partition.thrift_spec = (
@@ -19663,7 +12509,6 @@ Partition.thrift_spec = (
     (6, TType.STRUCT, 'sd', [StorageDescriptor, None], None, ),  # 6
     (7, TType.MAP, 'parameters', (TType.STRING, 'UTF8', TType.STRING, 'UTF8', False), None, ),  # 7
     (8, TType.STRUCT, 'privileges', [PrincipalPrivilegeSet, None], None, ),  # 8
-    (9, TType.STRING, 'catName', 'UTF8', None, ),  # 9
 )
 all_structs.append(PartitionWithoutSD)
 PartitionWithoutSD.thrift_spec = (
@@ -19694,7 +12539,20 @@ PartitionSpec.thrift_spec = (
     (3, TType.STRING, 'rootPath', 'UTF8', None, ),  # 3
     (4, TType.STRUCT, 'sharedSDPartitionSpec', [PartitionSpecWithSharedSD, None], None, ),  # 4
     (5, TType.STRUCT, 'partitionList', [PartitionListComposingSpec, None], None, ),  # 5
-    (6, TType.STRING, 'catName', 'UTF8', None, ),  # 6
+)
+all_structs.append(Index)
+Index.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'indexName', 'UTF8', None, ),  # 1
+    (2, TType.STRING, 'indexHandlerClass', 'UTF8', None, ),  # 2
+    (3, TType.STRING, 'dbName', 'UTF8', None, ),  # 3
+    (4, TType.STRING, 'origTableName', 'UTF8', None, ),  # 4
+    (5, TType.I32, 'createTime', None, None, ),  # 5
+    (6, TType.I32, 'lastAccessTime', None, None, ),  # 6
+    (7, TType.STRING, 'indexTableName', 'UTF8', None, ),  # 7
+    (8, TType.STRUCT, 'sd', [StorageDescriptor, None], None, ),  # 8
+    (9, TType.MAP, 'parameters', (TType.STRING, 'UTF8', TType.STRING, 'UTF8', False), None, ),  # 9
+    (10, TType.BOOL, 'deferredRebuild', None, None, ),  # 10
 )
 all_structs.append(BooleanColumnStatsData)
 BooleanColumnStatsData.thrift_spec = (
@@ -19702,7 +12560,7 @@ BooleanColumnStatsData.thrift_spec = (
     (1, TType.I64, 'numTrues', None, None, ),  # 1
     (2, TType.I64, 'numFalses', None, None, ),  # 2
     (3, TType.I64, 'numNulls', None, None, ),  # 3
-    (4, TType.STRING, 'bitVectors', 'BINARY', None, ),  # 4
+    (4, TType.STRING, 'bitVectors', 'UTF8', None, ),  # 4
 )
 all_structs.append(DoubleColumnStatsData)
 DoubleColumnStatsData.thrift_spec = (
@@ -19711,7 +12569,7 @@ DoubleColumnStatsData.thrift_spec = (
     (2, TType.DOUBLE, 'highValue', None, None, ),  # 2
     (3, TType.I64, 'numNulls', None, None, ),  # 3
     (4, TType.I64, 'numDVs', None, None, ),  # 4
-    (5, TType.STRING, 'bitVectors', 'BINARY', None, ),  # 5
+    (5, TType.STRING, 'bitVectors', 'UTF8', None, ),  # 5
 )
 all_structs.append(LongColumnStatsData)
 LongColumnStatsData.thrift_spec = (
@@ -19720,7 +12578,7 @@ LongColumnStatsData.thrift_spec = (
     (2, TType.I64, 'highValue', None, None, ),  # 2
     (3, TType.I64, 'numNulls', None, None, ),  # 3
     (4, TType.I64, 'numDVs', None, None, ),  # 4
-    (5, TType.STRING, 'bitVectors', 'BINARY', None, ),  # 5
+    (5, TType.STRING, 'bitVectors', 'UTF8', None, ),  # 5
 )
 all_structs.append(StringColumnStatsData)
 StringColumnStatsData.thrift_spec = (
@@ -19729,7 +12587,7 @@ StringColumnStatsData.thrift_spec = (
     (2, TType.DOUBLE, 'avgColLen', None, None, ),  # 2
     (3, TType.I64, 'numNulls', None, None, ),  # 3
     (4, TType.I64, 'numDVs', None, None, ),  # 4
-    (5, TType.STRING, 'bitVectors', 'BINARY', None, ),  # 5
+    (5, TType.STRING, 'bitVectors', 'UTF8', None, ),  # 5
 )
 all_structs.append(BinaryColumnStatsData)
 BinaryColumnStatsData.thrift_spec = (
@@ -19737,7 +12595,7 @@ BinaryColumnStatsData.thrift_spec = (
     (1, TType.I64, 'maxColLen', None, None, ),  # 1
     (2, TType.DOUBLE, 'avgColLen', None, None, ),  # 2
     (3, TType.I64, 'numNulls', None, None, ),  # 3
-    (4, TType.STRING, 'bitVectors', 'BINARY', None, ),  # 4
+    (4, TType.STRING, 'bitVectors', 'UTF8', None, ),  # 4
 )
 all_structs.append(Decimal)
 Decimal.thrift_spec = (
@@ -19753,7 +12611,7 @@ DecimalColumnStatsData.thrift_spec = (
     (2, TType.STRUCT, 'highValue', [Decimal, None], None, ),  # 2
     (3, TType.I64, 'numNulls', None, None, ),  # 3
     (4, TType.I64, 'numDVs', None, None, ),  # 4
-    (5, TType.STRING, 'bitVectors', 'BINARY', None, ),  # 5
+    (5, TType.STRING, 'bitVectors', 'UTF8', None, ),  # 5
 )
 all_structs.append(Date)
 Date.thrift_spec = (
@@ -19767,7 +12625,7 @@ DateColumnStatsData.thrift_spec = (
     (2, TType.STRUCT, 'highValue', [Date, None], None, ),  # 2
     (3, TType.I64, 'numNulls', None, None, ),  # 3
     (4, TType.I64, 'numDVs', None, None, ),  # 4
-    (5, TType.STRING, 'bitVectors', 'BINARY', None, ),  # 5
+    (5, TType.STRING, 'bitVectors', 'UTF8', None, ),  # 5
 )
 all_structs.append(ColumnStatisticsData)
 ColumnStatisticsData.thrift_spec = (
@@ -19795,7 +12653,6 @@ ColumnStatisticsDesc.thrift_spec = (
     (3, TType.STRING, 'tableName', 'UTF8', None, ),  # 3
     (4, TType.STRING, 'partName', 'UTF8', None, ),  # 4
     (5, TType.I64, 'lastAnalyzed', None, None, ),  # 5
-    (6, TType.STRING, 'catName', 'UTF8', None, ),  # 6
 )
 all_structs.append(ColumnStatistics)
 ColumnStatistics.thrift_spec = (
@@ -19831,7 +12688,6 @@ PrimaryKeysRequest.thrift_spec = (
     None,  # 0
     (1, TType.STRING, 'db_name', 'UTF8', None, ),  # 1
     (2, TType.STRING, 'tbl_name', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'catName', 'UTF8', None, ),  # 3
 )
 all_structs.append(PrimaryKeysResponse)
 PrimaryKeysResponse.thrift_spec = (
@@ -19845,60 +12701,11 @@ ForeignKeysRequest.thrift_spec = (
     (2, TType.STRING, 'parent_tbl_name', 'UTF8', None, ),  # 2
     (3, TType.STRING, 'foreign_db_name', 'UTF8', None, ),  # 3
     (4, TType.STRING, 'foreign_tbl_name', 'UTF8', None, ),  # 4
-    (5, TType.STRING, 'catName', 'UTF8', None, ),  # 5
 )
 all_structs.append(ForeignKeysResponse)
 ForeignKeysResponse.thrift_spec = (
     None,  # 0
     (1, TType.LIST, 'foreignKeys', (TType.STRUCT, [SQLForeignKey, None], False), None, ),  # 1
-)
-all_structs.append(UniqueConstraintsRequest)
-UniqueConstraintsRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'catName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'db_name', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'tbl_name', 'UTF8', None, ),  # 3
-)
-all_structs.append(UniqueConstraintsResponse)
-UniqueConstraintsResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'uniqueConstraints', (TType.STRUCT, [SQLUniqueConstraint, None], False), None, ),  # 1
-)
-all_structs.append(NotNullConstraintsRequest)
-NotNullConstraintsRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'catName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'db_name', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'tbl_name', 'UTF8', None, ),  # 3
-)
-all_structs.append(NotNullConstraintsResponse)
-NotNullConstraintsResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'notNullConstraints', (TType.STRUCT, [SQLNotNullConstraint, None], False), None, ),  # 1
-)
-all_structs.append(DefaultConstraintsRequest)
-DefaultConstraintsRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'catName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'db_name', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'tbl_name', 'UTF8', None, ),  # 3
-)
-all_structs.append(DefaultConstraintsResponse)
-DefaultConstraintsResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'defaultConstraints', (TType.STRUCT, [SQLDefaultConstraint, None], False), None, ),  # 1
-)
-all_structs.append(CheckConstraintsRequest)
-CheckConstraintsRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'catName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'db_name', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'tbl_name', 'UTF8', None, ),  # 3
-)
-all_structs.append(CheckConstraintsResponse)
-CheckConstraintsResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'checkConstraints', (TType.STRUCT, [SQLCheckConstraint, None], False), None, ),  # 1
 )
 all_structs.append(DropConstraintRequest)
 DropConstraintRequest.thrift_spec = (
@@ -19906,7 +12713,6 @@ DropConstraintRequest.thrift_spec = (
     (1, TType.STRING, 'dbname', 'UTF8', None, ),  # 1
     (2, TType.STRING, 'tablename', 'UTF8', None, ),  # 2
     (3, TType.STRING, 'constraintname', 'UTF8', None, ),  # 3
-    (4, TType.STRING, 'catName', 'UTF8', None, ),  # 4
 )
 all_structs.append(AddPrimaryKeyRequest)
 AddPrimaryKeyRequest.thrift_spec = (
@@ -19917,26 +12723,6 @@ all_structs.append(AddForeignKeyRequest)
 AddForeignKeyRequest.thrift_spec = (
     None,  # 0
     (1, TType.LIST, 'foreignKeyCols', (TType.STRUCT, [SQLForeignKey, None], False), None, ),  # 1
-)
-all_structs.append(AddUniqueConstraintRequest)
-AddUniqueConstraintRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'uniqueConstraintCols', (TType.STRUCT, [SQLUniqueConstraint, None], False), None, ),  # 1
-)
-all_structs.append(AddNotNullConstraintRequest)
-AddNotNullConstraintRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'notNullConstraintCols', (TType.STRUCT, [SQLNotNullConstraint, None], False), None, ),  # 1
-)
-all_structs.append(AddDefaultConstraintRequest)
-AddDefaultConstraintRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'defaultConstraintCols', (TType.STRUCT, [SQLDefaultConstraint, None], False), None, ),  # 1
-)
-all_structs.append(AddCheckConstraintRequest)
-AddCheckConstraintRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'checkConstraintCols', (TType.STRUCT, [SQLCheckConstraint, None], False), None, ),  # 1
 )
 all_structs.append(PartitionsByExprResult)
 PartitionsByExprResult.thrift_spec = (
@@ -19952,7 +12738,6 @@ PartitionsByExprRequest.thrift_spec = (
     (3, TType.STRING, 'expr', 'BINARY', None, ),  # 3
     (4, TType.STRING, 'defaultPartitionName', 'UTF8', None, ),  # 4
     (5, TType.I16, 'maxParts', None, -1, ),  # 5
-    (6, TType.STRING, 'catName', 'UTF8', None, ),  # 6
 )
 all_structs.append(TableStatsResult)
 TableStatsResult.thrift_spec = (
@@ -19970,7 +12755,6 @@ TableStatsRequest.thrift_spec = (
     (1, TType.STRING, 'dbName', 'UTF8', None, ),  # 1
     (2, TType.STRING, 'tblName', 'UTF8', None, ),  # 2
     (3, TType.LIST, 'colNames', (TType.STRING, 'UTF8', False), None, ),  # 3
-    (4, TType.STRING, 'catName', 'UTF8', None, ),  # 4
 )
 all_structs.append(PartitionsStatsRequest)
 PartitionsStatsRequest.thrift_spec = (
@@ -19979,7 +12763,6 @@ PartitionsStatsRequest.thrift_spec = (
     (2, TType.STRING, 'tblName', 'UTF8', None, ),  # 2
     (3, TType.LIST, 'colNames', (TType.STRING, 'UTF8', False), None, ),  # 3
     (4, TType.LIST, 'partNames', (TType.STRING, 'UTF8', False), None, ),  # 4
-    (5, TType.STRING, 'catName', 'UTF8', None, ),  # 5
 )
 all_structs.append(AddPartitionsResult)
 AddPartitionsResult.thrift_spec = (
@@ -19994,7 +12777,6 @@ AddPartitionsRequest.thrift_spec = (
     (3, TType.LIST, 'parts', (TType.STRUCT, [Partition, None], False), None, ),  # 3
     (4, TType.BOOL, 'ifNotExists', None, None, ),  # 4
     (5, TType.BOOL, 'needResult', None, True, ),  # 5
-    (6, TType.STRING, 'catName', 'UTF8', None, ),  # 6
 )
 all_structs.append(DropPartitionsResult)
 DropPartitionsResult.thrift_spec = (
@@ -20024,30 +12806,6 @@ DropPartitionsRequest.thrift_spec = (
     (6, TType.BOOL, 'ignoreProtection', None, None, ),  # 6
     (7, TType.STRUCT, 'environmentContext', [EnvironmentContext, None], None, ),  # 7
     (8, TType.BOOL, 'needResult', None, True, ),  # 8
-    (9, TType.STRING, 'catName', 'UTF8', None, ),  # 9
-)
-all_structs.append(PartitionValuesRequest)
-PartitionValuesRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'dbName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'tblName', 'UTF8', None, ),  # 2
-    (3, TType.LIST, 'partitionKeys', (TType.STRUCT, [FieldSchema, None], False), None, ),  # 3
-    (4, TType.BOOL, 'applyDistinct', None, True, ),  # 4
-    (5, TType.STRING, 'filter', 'UTF8', None, ),  # 5
-    (6, TType.LIST, 'partitionOrder', (TType.STRUCT, [FieldSchema, None], False), None, ),  # 6
-    (7, TType.BOOL, 'ascending', None, True, ),  # 7
-    (8, TType.I64, 'maxParts', None, -1, ),  # 8
-    (9, TType.STRING, 'catName', 'UTF8', None, ),  # 9
-)
-all_structs.append(PartitionValuesRow)
-PartitionValuesRow.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'row', (TType.STRING, 'UTF8', False), None, ),  # 1
-)
-all_structs.append(PartitionValuesResponse)
-PartitionValuesResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'partitionValues', (TType.STRUCT, [PartitionValuesRow, None], False), None, ),  # 1
 )
 all_structs.append(ResourceUri)
 ResourceUri.thrift_spec = (
@@ -20066,7 +12824,6 @@ Function.thrift_spec = (
     (6, TType.I32, 'createTime', None, None, ),  # 6
     (7, TType.I32, 'functionType', None, None, ),  # 7
     (8, TType.LIST, 'resourceUris', (TType.STRUCT, [ResourceUri, None], False), None, ),  # 8
-    (9, TType.STRING, 'catName', 'UTF8', None, ),  # 9
 )
 all_structs.append(TxnInfo)
 TxnInfo.thrift_spec = (
@@ -20091,9 +12848,8 @@ all_structs.append(GetOpenTxnsResponse)
 GetOpenTxnsResponse.thrift_spec = (
     None,  # 0
     (1, TType.I64, 'txn_high_water_mark', None, None, ),  # 1
-    (2, TType.LIST, 'open_txns', (TType.I64, None, False), None, ),  # 2
+    (2, TType.SET, 'open_txns', (TType.I64, None, False), None, ),  # 2
     (3, TType.I64, 'min_open_txn', None, None, ),  # 3
-    (4, TType.STRING, 'abortedBits', 'BINARY', None, ),  # 4
 )
 all_structs.append(OpenTxnRequest)
 OpenTxnRequest.thrift_spec = (
@@ -20102,8 +12858,6 @@ OpenTxnRequest.thrift_spec = (
     (2, TType.STRING, 'user', 'UTF8', None, ),  # 2
     (3, TType.STRING, 'hostname', 'UTF8', None, ),  # 3
     (4, TType.STRING, 'agentInfo', 'UTF8', "Unknown", ),  # 4
-    (5, TType.STRING, 'replPolicy', 'UTF8', None, ),  # 5
-    (6, TType.LIST, 'replSrcTxnIds', (TType.I64, None, False), None, ),  # 6
 )
 all_structs.append(OpenTxnsResponse)
 OpenTxnsResponse.thrift_spec = (
@@ -20114,7 +12868,6 @@ all_structs.append(AbortTxnRequest)
 AbortTxnRequest.thrift_spec = (
     None,  # 0
     (1, TType.I64, 'txnid', None, None, ),  # 1
-    (2, TType.STRING, 'replPolicy', 'UTF8', None, ),  # 2
 )
 all_structs.append(AbortTxnsRequest)
 AbortTxnsRequest.thrift_spec = (
@@ -20125,45 +12878,6 @@ all_structs.append(CommitTxnRequest)
 CommitTxnRequest.thrift_spec = (
     None,  # 0
     (1, TType.I64, 'txnid', None, None, ),  # 1
-    (2, TType.STRING, 'replPolicy', 'UTF8', None, ),  # 2
-)
-all_structs.append(GetValidWriteIdsRequest)
-GetValidWriteIdsRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'fullTableNames', (TType.STRING, 'UTF8', False), None, ),  # 1
-    (2, TType.STRING, 'validTxnList', 'UTF8', None, ),  # 2
-)
-all_structs.append(TableValidWriteIds)
-TableValidWriteIds.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'fullTableName', 'UTF8', None, ),  # 1
-    (2, TType.I64, 'writeIdHighWaterMark', None, None, ),  # 2
-    (3, TType.LIST, 'invalidWriteIds', (TType.I64, None, False), None, ),  # 3
-    (4, TType.I64, 'minOpenWriteId', None, None, ),  # 4
-    (5, TType.STRING, 'abortedBits', 'BINARY', None, ),  # 5
-)
-all_structs.append(GetValidWriteIdsResponse)
-GetValidWriteIdsResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'tblValidWriteIds', (TType.STRUCT, [TableValidWriteIds, None], False), None, ),  # 1
-)
-all_structs.append(AllocateTableWriteIdsRequest)
-AllocateTableWriteIdsRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'txnIds', (TType.I64, None, False), None, ),  # 1
-    (2, TType.STRING, 'dbName', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'tableName', 'UTF8', None, ),  # 3
-)
-all_structs.append(TxnToWriteId)
-TxnToWriteId.thrift_spec = (
-    None,  # 0
-    (1, TType.I64, 'txnId', None, None, ),  # 1
-    (2, TType.I64, 'writeId', None, None, ),  # 2
-)
-all_structs.append(AllocateTableWriteIdsResponse)
-AllocateTableWriteIdsResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'txnToWriteIds', (TType.STRUCT, [TxnToWriteId, None], False), None, ),  # 1
 )
 all_structs.append(LockComponent)
 LockComponent.thrift_spec = (
@@ -20174,7 +12888,7 @@ LockComponent.thrift_spec = (
     (4, TType.STRING, 'tablename', 'UTF8', None, ),  # 4
     (5, TType.STRING, 'partitionname', 'UTF8', None, ),  # 5
     (6, TType.I32, 'operationType', None, 5, ),  # 6
-    (7, TType.BOOL, 'isTransactional', None, False, ),  # 7
+    (7, TType.BOOL, 'isAcid', None, False, ),  # 7
     (8, TType.BOOL, 'isDynamicPartitionWrite', None, False, ),  # 8
 )
 all_structs.append(LockRequest)
@@ -20301,30 +13015,10 @@ all_structs.append(AddDynamicPartitions)
 AddDynamicPartitions.thrift_spec = (
     None,  # 0
     (1, TType.I64, 'txnid', None, None, ),  # 1
-    (2, TType.I64, 'writeid', None, None, ),  # 2
-    (3, TType.STRING, 'dbname', 'UTF8', None, ),  # 3
-    (4, TType.STRING, 'tablename', 'UTF8', None, ),  # 4
-    (5, TType.LIST, 'partitionnames', (TType.STRING, 'UTF8', False), None, ),  # 5
-    (6, TType.I32, 'operationType', None, 5, ),  # 6
-)
-all_structs.append(BasicTxnInfo)
-BasicTxnInfo.thrift_spec = (
-    None,  # 0
-    (1, TType.BOOL, 'isnull', None, None, ),  # 1
-    (2, TType.I64, 'time', None, None, ),  # 2
-    (3, TType.I64, 'txnid', None, None, ),  # 3
-    (4, TType.STRING, 'dbname', 'UTF8', None, ),  # 4
-    (5, TType.STRING, 'tablename', 'UTF8', None, ),  # 5
-    (6, TType.STRING, 'partitionname', 'UTF8', None, ),  # 6
-)
-all_structs.append(CreationMetadata)
-CreationMetadata.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'catName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'dbName', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'tblName', 'UTF8', None, ),  # 3
-    (4, TType.SET, 'tablesUsed', (TType.STRING, 'UTF8', False), None, ),  # 4
-    (5, TType.STRING, 'validTxnList', 'UTF8', None, ),  # 5
+    (2, TType.STRING, 'dbname', 'UTF8', None, ),  # 2
+    (3, TType.STRING, 'tablename', 'UTF8', None, ),  # 3
+    (4, TType.LIST, 'partitionnames', (TType.STRING, 'UTF8', False), None, ),  # 4
+    (5, TType.I32, 'operationType', None, 5, ),  # 5
 )
 all_structs.append(NotificationEventRequest)
 NotificationEventRequest.thrift_spec = (
@@ -20342,7 +13036,6 @@ NotificationEvent.thrift_spec = (
     (5, TType.STRING, 'tableName', 'UTF8', None, ),  # 5
     (6, TType.STRING, 'message', 'UTF8', None, ),  # 6
     (7, TType.STRING, 'messageFormat', 'UTF8', None, ),  # 7
-    (8, TType.STRING, 'catName', 'UTF8', None, ),  # 8
 )
 all_structs.append(NotificationEventResponse)
 NotificationEventResponse.thrift_spec = (
@@ -20354,24 +13047,11 @@ CurrentNotificationEventId.thrift_spec = (
     None,  # 0
     (1, TType.I64, 'eventId', None, None, ),  # 1
 )
-all_structs.append(NotificationEventsCountRequest)
-NotificationEventsCountRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.I64, 'fromEventId', None, None, ),  # 1
-    (2, TType.STRING, 'dbName', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'catName', 'UTF8', None, ),  # 3
-)
-all_structs.append(NotificationEventsCountResponse)
-NotificationEventsCountResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.I64, 'eventsCount', None, None, ),  # 1
-)
 all_structs.append(InsertEventRequestData)
 InsertEventRequestData.thrift_spec = (
     None,  # 0
-    (1, TType.BOOL, 'replace', None, None, ),  # 1
-    (2, TType.LIST, 'filesAdded', (TType.STRING, 'UTF8', False), None, ),  # 2
-    (3, TType.LIST, 'filesAddedChecksum', (TType.STRING, 'UTF8', False), None, ),  # 3
+    (1, TType.LIST, 'filesAdded', (TType.STRING, 'UTF8', False), None, ),  # 1
+    (2, TType.LIST, 'filesAddedChecksum', (TType.STRING, 'UTF8', False), None, ),  # 2
 )
 all_structs.append(FireEventRequestData)
 FireEventRequestData.thrift_spec = (
@@ -20386,7 +13066,6 @@ FireEventRequest.thrift_spec = (
     (3, TType.STRING, 'dbName', 'UTF8', None, ),  # 3
     (4, TType.STRING, 'tableName', 'UTF8', None, ),  # 4
     (5, TType.LIST, 'partitionVals', (TType.STRING, 'UTF8', False), None, ),  # 5
-    (6, TType.STRING, 'catName', 'UTF8', None, ),  # 6
 )
 all_structs.append(FireEventResponse)
 FireEventResponse.thrift_spec = (
@@ -20469,7 +13148,6 @@ GetTableRequest.thrift_spec = (
     (1, TType.STRING, 'dbName', 'UTF8', None, ),  # 1
     (2, TType.STRING, 'tblName', 'UTF8', None, ),  # 2
     (3, TType.STRUCT, 'capabilities', [ClientCapabilities, None], None, ),  # 3
-    (4, TType.STRING, 'catName', 'UTF8', None, ),  # 4
 )
 all_structs.append(GetTableResult)
 GetTableResult.thrift_spec = (
@@ -20482,21 +13160,11 @@ GetTablesRequest.thrift_spec = (
     (1, TType.STRING, 'dbName', 'UTF8', None, ),  # 1
     (2, TType.LIST, 'tblNames', (TType.STRING, 'UTF8', False), None, ),  # 2
     (3, TType.STRUCT, 'capabilities', [ClientCapabilities, None], None, ),  # 3
-    (4, TType.STRING, 'catName', 'UTF8', None, ),  # 4
 )
 all_structs.append(GetTablesResult)
 GetTablesResult.thrift_spec = (
     None,  # 0
     (1, TType.LIST, 'tables', (TType.STRUCT, [Table, None], False), None, ),  # 1
-)
-all_structs.append(CmRecycleRequest)
-CmRecycleRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'dataPath', 'UTF8', None, ),  # 1
-    (2, TType.BOOL, 'purge', None, None, ),  # 2
-)
-all_structs.append(CmRecycleResponse)
-CmRecycleResponse.thrift_spec = (
 )
 all_structs.append(TableMeta)
 TableMeta.thrift_spec = (
@@ -20505,319 +13173,6 @@ TableMeta.thrift_spec = (
     (2, TType.STRING, 'tableName', 'UTF8', None, ),  # 2
     (3, TType.STRING, 'tableType', 'UTF8', None, ),  # 3
     (4, TType.STRING, 'comments', 'UTF8', None, ),  # 4
-    (5, TType.STRING, 'catName', 'UTF8', None, ),  # 5
-)
-all_structs.append(Materialization)
-Materialization.thrift_spec = (
-    None,  # 0
-    (1, TType.SET, 'tablesUsed', (TType.STRING, 'UTF8', False), None, ),  # 1
-    (2, TType.STRING, 'validTxnList', 'UTF8', None, ),  # 2
-    (3, TType.I64, 'invalidationTime', None, None, ),  # 3
-    (4, TType.BOOL, 'sourceTablesUpdateDeleteModified', None, None, ),  # 4
-)
-all_structs.append(WMResourcePlan)
-WMResourcePlan.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
-    (2, TType.I32, 'status', None, None, ),  # 2
-    (3, TType.I32, 'queryParallelism', None, None, ),  # 3
-    (4, TType.STRING, 'defaultPoolPath', 'UTF8', None, ),  # 4
-)
-all_structs.append(WMNullableResourcePlan)
-WMNullableResourcePlan.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
-    (2, TType.I32, 'status', None, None, ),  # 2
-    None,  # 3
-    (4, TType.I32, 'queryParallelism', None, None, ),  # 4
-    (5, TType.BOOL, 'isSetQueryParallelism', None, None, ),  # 5
-    (6, TType.STRING, 'defaultPoolPath', 'UTF8', None, ),  # 6
-    (7, TType.BOOL, 'isSetDefaultPoolPath', None, None, ),  # 7
-)
-all_structs.append(WMPool)
-WMPool.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'poolPath', 'UTF8', None, ),  # 2
-    (3, TType.DOUBLE, 'allocFraction', None, None, ),  # 3
-    (4, TType.I32, 'queryParallelism', None, None, ),  # 4
-    (5, TType.STRING, 'schedulingPolicy', 'UTF8', None, ),  # 5
-)
-all_structs.append(WMNullablePool)
-WMNullablePool.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'poolPath', 'UTF8', None, ),  # 2
-    (3, TType.DOUBLE, 'allocFraction', None, None, ),  # 3
-    (4, TType.I32, 'queryParallelism', None, None, ),  # 4
-    (5, TType.STRING, 'schedulingPolicy', 'UTF8', None, ),  # 5
-    (6, TType.BOOL, 'isSetSchedulingPolicy', None, None, ),  # 6
-)
-all_structs.append(WMTrigger)
-WMTrigger.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'triggerName', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'triggerExpression', 'UTF8', None, ),  # 3
-    (4, TType.STRING, 'actionExpression', 'UTF8', None, ),  # 4
-    (5, TType.BOOL, 'isInUnmanaged', None, None, ),  # 5
-)
-all_structs.append(WMMapping)
-WMMapping.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'entityType', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'entityName', 'UTF8', None, ),  # 3
-    (4, TType.STRING, 'poolPath', 'UTF8', None, ),  # 4
-    (5, TType.I32, 'ordering', None, None, ),  # 5
-)
-all_structs.append(WMPoolTrigger)
-WMPoolTrigger.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'pool', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'trigger', 'UTF8', None, ),  # 2
-)
-all_structs.append(WMFullResourcePlan)
-WMFullResourcePlan.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'plan', [WMResourcePlan, None], None, ),  # 1
-    (2, TType.LIST, 'pools', (TType.STRUCT, [WMPool, None], False), None, ),  # 2
-    (3, TType.LIST, 'mappings', (TType.STRUCT, [WMMapping, None], False), None, ),  # 3
-    (4, TType.LIST, 'triggers', (TType.STRUCT, [WMTrigger, None], False), None, ),  # 4
-    (5, TType.LIST, 'poolTriggers', (TType.STRUCT, [WMPoolTrigger, None], False), None, ),  # 5
-)
-all_structs.append(WMCreateResourcePlanRequest)
-WMCreateResourcePlanRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'resourcePlan', [WMResourcePlan, None], None, ),  # 1
-    (2, TType.STRING, 'copyFrom', 'UTF8', None, ),  # 2
-)
-all_structs.append(WMCreateResourcePlanResponse)
-WMCreateResourcePlanResponse.thrift_spec = (
-)
-all_structs.append(WMGetActiveResourcePlanRequest)
-WMGetActiveResourcePlanRequest.thrift_spec = (
-)
-all_structs.append(WMGetActiveResourcePlanResponse)
-WMGetActiveResourcePlanResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'resourcePlan', [WMFullResourcePlan, None], None, ),  # 1
-)
-all_structs.append(WMGetResourcePlanRequest)
-WMGetResourcePlanRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-)
-all_structs.append(WMGetResourcePlanResponse)
-WMGetResourcePlanResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'resourcePlan', [WMFullResourcePlan, None], None, ),  # 1
-)
-all_structs.append(WMGetAllResourcePlanRequest)
-WMGetAllResourcePlanRequest.thrift_spec = (
-)
-all_structs.append(WMGetAllResourcePlanResponse)
-WMGetAllResourcePlanResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'resourcePlans', (TType.STRUCT, [WMResourcePlan, None], False), None, ),  # 1
-)
-all_structs.append(WMAlterResourcePlanRequest)
-WMAlterResourcePlanRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-    (2, TType.STRUCT, 'resourcePlan', [WMNullableResourcePlan, None], None, ),  # 2
-    (3, TType.BOOL, 'isEnableAndActivate', None, None, ),  # 3
-    (4, TType.BOOL, 'isForceDeactivate', None, None, ),  # 4
-    (5, TType.BOOL, 'isReplace', None, None, ),  # 5
-)
-all_structs.append(WMAlterResourcePlanResponse)
-WMAlterResourcePlanResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'fullResourcePlan', [WMFullResourcePlan, None], None, ),  # 1
-)
-all_structs.append(WMValidateResourcePlanRequest)
-WMValidateResourcePlanRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-)
-all_structs.append(WMValidateResourcePlanResponse)
-WMValidateResourcePlanResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'errors', (TType.STRING, 'UTF8', False), None, ),  # 1
-    (2, TType.LIST, 'warnings', (TType.STRING, 'UTF8', False), None, ),  # 2
-)
-all_structs.append(WMDropResourcePlanRequest)
-WMDropResourcePlanRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-)
-all_structs.append(WMDropResourcePlanResponse)
-WMDropResourcePlanResponse.thrift_spec = (
-)
-all_structs.append(WMCreateTriggerRequest)
-WMCreateTriggerRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'trigger', [WMTrigger, None], None, ),  # 1
-)
-all_structs.append(WMCreateTriggerResponse)
-WMCreateTriggerResponse.thrift_spec = (
-)
-all_structs.append(WMAlterTriggerRequest)
-WMAlterTriggerRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'trigger', [WMTrigger, None], None, ),  # 1
-)
-all_structs.append(WMAlterTriggerResponse)
-WMAlterTriggerResponse.thrift_spec = (
-)
-all_structs.append(WMDropTriggerRequest)
-WMDropTriggerRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'triggerName', 'UTF8', None, ),  # 2
-)
-all_structs.append(WMDropTriggerResponse)
-WMDropTriggerResponse.thrift_spec = (
-)
-all_structs.append(WMGetTriggersForResourePlanRequest)
-WMGetTriggersForResourePlanRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-)
-all_structs.append(WMGetTriggersForResourePlanResponse)
-WMGetTriggersForResourePlanResponse.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'triggers', (TType.STRUCT, [WMTrigger, None], False), None, ),  # 1
-)
-all_structs.append(WMCreatePoolRequest)
-WMCreatePoolRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'pool', [WMPool, None], None, ),  # 1
-)
-all_structs.append(WMCreatePoolResponse)
-WMCreatePoolResponse.thrift_spec = (
-)
-all_structs.append(WMAlterPoolRequest)
-WMAlterPoolRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'pool', [WMNullablePool, None], None, ),  # 1
-    (2, TType.STRING, 'poolPath', 'UTF8', None, ),  # 2
-)
-all_structs.append(WMAlterPoolResponse)
-WMAlterPoolResponse.thrift_spec = (
-)
-all_structs.append(WMDropPoolRequest)
-WMDropPoolRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'poolPath', 'UTF8', None, ),  # 2
-)
-all_structs.append(WMDropPoolResponse)
-WMDropPoolResponse.thrift_spec = (
-)
-all_structs.append(WMCreateOrUpdateMappingRequest)
-WMCreateOrUpdateMappingRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'mapping', [WMMapping, None], None, ),  # 1
-    (2, TType.BOOL, 'update', None, None, ),  # 2
-)
-all_structs.append(WMCreateOrUpdateMappingResponse)
-WMCreateOrUpdateMappingResponse.thrift_spec = (
-)
-all_structs.append(WMDropMappingRequest)
-WMDropMappingRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'mapping', [WMMapping, None], None, ),  # 1
-)
-all_structs.append(WMDropMappingResponse)
-WMDropMappingResponse.thrift_spec = (
-)
-all_structs.append(WMCreateOrDropTriggerToPoolMappingRequest)
-WMCreateOrDropTriggerToPoolMappingRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'resourcePlanName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'triggerName', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'poolPath', 'UTF8', None, ),  # 3
-    (4, TType.BOOL, 'drop', None, None, ),  # 4
-)
-all_structs.append(WMCreateOrDropTriggerToPoolMappingResponse)
-WMCreateOrDropTriggerToPoolMappingResponse.thrift_spec = (
-)
-all_structs.append(ISchema)
-ISchema.thrift_spec = (
-    None,  # 0
-    (1, TType.I32, 'schemaType', None, None, ),  # 1
-    (2, TType.STRING, 'name', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'catName', 'UTF8', None, ),  # 3
-    (4, TType.STRING, 'dbName', 'UTF8', None, ),  # 4
-    (5, TType.I32, 'compatibility', None, None, ),  # 5
-    (6, TType.I32, 'validationLevel', None, None, ),  # 6
-    (7, TType.BOOL, 'canEvolve', None, None, ),  # 7
-    (8, TType.STRING, 'schemaGroup', 'UTF8', None, ),  # 8
-    (9, TType.STRING, 'description', 'UTF8', None, ),  # 9
-)
-all_structs.append(ISchemaName)
-ISchemaName.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'catName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'dbName', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'schemaName', 'UTF8', None, ),  # 3
-)
-all_structs.append(AlterISchemaRequest)
-AlterISchemaRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'name', [ISchemaName, None], None, ),  # 1
-    None,  # 2
-    (3, TType.STRUCT, 'newSchema', [ISchema, None], None, ),  # 3
-)
-all_structs.append(SchemaVersion)
-SchemaVersion.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'schema', [ISchemaName, None], None, ),  # 1
-    (2, TType.I32, 'version', None, None, ),  # 2
-    (3, TType.I64, 'createdAt', None, None, ),  # 3
-    (4, TType.LIST, 'cols', (TType.STRUCT, [FieldSchema, None], False), None, ),  # 4
-    (5, TType.I32, 'state', None, None, ),  # 5
-    (6, TType.STRING, 'description', 'UTF8', None, ),  # 6
-    (7, TType.STRING, 'schemaText', 'UTF8', None, ),  # 7
-    (8, TType.STRING, 'fingerprint', 'UTF8', None, ),  # 8
-    (9, TType.STRING, 'name', 'UTF8', None, ),  # 9
-    (10, TType.STRUCT, 'serDe', [SerDeInfo, None], None, ),  # 10
-)
-all_structs.append(SchemaVersionDescriptor)
-SchemaVersionDescriptor.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'schema', [ISchemaName, None], None, ),  # 1
-    (2, TType.I32, 'version', None, None, ),  # 2
-)
-all_structs.append(FindSchemasByColsRqst)
-FindSchemasByColsRqst.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'colName', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'colNamespace', 'UTF8', None, ),  # 2
-    (3, TType.STRING, 'type', 'UTF8', None, ),  # 3
-)
-all_structs.append(FindSchemasByColsResp)
-FindSchemasByColsResp.thrift_spec = (
-    None,  # 0
-    (1, TType.LIST, 'schemaVersions', (TType.STRUCT, [SchemaVersionDescriptor, None], False), None, ),  # 1
-)
-all_structs.append(MapSchemaVersionToSerdeRequest)
-MapSchemaVersionToSerdeRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'schemaVersion', [SchemaVersionDescriptor, None], None, ),  # 1
-    (2, TType.STRING, 'serdeName', 'UTF8', None, ),  # 2
-)
-all_structs.append(SetSchemaVersionStateRequest)
-SetSchemaVersionStateRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRUCT, 'schemaVersion', [SchemaVersionDescriptor, None], None, ),  # 1
-    (2, TType.I32, 'state', None, None, ),  # 2
-)
-all_structs.append(GetSerdeRequest)
-GetSerdeRequest.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'serdeName', 'UTF8', None, ),  # 1
 )
 all_structs.append(MetaException)
 MetaException.thrift_spec = (
@@ -20856,6 +13211,11 @@ InvalidObjectException.thrift_spec = (
 )
 all_structs.append(NoSuchObjectException)
 NoSuchObjectException.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'message', 'UTF8', None, ),  # 1
+)
+all_structs.append(IndexAlreadyExistsException)
+IndexAlreadyExistsException.thrift_spec = (
     None,  # 0
     (1, TType.STRING, 'message', 'UTF8', None, ),  # 1
 )
