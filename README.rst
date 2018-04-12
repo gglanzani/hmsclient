@@ -7,7 +7,7 @@ using the Thrift protocol.
 Installation
 ------------
 
-Install it with `pip install hmsclient` or directly from source
+Install it with ``pip install hmsclient`` or directly from source
 
 .. code-block:: python
 
@@ -29,13 +29,13 @@ Using it from Python is simple:
 Regenerate the Python thrift library
 ------------------------------------
 
-The `hmsclient.py` is just a thin wrapper around the generated Python code to
+The ``hmsclient.py`` is just a thin wrapper around the generated Python code to
 interact with the metastore through the Thrift protocol.
 
-To regenerate the code using a newer version of the `.thrift` files, you can
-use `generate.py`
+To regenerate the code using a newer version of the ``.thrift`` files, you can
+use ``generate.py`` (note: you need to have ``thrift`` installed, see here_)
 
-.. code-block:: python
+.. code-block:: sh
 
     python generate.py --help
 
@@ -50,3 +50,5 @@ use `generate.py`
       --help                Show this message and exit.
 
 Otherwise the defaults will be used.
+
+.. _here: https://thrift-tutorial.readthedocs.io/en/latest/installation.html
