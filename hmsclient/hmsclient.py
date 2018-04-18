@@ -32,37 +32,39 @@ OUTPUT_FORMAT = 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
 DEFAULT_PORT = 9083
 
 
-class HMSClient(object):
+class HMSClient(ThriftHiveMetastore.Client):
     __client = None
-    __transport = None
     __isOpened = False
 
-    def __init__(self, host, port):
+    def __init__(self, iprot=None, oprot=None, host=None, port=None):
         self.logger = logging.getLogger(__name__)
 
-        if not host:
-            host = environ.get("HMS_HOST")
+        if not iprot:
+            if not host:
+                host = environ.get("HMS_HOST")
 
-        if not host:
-            host = 'localhost'
+            if not host:
+                host = 'localhost'
 
-        if ':' in host:
-            parts = host.split(':')
-            host = parts[0]
-            port = int(parts[1])
+            if ':' in host:
+                parts = host.split(':')
+                host = parts[0]
+                port = int(parts[1])
 
-        if not port:
-            port = environ.get("HMS_PORT")
+            if not port:
+                port = environ.get("HMS_PORT")
 
-        if not port:
-            port = DEFAULT_PORT
+            if not port:
+                port = DEFAULT_PORT
 
-        self.__transport = TTransport.TBufferedTransport(TSocket.TSocket(host, int(port)))
-        protocol = TBinaryProtocol.TBinaryProtocol(self.__transport)
-        self.__client = ThriftHiveMetastore.Client(protocol)
+            transport = TTransport.TBufferedTransport(TSocket.TSocket(host, int(port)))
+            protocol = TBinaryProtocol.TBinaryProtocol(transport)
+            super(HMSClient, self).__init__(protocol, oprot)
+        else:
+            super(HMSClient, self).__init__(iprot, oprot)
 
     def open(self):
-        self.__transport.open()
+        self._oprot.trans.open()
         self.__isOpened = True
         return self
 
@@ -71,52 +73,10 @@ class HMSClient(object):
         return self
 
     def close(self):
-        self.__transport.close()
+        self._oprot.trans.close()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
-
-    def get_all_databases(self):
-        return self.__client.get_all_databases()
-
-    def get_all_tables(self, db_name):
-        return self.__client.get_all_tables(db_name=db_name)
-
-    def create_database(self, db_name, comment=None, owner=None):
-        """
-        Create database
-
-        :param db_name: database name
-        :type db_name: str
-        :param comment: database comment
-        :type comment: str
-        :param owner: database user
-        :type owner: str
-        """
-        self.logger.debug('create_database(%s, %s, %s)', db_name, comment, owner)
-        self.__client.create_database(Database(name=db_name, description=comment, ownerName=owner))
-
-    def drop_database(self, db_name):
-        """
-        Drop database
-
-        :param db_name: Database name
-        :type db_name: str
-        """
-        self.__client.drop_database(db_name, deleteData=True, cascade=False)
-
-    def alter_table(self, db_name, table_name, table):
-        """
-        Alter table
-
-        :param db_name: database name
-        :type db_name: str
-        :param table_name: table to alter
-        :type table_name: str
-        :param table: new table value
-        :type table: Table
-        """
-        self.__client.alter_table(db_name, table_name, table)
 
     @staticmethod
     def make_schema(params):
@@ -153,33 +113,6 @@ class HMSClient(object):
         """
         return map(lambda s: '{}\t{}'.format(s.name, s.type), schemas)
 
-    def create_table(self, table):
-        self.__client.create_table(table)
-
-    def drop_table(self, db_name, table_name):
-        """
-        Drop Hive table
-
-        :param db_name: Database name
-        :type db_name: str
-        :param table_name: Table Name
-        :type table_name: str
-        """
-        self.__client.drop_table(db_name, table_name, True)
-
-    def get_table(self, db_name, table_name):
-        """
-        Get table information
-
-        :param db_name: Database name
-        :type db_name: str
-        :param table_name: Table name
-        :type table_name: str
-        :return: Table info
-        :rtype: Table
-        """
-        return self.__client.get_table(db_name, table_name)
-        pass
 
     @staticmethod
     def make_partition(table, values):
@@ -213,22 +146,9 @@ class HMSClient(object):
         """
         self.__client.add_partition(self.make_partition(table, values))
 
-    def add_partitions(self, partitions):
-        self.__client.add_partitions(partitions)
-
-    def get_partitions(self, db_name, table_name, count=-1):
-        return self.__client.get_partitions(db_name, table_name, count)
-
-    def drop_partition(self, db_name, table_name, values):
-        self.__client.drop_partition(db_name, table_name, values, True)
-
-    def get_partition_names(self, db_name, table_name, count=-1):
-        partitions = self.__client.get_partition_names(db_name, table_name, count)
-        return partitions if partitions else []
-
     def check_for_named_partition(self, db_name, table_name, partition):
         try:
-            self.__client.get_partition_by_name(db_name, table_name, partition)
+            self.get_partition_by_name(db_name, table_name, partition)
             return True
         except NoSuchObjectException:
             return False
@@ -248,7 +168,7 @@ class HMSClient(object):
         """
         if not names:
             return None
-        return self.__client.drop_partitions_req(DropPartitionsRequest(db_name, table_name,
+        return self.drop_partitions_req(DropPartitionsRequest(db_name, table_name,
                                                                        RequestPartsSpec(names), need_result))
 
     def drop_all_partitions(self, db_name, table_name, need_result=None):
@@ -257,5 +177,5 @@ class HMSClient(object):
                                     need_result)
 
     def get_current_notification_id(self):
-        return self.__client.get_current_notificationEventId().eventId
+        return self.get_current_notificationEventId().eventId
 
