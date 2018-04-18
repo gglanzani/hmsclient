@@ -21,7 +21,7 @@ Using it from Python is simple:
 .. code-block:: python
 
     from hmsclient import hmsclient
-    client = hmsclient.HMSClient('localhost', 9083)
+    client = hmsclient.HMSClient(host='localhost', port=9083)
     with client as c:
         c.check_for_named_partition('db', 'table', 'date=20180101')
 
