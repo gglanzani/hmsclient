@@ -128,7 +128,8 @@ class HMSClient(ThriftHiveMetastore.Client):
         partition_names = [k.name for k in table.partitionKeys]
         if len(partition_names) != len(values):
             raise ValueError('Partition values do not match table schema')
-        kv = [partition_names[i] + '=' + values[i] for i in range(len(partition_names))]
+        kv = [partition_name + '=' + value for partition_name, value
+              in zip(partition_names, values)]
 
         sd = copy.deepcopy(table.sd)
         sd.location = sd.location + '/' + '/'.join(kv)
@@ -144,7 +145,7 @@ class HMSClient(ThriftHiveMetastore.Client):
         :param values:
         :type values: list[str]
         """
-        self.__client.add_partition(self.make_partition(table, values))
+        super(HMSClient, self).add_partition(self.make_partition(table, values))
 
     def check_for_named_partition(self, db_name, table_name, partition):
         try:
