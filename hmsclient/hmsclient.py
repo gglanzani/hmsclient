@@ -36,8 +36,10 @@ class HMSClient(ThriftHiveMetastore.Client):
     __client = None
     __isOpened = False
 
-    def __init__(self, iprot=None, oprot=None, host=None, port=None):
+    def __init__(self, iprot=None, oprot=None, host=None, port=None, user=None, groups=[]):
         self.logger = logging.getLogger(__name__)
+        self.user = user
+        self.groups = groups
 
         if not iprot:
             if not host:
@@ -65,6 +67,9 @@ class HMSClient(ThriftHiveMetastore.Client):
 
     def open(self):
         self._oprot.trans.open()
+        if self.user:
+            self.set_ugi(self.user, self.groups)
+        
         self.__isOpened = True
         return self
 
