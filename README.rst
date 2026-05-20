@@ -1,6 +1,8 @@
 HMSClient
 =========
 
+.. image:: icon.svg
+
 This project aims to be an up to date Python client to interact with the Hive metastore
 using the Thrift protocol.
 
