@@ -10,7 +10,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='hmsclient',
-    version='0.1.1',
+    version='0.1.2',
 
     description='A package interact with the Hive metastore via the Thrift protocol',
     long_description=long_description,
